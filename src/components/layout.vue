@@ -5,7 +5,7 @@
       <!-- 左侧菜单 -->
       <el-aside class="slider_container">
          
-        <el-menu class="sub_meuns_wapper" mode="vertical" unique-opened :default-active="$route.path"  text-color="#fff" active-text-color="white">
+        <el-menu class="sub_meuns_wapper" mode="vertical" unique-opened :default-active="$route.path" text-color="#fff" active-text-color="white">
           <!-- 菜单组件 -->
           <div style="display:flex;align-items: center;justify-content: center;color:white;height:70px;cursor: pointer;font-weight:800" @click="onReload">
             <!-- logo -->
@@ -111,6 +111,7 @@ export default {
       show:false,
       show1:false,
       show2:false,
+      collapse:false,
       items:[
         {id:1,img:require('../assets/HoFan_Logo.jpg'),date:'2021-08-10',text:'这是一个新的消息'},
         {id:2,img:require('../assets/HoFan_Logo.jpg'),date:'2021-08-10',text:'这是一个新的消息'},
@@ -129,6 +130,9 @@ export default {
     }
   },
   methods: {
+    isCollapse(){
+      this.collapse=!this.collapse
+    },
     hide(){
       console.log(2222)
       this.show=false

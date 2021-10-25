@@ -182,7 +182,7 @@
 
      <section>
         <div class="operation">
-            <el-input placeholder="请输入内容" v-model="content" style="margin:0">
+            <el-input placeholder="查找产品" v-model="content" style="margin:0">
               <template slot="prepend"><i class="el-icon-search"></i></template>
             </el-input>
             <el-select placeholder="筛选条件" v-model="selectedName">
@@ -242,7 +242,7 @@
 
       <section>
         <div class="operation">
-            <el-input placeholder="请输入内容" v-model="content" style="margin:0">
+            <el-input placeholder="查找类目或产品" v-model="content" style="margin:0">
               <template slot="prepend"><i class="el-icon-search"></i></template>
             </el-input>
             <el-select placeholder="筛选条件" v-model="selectedName">
@@ -298,7 +298,7 @@
 
       <section>
         <div class="operation">
-            <el-input placeholder="请输入内容" v-model="content" style="margin:0">
+            <el-input placeholder="查找关键词" v-model="content" style="margin:0">
               <template slot="prepend"><i class="el-icon-search"></i></template>
             </el-input>
             <el-select placeholder="筛选条件" v-model="selectedName">
@@ -379,7 +379,7 @@
                     <el-switch v-model="scope.row.isEffective" disabled></el-switch>
                 </template>
             </el-table-column>
-            <el-table-column label="Keyword" prop="name" width="200"></el-table-column>
+            <el-table-column label="Automatic targeting groups" prop="name" width="200"></el-table-column>
             <el-table-column label="Match Type" prop="matchType"></el-table-column>
             <el-table-column label="状态" prop="status">
                 <template slot-scope="scope">

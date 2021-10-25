@@ -425,7 +425,10 @@ export default {
           {
               type: 'slider',
               xAxisIndex: 0,
-              filterMode: 'none'
+              filterMode: 'none',
+              height:20,
+              start:20,
+              end:80
             },
         ],
         grid: {
@@ -483,9 +486,19 @@ export default {
       grid: {
         left: '3%',
         right: '3%',
-        bottom: '3%',
+        bottom: '10%',
         containLabel: true
       },
+       dataZoom:[
+          {
+              type: 'slider',
+              xAxisIndex: 0,
+              filterMode: 'none',
+              height:20,
+              start:20,
+              end:80
+            },
+        ],
       toolbox: {
         show: true,
         feature: {

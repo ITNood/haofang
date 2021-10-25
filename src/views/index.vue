@@ -4,38 +4,38 @@
     <el-row :gutter="20" class="form">
       <el-form :model="searchForm" ref="searchForm">
         <el-col :md="8" :lg="8" :xl="4">
-          <el-form-item prop="project">
-            <el-input placeholder="请输入内容" v-model="searchForm.project">
+          <el-form-item prop="projectName">
+            <el-input placeholder="请输入内容" v-model="searchForm.projectName">
               <template slot="prepend">项目：</template>
             </el-input>
           </el-form-item>
         </el-col>
 
         <el-col :md="8" :lg="8" :xl="4">
-          <el-form-item prop="sem">
-            <el-input placeholder="请输入内容" v-model="searchForm.sem">
+          <el-form-item prop="semName">
+            <el-input placeholder="请输入内容" v-model="searchForm.semName">
               <template slot="prepend">SEM:</template>
             </el-input>
           </el-form-item>
         </el-col>
 
         <el-col :md="8" :lg="8" :xl="4">
-          <el-form-item prop="shop">
+          <el-form-item prop="storeName">
             <div class="flex">
               <el-button class="publicBtn">店铺:</el-button>
-              <el-select placeholder="请选择" v-model="searchForm.shop" class="select">
-                <el-option v-for="item in items" :key="item.id" :label="item.name" :value="item.id"></el-option>
+              <el-select placeholder="请选择" clearable v-model="searchForm.storeName" class="select">
+                <el-option v-for="item in items" :key="item" :label="item" :value="item"></el-option>
               </el-select>
             </div>
           </el-form-item>
         </el-col>
 
         <el-col :md="8" :lg="8" :xl="4">
-          <el-form-item prop="site">
+          <el-form-item prop="countryCode">
             <div class="flex">
               <el-button class="publicBtn">站点:</el-button>
-              <el-select placeholder="请选择" v-model="searchForm.site" class="select">
-                <el-option v-for="item in list" :key="item.id" :label="item.name" :value="item.id"></el-option>
+              <el-select placeholder="请选择" clearable v-model="searchForm.countryCode" class="select">
+                <el-option v-for="item in list" :key="item" :label="item" :value="item"></el-option>
               </el-select>
             </div>
           </el-form-item>
@@ -45,8 +45,8 @@
           <el-form-item prop="asin">
             <div class="flex">
               <el-button class="publicBtn">ASIN:</el-button>
-              <el-select placeholder="请选择" v-model="searchForm.asin" class="select">
-                <el-option v-for="item in asin" :key="item.id" :label="item.name" :value="item.id"></el-option>
+              <el-select placeholder="请选择" clearable v-model="searchForm.asin" class="select">
+                <el-option v-for="item in asin" :key="item" :label="item" :value="item"></el-option>
               </el-select>
             </div>
           </el-form-item>
@@ -56,52 +56,52 @@
           <el-form-item prop="sku">
             <div class="flex">
               <el-button class="publicBtn">SKU:</el-button>
-              <el-select placeholder="请选择" v-model="searchForm.sku" class="select">
-                <el-option v-for="item in sku" :key="item.id" :label="item.name" :value="item.id"></el-option>
+              <el-select placeholder="请选择" clearable v-model="searchForm.sku" class="select">
+                <el-option v-for="item in sku" :key="item" :label="item" :value="item"></el-option>
               </el-select>
             </div>
           </el-form-item>
         </el-col>  
 
         <el-col :md="8" :lg="8" :xl="4">
-          <el-form-item prop="poster">
+          <el-form-item prop="campaignName">
             <div class="flex">
               <el-button class="publicBtn name_title">广告系列名:</el-button>
-              <el-select placeholder="请选择" v-model="searchForm.poster" class="select name">
-                <el-option v-for="item in sku" :key="item.id" :label="item.name" :value="item.id"></el-option>
+              <el-select placeholder="请选择" clearable v-model="searchForm.campaignName" class="select name">
+                <el-option v-for="item in campaigns" :key="item" :label="item" :value="item"></el-option>
               </el-select>
             </div>
           </el-form-item>
         </el-col>  
 
         <el-col :md="8" :lg="8" :xl="4">
-          <el-form-item prop="startDate">
+          <el-form-item prop="minDate">
             <div class="flex">
               <el-button class="publicBtn name_title">起始时间:</el-button>
-              <el-date-picker v-model="searchForm.startDate" placeholder="年/月/日" value-format="yyyy-MM-dd" class="select name"></el-date-picker>
+              <el-date-picker v-model="searchForm.minDate"  placeholder="年/月/日" value-format="yyyy-MM-dd" :picker-options="renderPickerOptions" @blur="handlePickerBlur" class="select name"></el-date-picker>
             </div>
           </el-form-item>
         </el-col>  
 
-        <el-col :md="8" :lg="8" :xl="4">
-          <el-form-item prop="endDate">
+        <!-- <el-col :md="8" :lg="8" :xl="4">
+          <el-form-item prop="maxDate">
             <div class="flex">
               <el-button class="publicBtn name_title">结束时间:</el-button>
-              <el-date-picker v-model="searchForm.endDate" placeholder="年/月/日" value-format="yyyy-MM-dd" class="select name"></el-date-picker>
+              <el-date-picker v-model="searchForm.maxDate" placeholder="年/月/日" value-format="yyyy-MM-dd" class="select name"></el-date-picker>
             </div>
           </el-form-item>
-        </el-col>  
+        </el-col>   -->
 
         <el-col :md="8" :lg="8" :xl="4">
-          <el-form-item prop="radio">
+          <el-form-item prop="comparisonPeriod">
             <div class="flex">
               <el-button class="publicBtn name_title">对比周期:</el-button>
-               <el-radio-group v-model="searchForm.radio" class="selecttime">
-                <el-radio-button label="1">日</el-radio-button>
-                <el-radio-button label="2">周</el-radio-button>
-                <el-radio-button label="3">月</el-radio-button>
-                <el-radio-button label="4">季</el-radio-button>
-                <el-radio-button label="5">年</el-radio-button>
+               <el-radio-group v-model="searchForm.comparisonPeriod" class="selecttime">
+                <el-radio-button label="day">日</el-radio-button>
+                <el-radio-button label="week">周</el-radio-button>
+                <el-radio-button label="month">月</el-radio-button>
+                <el-radio-button label="quarter">季</el-radio-button>
+                <el-radio-button label="year">年</el-radio-button>
               </el-radio-group>
             </div>
           </el-form-item>
@@ -124,7 +124,7 @@
         <el-col :md="8" :lg="8" :xl="4">
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-button class="el-icon-bottom screen" size="medium">&nbsp;&nbsp;报告下载</el-button>
+              <el-button class="el-icon-bottom screen" size="medium" >&nbsp;&nbsp;报告下载</el-button>
             </el-col>
             <el-col :span="12">
               <el-button class="el-icon-message screen" size="medium">&nbsp;&nbsp;发送报告</el-button>
@@ -135,7 +135,7 @@
     </el-row>
 
     <div class="formData">
-      <span class="pagetitle">数据看板</span>  -  <span class="shaky">广告活动</span>：{{content}}
+      <span class="pagetitle">数据看板</span>  -  <span class="shaky">广告活动</span>：<p>{{searchForm.projectName ?' 项目:':''}}{{searchForm.projectName}}</p><p>{{searchForm.semName ?' SEM:':''}}{{searchForm.semName}}</p> <p>{{searchForm.storeName ?' 店铺:':''}}{{searchForm.storeName}}</p><p>{{searchForm.countryCode ?' 站点:':''}}{{searchForm.countryCode}}</p><p>{{searchForm.asin ?' ASIN:':''}}{{searchForm.asin}}</p><p>{{searchForm.sku ?' SKU:':''}}{{searchForm.sku}}</p><p>{{searchForm.campaignName ?' 广告系列名:':''}}{{searchForm.campaignName}}</p><p>{{searchForm.minDate ?' 起始时间:':''}}{{searchForm.minDate}}</p><p>{{searchForm.comparisonPeriod ?' 对比周期:':''}}{{searchForm.comparisonPeriod==='week'?'周':(searchForm.comparisonPeriod==='month'?'月':(searchForm.comparisonPeriod==='quarter'?'季':(searchForm.comparisonPeriod==='year'?'年':'日')))}}</p>
     </div>
 
     <!--tabs-->
@@ -146,10 +146,11 @@
               <el-card class="card">
                 <i @click="closeCard(item.id)" class="el-icon-circle-close"></i>
                 <div slot="header" class="clearfix">
-                  <span>{{item.name}} | {{item.englishName}}</span>
+                  <span>{{item.chineseName}} {{item.chineseName && item.columns ? '|':''}} {{item.columns}}</span>
                 </div>
                 <div class="num relative">
-                  <countTo :startVal='0' :endVal="item.number" ref="addCount" :duration='2000' style="font-size:2.5rem;" ></countTo>
+                  <!-- <countTo :startVal='0' :endVal="parseFloat(item.number)" ref="addCount" :duration='2000' style="font-size:2.5rem;" ></countTo> -->
+                  {{item.number}}
                   <div class="absolute percentage">
                     <p>{{item.amount}}</p>
                     <p v-if="item.percent>0" style="color:#008a00">{{item.percent}}%</p>
@@ -174,10 +175,11 @@
               <el-card class="card">
                 <i @click="closeCard(item.id)" class="el-icon-circle-close"></i>
                 <div slot="header" class="clearfix">
-                  <span>{{item.name}} | {{item.englishName}}</span>
+                  <span>{{item.chineseName}} {{item.chineseName && item.columns?'|':''}} {{item.columns}}</span>
                 </div>
                 <div class="num relative">
-                  <countTo :startVal='0' :endVal="item.number" ref="countdown" :duration='2000' style="font-size:2.5rem;" ></countTo>
+                  <!-- <countTo :startVal='0' :endVal="parseFloat(item.number)" ref="countdown" :duration='2000' style="font-size:2.5rem;" ></countTo> -->
+                  {{item.number}}
                   <div class="absolute percentage">
                     <p>{{item.amount}}</p>
                     <p v-if="item.percent>0" style="color:#008a00">{{item.percent}}%</p>
@@ -200,11 +202,11 @@
     <!--添加卡片-->
     <el-dialog :visible.sync="cardDialog" width="30%" :close-on-click-modal="false" title="添加指标">
       <el-select placeholder="请选择" v-model="selectTarget" style="width:48%">
-        <el-option v-for="item in selects" :key="item.id" :label="item.name" :value="item.id"></el-option>
+        <el-option v-for="item in selects" :key="item.id" :label="item.name" :disabled="item.disabled" :value="item.id"></el-option>
       </el-select>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cardDialog = false">取 消</el-button>
-        <el-button type="primary" @click="cardDialog = false">确 定</el-button>
+        <el-button type="primary" @click="submitCard">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -264,9 +266,9 @@
                       <el-col :span="12">
                         <el-button size="medium" class="plotBtn" @click="submitCvrAndCtr">CVR VS CTR</el-button>
                       </el-col>
-                      <el-col :span="12">
+                      <!-- <el-col :span="12">
                         <el-button size="medium" class="plotBtn el-icon-edit edit">修改常用图</el-button>
-                      </el-col>
+                      </el-col> -->
                     </el-row>
                   </li>
                 </ul>
@@ -280,45 +282,59 @@
               <div id="timeMap"></div>
             </el-col>
             <el-col :lg="6" :md="8">
-              <el-form :mpodel="dateForm">
+              <el-form :model="dateForm">
                 <ul class="formlist timeForm">
                   <li>
-                    <el-button size="medium">付款时间</el-button>
-                    <el-select v-model="dateForm.payDate" placeholder="请选择" style="width:80%">
-                      <el-option v-for="item in payTime" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                    </el-select>
+                    <el-form-item prop="time">
+                      <el-button size="medium">付款时间</el-button>
+                      <!-- <el-select v-model="dateForm.payDate" placeholder="请选择" style="width:80%">
+                        <el-option v-for="item in payTime" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                      </el-select> -->
+                      <el-date-picker v-model="dateForm.time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" style="width:80%"></el-date-picker>
+                    </el-form-item>
                   </li>
                   <li>
-                    <el-button size="medium">站点</el-button>
-                    <el-select v-model="dateForm.payDate" placeholder="请选择" style="width:80%">
-                      <el-option v-for="item in payTime" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                    </el-select>
+                    <el-form-item prop="countryCode">
+                      <el-button size="medium">站点</el-button>
+                      <el-select v-model="dateForm.countryCode" placeholder="请选择" style="width:80%">
+                        <el-option v-for="item in list" :key="item" :label="item" :value="item"></el-option>
+                      </el-select>
+                    </el-form-item>
                   </li>
                   <li>
-                    <el-button size="medium">ASIN</el-button>
-                    <el-select v-model="dateForm.payDate" placeholder="请选择" style="width:80%">
-                      <el-option v-for="item in payTime" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                    </el-select>
+                    <el-form-item prop="asin">
+                      <el-button size="medium">ASIN</el-button>
+                      <el-select v-model="dateForm.asin" placeholder="请选择" style="width:80%">
+                        <el-option v-for="item in asin" :key="item" :label="item" :value="item"></el-option>
+                      </el-select>
+                    </el-form-item>
                   </li>
                   <li>
-                    <el-button size="medium">品牌商</el-button>
-                    <el-select v-model="dateForm.payDate" placeholder="请选择" style="width:80%">
-                      <el-option v-for="item in payTime" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                    </el-select>
-                  </li>
+                    <el-form-item prop="skus">
+                      <el-button size="medium">品牌商</el-button>
+                      <el-select v-model="dateForm.skus" placeholder="请选择" style="width:80%">
+                        <el-option v-for="item in sku" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                      </el-select>
+                    </el-form-item>
+                  <!-- </li>
                   <li>
-                    <el-button size="medium">月份</el-button>
-                    <el-select v-model="dateForm.payDate" placeholder="请选择" style="width:80%">
-                      <el-option v-for="item in payTime" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                    </el-select>
-                  </li>
+                    <el-form-item prop="payDate">
+                      <el-button size="medium">月份</el-button>
+                      <el-select v-model="dateForm.payDate" placeholder="请选择" style="width:80%">
+                        <el-option v-for="item in payTime" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </li> -->
                   <li>
-                    <el-button size="medium">产品编码</el-button>
-                    <el-select v-model="dateForm.payDate" placeholder="请选择" style="width:80%">
-                      <el-option v-for="item in payTime" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                    </el-select>
+                    <el-form-item prop="sku">
+                      <el-button size="medium">产品编码</el-button>
+                      <el-select v-model="dateForm.sku" placeholder="请选择" style="width:80%">
+                        <el-option v-for="item in sku" :key="item" :label="item" :value="item"></el-option>
+                      </el-select>
+                    </el-form-item>
                   </li>
                 </ul>
+                <el-button class="submit_btn" @click="submitForm">生成图表</el-button>
               </el-form>
             </el-col>
           </el-row>
@@ -335,20 +351,20 @@
               <el-col :sm="14" :md="14" :xl="16" :lg="16">
 
                 <el-table :data="tableData" v-if="isData" border max-height="426" :header-cell-style="{background:'#858796',color:'#fff',fontWeight:'normal'}">
-                  <el-table-column label="CampaignName" prop="campaignName" width="200" >
+                  <el-table-column label="广告活动" prop="campaignName" width="200" >
                     <template slot-scope="scope">
                       <router-link :to="{path:'/campaign',query:{id:scope.row.campaignId}}" class="posterName">{{scope.row.campaignName}}</router-link>
                     </template>
                   </el-table-column>
-                  <el-table-column label="Impressions" prop="曝光量" width="120"></el-table-column>
-                  <el-table-column label="Click" prop="点击量"></el-table-column>
-                  <el-table-column label="Cost" prop="广告花费($)" width="100"></el-table-column>
-                  <el-table-column label="Order" prop="orders"></el-table-column>
-                  <el-table-column label="CTR" prop="点击率(%)"></el-table-column>
+                  <el-table-column label="曝光量" prop="impressions" width="120"></el-table-column>
+                  <el-table-column label="点击量" prop="clicks"></el-table-column>
+                  <el-table-column label="广告花费($)" prop="cost" width="100"></el-table-column>
+                  <el-table-column label="订单量" prop="orders"></el-table-column>
+                  <el-table-column label="点击率(%)" prop="CTR"></el-table-column>
                 </el-table>
 
                 <el-table :data="tableData" v-else border max-height="426" :header-cell-style="{background:'#858796',color:'#fff',fontWeight:'normal'}">
-                  <el-table-column label="CampaignName" prop="campaignName" width="200" :show-overflow-tooltip="true">
+                  <el-table-column label="广告活动" prop="campaignName" width="200" :show-overflow-tooltip="true">
                     <template slot-scope="scope">
                       <router-link :to="{path:'/campaign',query:{id:scope.row.campaignId}}" class="posterName">{{scope.row.campaignName}}</router-link>
                     </template>
@@ -513,17 +529,17 @@
     <el-tabs v-model="active" class="tabs" @tab-click="selectTab">
       <el-tab-pane label="广告活动" name="1">
         <el-row :gutter="20">
-          <el-col :md="16" :lg="16" :xl="18">
+          <el-col :md="16" :lg="16" :xl="19">
             <div class="tableSearch">
               搜索:<el-input v-model="tableSearch1" size="medium" placeholder="请输入内容"></el-input>
             </div>
             <el-table :data="posterData" border show-summary :summary-method="getNumber" :header-cell-style="{background:'#858796',color:'#fff'}" id="tableId">
               <!-- <el-table-column type="index" label="序号" width="60"></el-table-column> -->
-              <el-table-column label="Active" prop="status" sortable>
+              <!-- <el-table-column label="Active" prop="status" sortable>
                 <template  slot-scope="scope">
                   <el-switch v-model="scope.row.status" disabled></el-switch>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column sortable label="广告活动" prop="campaignName" min-width="250">
                 <template slot-scope="scope">
                   <router-link :to="{path:'/adGroup',query:{id:scope.row.id}}" class="posterName">{{scope.row.campaignName}}</router-link>
@@ -564,7 +580,7 @@
             </el-table>
             <Pagination :currentPage="currentPage" :total="totalPage" @handleSizeChange="sizeChange" @handleCurrentChange="currentChange" />
           </el-col>
-          <el-col :md="8" :lg="8" :xl="6">
+          <el-col :md="8" :lg="8" :xl="5">
             <div class="addCondition"><i class="el-icon-plus"></i>添加筛选条件</div>
             <div class="condition">
               <el-form :model="conditionForm" ref="conditionForm">
@@ -618,7 +634,7 @@
       </el-tab-pane>
       <el-tab-pane label="广告类型" name="2">
         <el-row :gutter="20">
-          <el-col :md="16" :lg="16" :xl="18">
+          <el-col :md="16" :lg="16" :xl="19">
             <div class="tableSearch">
               <!-- <el-select v-model="adsOverview" placeholder="选择类型">
                 <el-option value="SP">SP</el-option>
@@ -658,7 +674,7 @@
             </el-table>
             <Pagination1 :currentPage="currentPage1" :total="totalPage1" @handleSizeChange="sizeChange1" @handleCurrentChange="currentChange1" />
           </el-col>
-          <el-col :md="8" :lg="8" :xl="6">
+          <el-col :md="8" :lg="8" :xl="5">
             <!-- <div class="addCondition"><i class="el-icon-plus"></i>添加筛选条件</div> -->
             <div class="condition">
               <el-radio-group v-model="pieCharts" class="pie" @change="selectPosterTyle">
@@ -677,8 +693,7 @@
                    <el-button size="medium"> 结束日期</el-button>
                   <el-date-picker v-model="maxDate1" value-format="yyyy-MM-dd" placeholder="请选择" class="epdate"></el-date-picker>
                 </li>
-                <li>
-                  <!-- <el-button class="el-icon-edit editNorm">&nbsp;&nbsp;修改对比指标</el-button> -->
+                <!-- <li>
                   <el-popover placement="bottom" width="400" trigger="click">
                       <el-checkbox-group v-model="checkdate2">
                         <el-checkbox label="曝光量"></el-checkbox>
@@ -688,7 +703,7 @@
                       </el-checkbox-group>
                       <el-button slot="reference" class="el-icon-edit editNorm">&nbsp;&nbsp;修改常用对比指标</el-button>
                   </el-popover>
-                </li>
+                </li> -->
                 <li>
                   <el-button class="el-icon-s-open preparation" @click="submitPosterType">&nbsp;&nbsp;筛选 | 广告活动</el-button>
                 </li>
@@ -699,19 +714,19 @@
       </el-tab-pane>
       <el-tab-pane label="站点" name="3">
         <el-row :gutter="20">
-          <el-col :md="16" :lg="16" :xl="18">
+          <el-col :md="16" :lg="16" :xl="19">
             <div class="tableSearch">
               搜索:<el-input v-model="tableSearch1" size="medium" placeholder="请输入内容"></el-input>
             </div>
             <el-table :data="webSite" border show-summary :summary-method="getSite" :header-cell-style="{background:'#858796',color:'#fff'}" id="tableId3">
               <el-table-column label="站点" prop="countryCode">
-                 <template slot="header">
+                 <!-- <template slot="header">
                    <el-select v-model="country" placeholder="请选择" class="country">
                      <el-option label="US" value="1"></el-option>
                      <el-option label="China" value="2"></el-option>
                      <el-option label="UK" value="3"></el-option>
                    </el-select>
-                 </template>
+                 </template> -->
               </el-table-column>
               <el-table-column label="买家访问数" prop="impressions"></el-table-column>
               <el-table-column sortable label="曝光量" prop="impressions"></el-table-column>
@@ -739,7 +754,7 @@
             </el-table>
             <Pagination2 :currentPage="currentPage2" :total="totalPage2" @handleSizeChange="sizeChange2" @handleCurrentChange="currentChange2" />
           </el-col>
-          <el-col :md="8" :lg="8" :xl="6">
+          <el-col :md="8" :lg="8" :xl="5">
             <!-- <div class="addCondition"><i class="el-icon-plus"></i>添加筛选条件</div> -->
             <div class="condition">
               <el-radio-group v-model="siteValue" class="pie" @change="selectSite">
@@ -755,7 +770,7 @@
                    <el-button size="medium"> 结束日期</el-button>
                   <el-date-picker v-model="maxDate2" value-format="yyyy-MM-dd" placeholder="请选择" class="epdate"></el-date-picker>
                 </li>
-                <li>
+                <!-- <li>
                   <el-popover placement="bottom" width="400" trigger="click">
                       <el-checkbox-group v-model="checkdate3">
                         <el-checkbox label="曝光量"></el-checkbox>
@@ -765,7 +780,7 @@
                       </el-checkbox-group>
                       <el-button slot="reference" class="el-icon-edit editNorm">&nbsp;&nbsp;修改常用对比指标</el-button>
                   </el-popover>
-                </li>
+                </li> -->
                 <li>
                   <el-button class="el-icon-s-open preparation"  @click="submitSite">&nbsp;&nbsp;筛选 | 广告活动</el-button>
                 </li>
@@ -776,7 +791,7 @@
       </el-tab-pane>
       <el-tab-pane label="ASIN" name="4">
         <el-row :gutter="20">
-          <el-col :md="16" :lg="16" :xl="18">
+          <el-col :md="16" :lg="16" :xl="19">
             <div class="tableSearch">
               搜索:<el-input v-model="tableSearch1" size="medium" placeholder="请输入内容"></el-input>
             </div>
@@ -808,7 +823,7 @@
             </el-table>
             <Pagination3 :currentPage="currentPage3" :total="totalPage3" @handleSizeChange="sizeChange3" @handleCurrentChange="currentChange3" />
           </el-col>
-          <el-col :md="8" :lg="8" :xl="6">
+          <el-col :md="8" :lg="8" :xl="5">
             <!-- <div class="addCondition"><i class="el-icon-plus"></i>添加筛选条件</div> -->
             <div class="condition">
               <el-radio-group v-model="asinValue" class="pie" @change="selectAsin">
@@ -824,8 +839,7 @@
                    <el-button size="medium"> 结束日期</el-button>
                   <el-date-picker v-model="maxDate3" value-format="yyyy-MM-dd" placeholder="请选择" class="epdate"></el-date-picker>
                 </li>
-                <li>
-                  <!-- <el-button class="el-icon-edit editNorm">&nbsp;&nbsp;修改对比指标</el-button> -->
+                <!-- <li>
                   <el-popover placement="bottom" width="400" trigger="click">
                       <el-checkbox-group v-model="checkdate4">
                         <el-checkbox label="曝光量"></el-checkbox>
@@ -835,7 +849,7 @@
                       </el-checkbox-group>
                       <el-button slot="reference" class="el-icon-edit editNorm">&nbsp;&nbsp;修改常用对比指标</el-button>
                   </el-popover>
-                </li>
+                </li> -->
                 <li>
                   <el-button class="el-icon-s-open preparation" @click="submitAsin">&nbsp;&nbsp;筛选 | 广告活动</el-button>
                 </li>
@@ -859,9 +873,11 @@ import Pagination1 from '../components/pagination.vue'
 import Pagination2 from '../components/pagination.vue'
 import Pagination3 from '../components/pagination.vue'
 import countTo from 'vue-count-to';
+let _minDate = 0
+let millisecondOfDay = 1 * 24 * 60 * 60 * 1000
 export default {
   components:{Title,Pagination,Pagination1,Pagination2,Pagination3,countTo},
-  data() {
+  data() { // 拆组件啊 大哥！！！
     return {
       currentPage:1,
       totalPage:0,
@@ -881,21 +897,21 @@ export default {
       msg:'数据看板',
       fonticon:'icon-brokenLine',
       searchForm:{
-        project:'',
-        sem:'',
-        shop:'',
-        site:'',
+        projectName:'',
+        semName:'',
+        storeName:'',
+        countryCode:'',
         asin:'',
         sku:'',
-        poster:'',
-        startDate:'',
-        endDate:'',
-        radio:''      
+        campaignName:'',
+        minDate:'',
+        comparisonPeriod:'week'      
       },
       items:[],//店铺
       list:[],//站点
       asin:[],//asin
       sku:[],//sku
+      campaigns:[],
       form:{
         target1:'impressions',
         target2:'clicks',
@@ -909,13 +925,43 @@ export default {
         {id:'quarter',name:'季'},
         {id:'year',name:'年'},
       ],
-      dateForm:{},
+      dateForm:{
+        minDate:'',
+        maxDate:'',
+        time:'',
+        asin:'',
+        sku:'',
+        countryCode:''
+      },
       payTime:[],
       content:'XX项目 | YY店铺 | ZZ站点 | ASIN | SKU | ...',
       activeName:'1',
       cardDialog:false,
       selectTarget:'',
-      selects:[],
+      selects:[
+        {id:1,name:'Impressions'},
+        {id:2,name:'Clicks'},
+        {id:3,name:'Orders'},
+        {id:4,name:'Sales'},
+        {id:5,name:'Cost'},
+        {id:6,name:'CPC'},
+        {id:7,name:'CTR'},
+        {id:8,name:'CVR'},
+        {id:9,name:'ACoS'},
+        {id:10,name:'RoAS'},
+      ],
+      selectdata:[
+        {id:1,name:'Impressions'},
+        {id:2,name:'Clicks'},
+        {id:3,name:'Orders'},
+        {id:4,name:'Sales'},
+        {id:5,name:'Cost'},
+        {id:6,name:'CPC'},
+        {id:7,name:'CTR'},
+        {id:8,name:'CVR'},
+        {id:9,name:'ACoS'},
+        {id:10,name:'RoAS'},
+      ],
       target:[
         {id:'impressions',name:'Impressions | 曝光量'},
         {id:'clicks',name:'Clicks | 点击量'},
@@ -929,30 +975,8 @@ export default {
         {id:'cost/attributed_sales_7d',name:'ACoS | 成本销售比'},
         {id:'attributed_sales_7d/cost',name:'RoAS | 投资回报率'}
       ],
-      card:[
-        {id:1,name:'点击量',englishName:'Clicks',number:2000,amount:38,percent:58},
-        {id:1,name:'点击量',englishName:'Clicks',number:2000,amount:38,percent:-58},
-        {id:1,name:'点击量',englishName:'Clicks',number:2000,amount:38,percent:58},
-        {id:1,name:'点击量',englishName:'Clicks',number:2000,amount:38,percent:-58},
-        {id:1,name:'点击量',englishName:'Clicks',number:2000,amount:38,percent:58},
-        {id:1,name:'点击量',englishName:'Clicks',number:2000,amount:38,percent:-58},
-        {id:1,name:'点击量',englishName:'Clicks',number:2000,amount:38,percent:58},
-        {id:1,name:'点击量',englishName:'Clicks',number:2000,amount:38,percent:-58},
-        {id:1,name:'点击量',englishName:'Clicks',number:2000,amount:38,percent:58},
-        {id:1,name:'点击量',englishName:'Clicks',number:2000,amount:38,percent:-58},
-      ],
-      market:[
-        {id:1,name:'访问总量',englishName:'Clicks',number:1555,amount:38,percent:58},
-        {id:1,name:'访问总量',englishName:'Clicks',number:1555,amount:38,percent:-58},
-        {id:1,name:'访问总量',englishName:'Clicks',number:1555,amount:38,percent:58},
-        {id:1,name:'访问总量',englishName:'Clicks',number:1555,amount:38,percent:-58},
-        {id:1,name:'访问总量',englishName:'Clicks',number:1555,amount:38,percent:58},
-        {id:1,name:'访问总量',englishName:'Clicks',number:1555,amount:38,percent:-58},
-        {id:1,name:'访问总量',englishName:'Clicks',number:1555,amount:38,percent:58},
-        {id:1,name:'访问总量',englishName:'Clicks',number:1555,amount:38,percent:-58},
-        {id:1,name:'访问总量',englishName:'Clicks',number:1555,amount:38,percent:58},
-        {id:1,name:'访问总量',englishName:'Clicks',number:1555,amount:38,percent:-58},
-      ],
+      card:[],
+      market:[],
       activetabs:'1',
       current:'1',
       tableData:[],
@@ -961,7 +985,8 @@ export default {
         indicator:[],
         orderAreAsc:'true',
         findRows:'10',
-        orderName:1
+        orderName:1,
+        queryType:0
       },
       campaignForm1:{
         sortField:1,
@@ -1039,7 +1064,6 @@ export default {
       maxDate2:'',
       minDate3:'',
       maxDate3:'',
-      query:1,
       adsOverview:'',
       impSp:'',
       clickSp:'',
@@ -1057,7 +1081,7 @@ export default {
       //站点饼图
       siteAllCost:'',
       siteAllSales:'',
-      siteName:'US',
+      siteName:'广告花费',
       allSiteName:'China',
       asinData:[],
       asinName:'广告花费',
@@ -1079,7 +1103,158 @@ export default {
       asinValue:'1',
       siteValue:'1',
       array:[],
-      asinTitle:'广告花费Top5'
+      asinTitle:'广告花费Top5',
+      inShow:0,
+      adSaleType:1,
+      salesData:[
+        {id:11,name:'OrderProductSales'},
+        {id:12,name:'Sales'},
+        {id:13,name:'UnitOrder'},
+        {id:14,name:'Sessions'},
+        {id:15,name:'UnitSession'},
+        {id:16,name:'ACoS'},
+        {id:17,name:'AdProportion'},
+        {id:18,name:'SaleAdProportion'},
+      ],
+      siteArr:[],
+    }
+  },
+  computed: {
+    //控制日期选择范围
+    renderPickerOptions() {
+      const that = this
+      return {
+        disabledDate(time) {
+          if (_minDate > 0) {
+            return time.getTime() > Math.min(Date.now(), _minDate + 6 * millisecondOfDay) || time.getTime() < Math.max(_minDate - 6 * millisecondOfDay, Date.now() - dayRange * millisecondOfDay)
+          } else {
+            let dayRang=7
+            if(that.searchForm.comparisonPeriod==='day'){
+              dayRang=1
+            }else if(that.searchForm.comparisonPeriod==='week'){
+              dayRang=7
+            }else if(that.searchForm.comparisonPeriod==='month'){
+              dayRang=30
+            }else if(that.searchForm.comparisonPeriod==='season'){
+              dayRang=90
+            }else{
+              dayRang=365
+            }
+            return time.getTime() > Date.now() || time.getTime() < Date.now() - dayRang * millisecondOfDay
+          }
+        },
+        onPick({ maxDate, minDate }) {
+          _minDate = minDate && new Date(minDate).getTime()
+        },
+      }
+    }
+  },
+   updated(){
+    this.campaignForm.indicator=[this.name1,this.name2,this.name3,this.name4]
+    switch(this.form.target1){
+      case 'impressions':
+        this.targetName1='Impressions'
+      break;
+      case 'clicks':
+        this.targetName1='Clicks'
+      break;
+      case 'attributed_units_ordered_7d':
+        this.targetName1='Order'
+      break;
+      case 'attributed_sales_7d':
+        this.targetName1='Sales'
+      break;
+      case 'cost':
+        this.targetName1='Cost'
+      break;
+      case 'clicks/impressions':
+        this.targetName1='CTR'
+      break;
+      case 'attributed_units_ordered_7d/clicks':
+        this.targetName1='CVR'
+      break;
+      case 'cost/clicks':
+        this.targetName1='CPC'
+      break;
+      case 'cost/attributed_units_ordered_7d':
+        this.targetName1='CPA'
+      break;
+      case 'cost/attributed_sales_7d':
+        this.targetName1='ACoS'
+      break;
+      case 'attributed_sales_7d/cost':
+        this.targetName1='RoAS'
+      break;
+    }
+    switch(this.form.target2){
+      case 'impressions':
+        this.targetName2='Impressions'
+      break;
+      case 'clicks':
+        this.targetName2='Clicks'
+      break;
+      case 'attributed_units_ordered_7d':
+        this.targetName2='Order'
+      break;
+      case 'attributed_sales_7d':
+        this.targetName2='Sales'
+      break;
+      case 'cost':
+        this.targetName2='Cost'
+      break;
+      case 'clicks/impressions':
+        this.targetName2='CTR'
+      break;
+      case 'attributed_units_ordered_7d/clicks':
+        this.targetName2='CVR'
+      break;
+      case 'cost/clicks':
+        this.targetName2='CPC'
+      break;
+      case 'cost/attributed_units_ordered_7d':
+        this.targetName2='CPA'
+      break;
+      case 'cost/attributed_sales_7d':
+        this.targetName2='ACoS'
+      break;
+      case 'attributed_sales_7d/cost':
+        this.targetName2='RoAS'
+      break;
+    }
+    switch(this.form.target3){
+      case 'impressions':
+        this.targetName3='Impressions'
+      break;
+      case 'clicks':
+        this.targetName3='Clicks'
+      break;
+      case 'attributed_units_ordered_7d':
+        this.targetName3='Order'
+      break;
+      case 'attributed_sales_7d':
+        this.targetName3='Sales'
+      break;
+      case 'cost':
+        this.targetName3='Cost'
+      break;
+      case 'clicks/impressions':
+        this.targetName3='CTR'
+      break;
+      case 'attributed_units_ordered_7d/clicks':
+        this.targetName3='CVR'
+      break;
+      case 'cost/clicks':
+        this.targetName3='CPC'
+      break;
+      case 'cost/attributed_units_ordered_7d':
+        this.targetName3='CPA'
+      break;
+      case 'cost/attributed_sales_7d':
+        this.targetName3='ACoS'
+      break;
+      case 'attributed_sales_7d/cost':
+        this.targetName3='RoAS'
+      break;
     }
   },
   created(){
@@ -1089,179 +1264,70 @@ export default {
       minDate:this.minDate,
       maxDate:this.maxDate,
       queryCondition:this.addContent,
+      comparisonPeriod:this.searchForm.comparisonPeriod,
       queryType:this.queryType
     }
-    this.getData()
+    this.getData(this.campaignForm1)
     this.getPoster(res)
-    this.getresult()
-    this.getCharts()
-    this.getCrad()
-  },
-  updated(){
-    this.campaignForm.indicator=[this.name1,this.name2,this.name3,this.name4]
-    switch(this.form.target1){
-          case 'impressions':
-            this.targetName1='Impressions'
-          break;
-          case 'clicks':
-            this.targetName1='Clicks'
-          break;
-          case 'attributed_units_ordered_7d':
-            this.targetName1='Order'
-          break;
-          case 'attributed_sales_7d':
-            this.targetName1='Sales'
-          break;
-          case 'cost':
-            this.targetName1='Cost'
-          break;
-          case 'clicks/impressions':
-            this.targetName1='CTR'
-          break;
-          case 'attributed_units_ordered_7d/clicks':
-            this.targetName1='CVR'
-          break;
-          case 'cost/clicks':
-            this.targetName1='CPC'
-          break;
-          case 'cost/attributed_units_ordered_7d':
-            this.targetName1='CPA'
-          break;
-          case 'cost/attributed_sales_7d':
-            this.targetName1='ACoS'
-          break;
-          case 'attributed_sales_7d/cost':
-            this.targetName1='RoAS'
-          break;
-        }
-        switch(this.form.target2){
-          case 'impressions':
-            this.targetName2='Impressions'
-          break;
-          case 'clicks':
-            this.targetName2='Clicks'
-          break;
-          case 'attributed_units_ordered_7d':
-            this.targetName2='Order'
-          break;
-          case 'attributed_sales_7d':
-            this.targetName2='Sales'
-          break;
-          case 'cost':
-            this.targetName2='Cost'
-          break;
-          case 'clicks/impressions':
-            this.targetName2='CTR'
-          break;
-          case 'attributed_units_ordered_7d/clicks':
-            this.targetName2='CVR'
-          break;
-          case 'cost/clicks':
-            this.targetName2='CPC'
-          break;
-          case 'cost/attributed_units_ordered_7d':
-            this.targetName2='CPA'
-          break;
-          case 'cost/attributed_sales_7d':
-            this.targetName2='ACoS'
-          break;
-          case 'attributed_sales_7d/cost':
-            this.targetName2='RoAS'
-          break;
-        }
-        switch(this.form.target3){
-          case 'impressions':
-            this.targetName3='Impressions'
-          break;
-          case 'clicks':
-            this.targetName3='Clicks'
-          break;
-          case 'attributed_units_ordered_7d':
-            this.targetName3='Order'
-          break;
-          case 'attributed_sales_7d':
-            this.targetName3='Sales'
-          break;
-          case 'cost':
-            this.targetName3='Cost'
-          break;
-          case 'clicks/impressions':
-            this.targetName3='CTR'
-          break;
-          case 'attributed_units_ordered_7d/clicks':
-            this.targetName3='CVR'
-          break;
-          case 'cost/clicks':
-            this.targetName3='CPC'
-          break;
-          case 'cost/attributed_units_ordered_7d':
-            this.targetName3='CPA'
-          break;
-          case 'cost/attributed_sales_7d':
-            this.targetName3='ACoS'
-          break;
-          case 'attributed_sales_7d/cost':
-            this.targetName3='RoAS'
-          break;
-        }
-  },
-  methods:{
-    //获取当前年月日
-     getNowFormatDate() {
-        var date = new Date();
-        var seperator1 = "-";
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var strDate = date.getDate();
-        if (month >= 1 && month <= 9) {
-            month = "0" + month;
-        }
-        if (strDate >= 0 && strDate <= 9) {
-            strDate = "0" + strDate;
-        }
-        var currentdate = year + seperator1 + month + seperator1 + strDate;
-        return currentdate;
-    },
-    //指标
-    getCrad(){
-      const data={
+
+    const respones={
+      comparisonPeriod:this.searchForm.comparisonPeriod, 
+      minDate:this.getNowFormatDate(),
+      queryType:0
+    }
+    this.getresult(respones)
+    const data={
+        customSoughtQuota:{
+          target1:this.form.target1,
+          target2:this.form.target2,
+          target3:this.form.target3
+        },
+        minDate:this.getNowFormatDate(),
+        comparisonPeriod:this.form.comparisonPeriod,
+        forCenterStartSpaceSize:1
+      }
+    this.getCharts(data)
+    const cardData={
             storeName: "stayfineUS",
             minDate:this.getNowFormatDate(),
-            comparisonPeriod:"week"
+            comparisonPeriod:this.searchForm.comparisonPeriod,
+            adSaleType:this.adSaleType
           }
-      api.post('/adDataStateVB/getIndicators',data).then(res=>{
-        console.log(res)
-      }).catch(err=>{
-        console.log(err)
-      }).finally(()=>{
+    this.getCrad(cardData)
+    this.getAsinselect()
+    this.getCampaignName()
+    this.getSiteData()
+    this.getSkuData()
+    this.getStoreData()
+  },
 
-      })
+  methods:{
+    handlePickerBlur(date) {
+        _minDate = 0
     },
-    submitImpAndClk(){
-      this.form.target1='impressions'
-      this.form.target2='clicks'
-      this.targetName3=''
-      this.$set(this.form,'target3',' ')
-      delete(this.form.target3) 
-      this.getCharts()
-    },
-    submitCvrAndCtr(){
-      this.form.target1='cost'
-      this.form.target2='attributed_sales_7d'
-      this.targetName3=''
-      delete(this.form.target3) 
-      this.getCharts()
-    },
-    submitCostAndSale(){
-      this.form.target1='attributed_units_ordered_7d/clicks'
-      this.form.target2='clicks/impressions'
-      this.targetName3=''
-      delete(this.form.target3) 
-      this.getCharts()
-    },
-    //指标对比图
-    getCharts(){
-      const data={
+    //全局筛选
+    screen(){
+      this.campaignForm1.queryType=0
+      this.queryType=0
+      const res={
+        current:this.currentPage,
+        size:this.pageSize,
+        queryCondition:this.addContent,
+        queryType:this.queryType,
+      }
+      const newRes=Object.assign({queryType:0},this.searchForm)
+      this.getPoster(this.searchForm)
+
+      const timeData=Object.assign({queryType:0},this.searchForm)
+      this.getTimeData(timeData)
+      
+      // const data=Object.assign(this.campaignForm1,this.searchForm)
+      this.getData(this.searchForm)
+
+      const newData=Object.assign(this.searchForm,{queryType:0})
+      this.getresult(newData)
+
+      const charts={
         customSoughtQuota:{
           target1:this.form.target1,
           target2:this.form.target2,
@@ -1270,6 +1336,242 @@ export default {
         comparisonPeriod:this.form.comparisonPeriod,
         forCenterStartSpaceSize:1
       }
+      this.$delete(charts,'comparisonPeriod')
+      const result=Object.assign(charts,this.searchForm)
+      this.getCharts(result)
+
+      const card={adSaleType:this.adSaleType}
+      const newCard=Object.assign(card,this.searchForm)
+      this.getCrad(newCard)
+    },
+    //获取asin下拉数据
+    getAsinselect(){
+      api.get('/adDataStateVB/getAllAsin').then(res=>{
+        console.log(res)
+        this.asin=res.data
+      }).catch(err=>{
+        console.log(err)
+      }).finally(()=>{
+
+      })
+    },
+    //广告系列名
+    getCampaignName(){
+      api.get('/adDataStateVB/getAllCampaignName').then(res=>{
+        console.log(res)
+        this.campaigns=res.data
+      }).catch(err=>{
+        console.log(err)
+      }).finally(()=>{
+
+      })
+    },
+    //站点
+    getSiteData(){
+      api.get('/adDataStateVB/getAllCountryCode').then(res=>{
+        console.log(res)
+        this.list=res.data
+      }).catch(err=>{
+        console.log(err)
+      }).finally(()=>{
+
+      })
+    },
+    //sku
+    getSkuData(){
+      api.get('/adDataStateVB/getAllsku').then(res=>{
+        this.sku=res.data
+      }).catch(err=>{
+        console.log(err)
+      }).finally(()=>{
+
+      })
+    },
+    getStoreData(){
+      api.get('/adDataStateVB/getAllStoreName').then(res=>{
+        this.items=res.data
+      }).catch(err=>{
+        console.log(err)
+      }).finally(()=>{
+
+      })
+    },
+    //获取当前年月日
+    getNowFormatDate() {
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+      if (month >= 1 && month <= 9) {
+          month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+          strDate = "0" + strDate;
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate;
+      return currentdate;
+    },
+    //指标
+    getCrad(data){
+      // const data={
+      //       storeName: "stayfineUS",
+      //       minDate:this.getNowFormatDate(),
+      //       comparisonPeriod:"week",
+      //       adSaleType:this.adSaleType
+      //     }
+      api.post('/adDataStateVB/getIndicators',data).then(res=>{
+        if(this.adSaleType==1){
+          this.card=res.data
+        }else{
+          this.market=res.data
+        }
+        const arr = [...res.data].map(item => item.id)
+        this.selects.forEach((item, index) => {
+          if (arr.includes(item.id)) {
+            this.$set(this.selects[index], 'disabled', true)
+          }else{
+            this.$set(this.selects[index], 'disabled', false)
+          }
+        })
+      }).catch(err=>{
+        console.log(err)
+      }).finally(()=>{
+
+      })
+    },
+    //删除卡片
+    closeCard(id){
+      this.inShow=0
+      const data={
+        id:id,
+        inShow:this.inShow
+      }
+      this.$confirm('是否关闭？',{
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(()=>{
+           api.post('/adDataStateVB/updateTableColumnsById',data).then(res=>{
+              this.$message.success(res.message)
+              const cardData={
+                    storeName: "stayfineUS",
+                    minDate:this.getNowFormatDate(),
+                    comparisonPeriod:this.searchForm.comparisonPeriod,
+                    adSaleType:this.adSaleType
+                  }
+              this.getCrad(cardData)
+          }).catch(err=>{
+              console.log(err)
+          }).finally(()=>{
+
+          })
+        }).catch(()=>{
+        })
+    },
+    //新增卡片
+    submitCard(){
+      this.inShow=1
+      const data={
+        id:this.selectTarget,
+        inShow:this.inShow
+      }
+      if(this.selectTarget){
+        api.post('/adDataStateVB/updateTableColumnsById',data).then(res=>{
+            this.$message.success(res.message)
+            const cardData={
+                    storeName: "stayfineUS",
+                    minDate:this.getNowFormatDate(),
+                    comparisonPeriod:this.searchForm.comparisonPeriod,
+                    adSaleType:this.adSaleType
+                  }
+            this.getCrad(cardData)
+            this.selectTarget=''
+            this.cardDialog=false
+          }).catch(err=>{
+              console.log(err)
+          }).finally(()=>{
+
+          })
+      }else{
+        this.$message.warning('请选择添加指标！！！')
+      }
+    },
+    count(event){
+      if(event.name==2){
+        this.adSaleType=2
+        this.selects=this.salesData
+        const cardData={
+                storeName: "stayfineUS",
+                minDate:this.getNowFormatDate(),
+                comparisonPeriod:this.searchForm.comparisonPeriod,
+                adSaleType:this.adSaleType
+              }
+        this.getCrad(cardData)
+      }else if(event.name==1){
+        this.adSaleType=1
+        this.selects=this.selectdata
+        const cardData={
+                storeName: "stayfineUS",
+                minDate:this.getNowFormatDate(),
+                comparisonPeriod:this.searchForm.comparisonPeriod,
+                adSaleType:this.adSaleType
+              }
+        this.getCrad(cardData)
+      }
+    },
+    submitImpAndClk(){
+      this.form.target1='impressions'
+      this.form.target2='clicks'
+      this.form.target3=''
+      this.targetName3=''
+      const data={
+        customSoughtQuota:{
+          target1:this.form.target1,
+          target2:this.form.target2,
+        },
+        comparisonPeriod:this.form.comparisonPeriod,
+        forCenterStartSpaceSize:1,
+        minDate:this.getNowFormatDate(),
+      }
+      
+      this.getCharts(data)
+    },
+    submitCvrAndCtr(){
+      this.form.target1='attributed_units_ordered_7d/clicks'
+      this.form.target2='clicks/impressions'
+      this.form.target3=''
+      this.targetName3=''
+      const data={
+        customSoughtQuota:{
+          target1:this.form.target1,
+          target2:this.form.target2,
+        },
+        comparisonPeriod:this.form.comparisonPeriod,
+        forCenterStartSpaceSize:1,
+        minDate:this.getNowFormatDate(),
+      }
+      this.getCharts(data)
+    },
+    
+    submitCostAndSale(){
+      this.form.target1='cost'
+      this.form.target2='attributed_sales_7d'
+      this.form.target3=''
+      this.targetName3=''
+      const data={
+        customSoughtQuota:{
+          target1:this.form.target1,
+          target2:this.form.target2,
+        },
+        comparisonPeriod:this.form.comparisonPeriod,
+        minDate:this.getNowFormatDate(),
+        forCenterStartSpaceSize:1
+      }
+      this.getCharts(data)
+    },
+    //指标对比图
+    getCharts(data){
       api.post('/adDataStateVB/quotaList',data).then(res=>{
         this.data1=res.data.target1
         this.data2=res.data.target2
@@ -1282,8 +1584,51 @@ export default {
 
       })
     },
+     //时段高峰
+    getTimeData(data){
+        api.post('/adDataStateVB/quotaPriceViewDataList',data).then(res=>{
+          this.timeMap(res.data.targtet2,res.data.targtet3,res.data.day)
+        }).catch(err=>{
+          console.log(err)
+        }).finally(()=>{
+
+        })
+    },
+    handleClick(event){
+      if(event.name==2){
+        const data={
+          minDate:'',
+          maxDate:'',
+          asin:'',
+          countryCode:''
+        }
+        this.getTimeData(data)
+      }
+    },
+    submitForm(){
+      if(this.dateForm.time){
+        this.dateForm.minDate=this.dateForm.time[0]
+        this.dateForm.maxDate=this.dateForm.time[1]
+      }
+      this.getTimeData(this.dateForm)
+    },
+    //生成图表
     newCharts(){
-      this.getCharts()
+      const data={
+        customSoughtQuota:{
+          target1:this.form.target1,
+          target2:this.form.target2,
+          target3:this.form.target3,
+        },
+        minDate:this.getNowFormatDate(),
+        comparisonPeriod:this.form.comparisonPeriod,
+        forCenterStartSpaceSize:1
+      }
+      //target3为空的时候删除属性
+      if(!this.form.target3){
+        this.$delete(data.customSoughtQuota,'target3')
+      }
+      this.getCharts(data)
     },
     //指标排序表
     getresult(data){
@@ -1328,6 +1673,8 @@ export default {
           this.$nextTick(()=>{
             this.tableData=res.data
           })
+        }else{
+          this.tableData=res.data
         }
       }).catch(err=>{
         console.log(err)
@@ -1336,6 +1683,12 @@ export default {
       })
     },
     submitCampaignForm(){
+      if(this.campaignForm.norm || this.campaignForm.norm1 || this.campaignForm.norm2 || this.campaignForm.norm3){
+         this.campaignForm.queryType=1
+      }else{
+         this.campaignForm.queryType=0
+      }
+      if(this)
       switch(this.campaignForm.orderName){
         case 1:
           this.campaignForm.orderName='acos'
@@ -1356,13 +1709,16 @@ export default {
           this.campaignForm.orderName='orders'
           break;
       }
-      const data=this.campaignForm
+      const data=Object.assign(this.campaignForm,{comparisonPeriod:this.searchForm.comparisonPeriod})
+
       if(this.name1 || this.name2 ||this.name3 || this.name4){
         if(this.campaignForm.orderName!==this.name1 && this.campaignForm.orderName!==this.name2 && this.campaignForm.orderName!==this.name3 &&this.campaignForm.orderName!==this.name4){
           this.$message.error('排序指标与对标指标不一致')
         }else{
           this.getresult(data)
         }
+      }else{
+        this.getresult(data)
       }
     },
     changenorm1(val){
@@ -1389,9 +1745,10 @@ export default {
       })
        this.name4 =data[0].name
     },
+   
     //请求数据
-    getData(){//广告关键词
-      api.post('/adDataStateVB/findKeywords',this.campaignForm1).then(res=>{
+    getData(data){//广告关键词
+      api.post('/adDataStateVB/findKeywords',data).then(res=>{
         if(res.data.length>0){
           this.hasData=false
           //提取一条数据渲染表头
@@ -1437,6 +1794,7 @@ export default {
             this.tableData1=res.data
           })
         }else{
+          this.tableData1=res.data
           this.hasData=true
         }
       }).catch(err=>{
@@ -1447,15 +1805,16 @@ export default {
     //广告关键词条件筛选
     submitPoster(){
       this.campaignForm1.queryType=1
+      const data=Object.assign(this.campaignForm1,{comparisonPeriod:this.searchForm.comparisonPeriod})
       if(this.campaignForm1.comparisonIndexOne || this.campaignForm1.comparisonIndexTwo || this.campaignForm1.comparisonIndexThree){
         if(this.campaignForm1.sortField !==this.campaignForm1.comparisonIndexOne && this.campaignForm1.sortField !==this.campaignForm1.comparisonIndexTwo && this.campaignForm1.sortField !==this.campaignForm1.comparisonIndexThree){
           this.$message.error('排序指标与对标指标不一致')
         }else{
-          this.getData()
+          this.getData(data)
         }
       }else{
         this.campaignForm1.queryType=0
-        this.getData()
+        this.getData(data)
       }
     },
     //广告活动筛选
@@ -1468,53 +1827,69 @@ export default {
           break;
 
           case '2':
-            this.posterTyle=res.data.records
             this.totalPage1=res.data.total
-            //过滤SP SD类型
-            this.$nextTick(()=>{
-              const spData=this.posterTyle.filter(item=>{
-                return item.adsOverview=='SP'
+            if(res.data.records.length>0){
+              this.posterTyle=res.data.records
+              //过滤SP SD类型
+              this.$nextTick(()=>{
+                const spData=this.posterTyle.filter(item=>{
+                  return item.adsOverview=='SP'
+                })
+                this.impSp=spData[0].impressions
+                this.clickSp=spData[0].clicks
+                this.costSp=spData[0].cost
+                this.salesSp=spData[0].sales
+                this.ordersSp=spData[0].orders
+                const sdData=this.posterTyle.filter(item=>{
+                  return item.adsOverview=='SD'
+                })
+                this.impSd=sdData[0].impressions
+                this.clickSd=sdData[0].clicks
+                this.costSd=sdData[0].cost
+                this.salesSd=sdData[0].sales
+                this.ordersSd=sdData[0].orders
+                this.sd=this.impSd
+                this.sp=this.impSp
+                this.pieChart()
               })
-               this.impSp=spData[0].impressions
-               this.clickSp=spData[0].clicks
-               this.costSp=spData[0].cost
-               this.salesSp=spData[0].sales
-               this.ordersSp=spData[0].orders
-              const sdData=this.posterTyle.filter(item=>{
-                return item.adsOverview=='SD'
-              })
-              this.impSd=sdData[0].impressions
-              this.clickSd=sdData[0].clicks
-              this.costSd=sdData[0].cost
-              this.salesSd=sdData[0].sales
-              this.ordersSd=sdData[0].orders
-              this.sd=this.impSd
-              this.sp=this.impSp
-              this.pieChart()
-            })
-            
+            }
           break;
 
           case '3':
-            this.webSite=res.data.records
-             this.totalPage2=res.data.total
+            this.totalPage2=res.data.total
+            if(res.data.records.length>0){
+              this.webSite=res.data.records
+              this.$nextTick(()=>{
+                const obj=this.webSite.map(item=>{
+                  return {
+                    value:item.cost,
+                    name:item.countryCode
+                  }
+                })
+                this.siteArr=obj
+                this.pieChart2(obj)
+              })
+            }
           break;
 
           case '4':
-            this.asinData=res.data.records
             this.totalPage3=res.data.total
-            //广告花费排序
-            this.asinData.sort(this.compare('cost',true))
-            const newData=this.asinData.slice(0,5)
-            const obj=[['amount','product']]
-            newData.map(item=>{
-              obj.push([
-                item.cost,
-                item.asin
-              ])
-            })
-            this.array=obj
-            this.pieChart3(this.array)
+            if(res.data.records.length>0){
+              this.asinData=res.data.records
+              //广告花费排序
+              this.asinData.sort(this.compare('cost',false))
+              const newData=this.asinData.slice(0,5)
+              newData.sort(this.compare('cost',true))
+              const obj=[['amount','product']]
+              newData.map(item=>{
+                obj.push([
+                  item.cost,
+                  item.asin
+                ])
+              })
+              this.array=obj
+              this.pieChart3(this.array)
+            }
           break;
         }
       }).catch(err=>{
@@ -1542,7 +1917,8 @@ export default {
           size:this.pageSize1,
           minDate:this.minDate1,
           maxDate:this.maxDate1,
-          queryType:this.queryType
+          queryType:this.queryType,
+          comparisonPeriod:this.searchForm.comparisonPeriod
         }
         this.getPoster(res)
     },
@@ -1553,7 +1929,8 @@ export default {
           size:this.pageSize2,
           minDate:this.minDate2,
           maxDate:this.maxDate2,
-          queryType:this.queryType
+          queryType:this.queryType,
+          comparisonPeriod:this.searchForm.comparisonPeriod
         }
         this.getPoster(res)
     },
@@ -1564,7 +1941,8 @@ export default {
           size:this.pageSize3,
           minDate:this.minDate3,
           maxDate:this.maxDate3,
-          queryType:this.queryType
+          queryType:this.queryType,
+          comparisonPeriod:this.searchForm.comparisonPeriod
         }
         this.getPoster(res)
     },
@@ -1574,8 +1952,9 @@ export default {
         case '1':
         //广告花费排序
         this.asinTitle='广告花费Top5'
-        this.asinData.sort(this.compare('cost',true))
+        this.asinData.sort(this.compare('cost',false))
         const newData=this.asinData.slice(0,5)
+        newData.sort(this.compare('cost',true))
         const obj=[['amount','product']]
         newData.map(item=>{
           obj.push([
@@ -1589,8 +1968,9 @@ export default {
 
         case '2':
           this.asinTitle='广告销售Top5'
-          this.asinData.sort(this.compare('sales',true))
+          this.asinData.sort(this.compare('sales',false))
           const newArr=this.asinData.slice(0,5)
+          newArr.sort(this.compare('sales',true))
           const arr=[['amount','product']]
           newArr.map(item=>{
             arr.push([
@@ -1611,14 +1991,18 @@ export default {
       switch(val){
         case '1':
         this.$set(this,'siteName','广告花费')
-        this.$set(this,'allSiteName','总广告花费')
-        this.pieChart2()
+        this.pieChart2(this.siteArr)
         break;
 
-        default:
+        case '2':
         this.$set(this,'siteName','广告销售')
-        this.$set(this,'allSiteName','总广告销售')
-        this.pieChart2()
+        const obj=this.webSite.map(item=>{
+                return {
+                  value:item.sales,
+                  name:item.countryCode
+                }
+              })
+        this.pieChart2(obj)
       }
     },
     //切换广告类型饼图
@@ -1662,9 +2046,14 @@ export default {
         minDate:this.minDate,
         maxDate:this.maxDate,
         queryCondition:this.addContent,
-        queryType:this.queryType
+        queryType:this.queryType,
+        comparisonPeriod:this.searchForm.comparisonPeriod
       }
-      this.getPoster(res)
+      if(this.minDate || this.addContent){
+        this.getPoster(res)
+      }else{
+        this.$message.warning('起始时间和筛选条件不能为空！！！')
+      }
     },
     //添加规则
     addRules(){
@@ -1724,7 +2113,8 @@ export default {
           size:this.pageSize1,
           minDate:this.minDate1,
           maxDate:this.maxDate1,
-          queryType:this.queryType
+          queryType:this.queryType,
+          comparisonPeriod:this.searchForm.comparisonPeriod
         }
         this.getPoster(res)
         this.$nextTick(()=>{
@@ -1737,11 +2127,12 @@ export default {
           size:this.pageSize2,
           minDate:this.minDate2,
           maxDate:this.maxDate3,
-          queryType:this.queryType
+          queryType:this.queryType,
+          comparisonPeriod:this.searchForm.comparisonPeriod
         }
         this.getPoster(res)
         this.$nextTick(()=>{
-          this.pieChart2()
+          this.pieChart2(this.siteArr)
         })
       }else if(event.name==4){
         this.queryType=4
@@ -1750,7 +2141,8 @@ export default {
           size:this.pageSize3,
           minDate:this.minDate3,
           maxDate:this.maxDate3,
-          queryType:this.queryType
+          queryType:this.queryType,
+          comparisonPeriod:this.searchForm.comparisonPeriod
         }
         this.getPoster(res)
         this.$nextTick(()=>{
@@ -1758,6 +2150,16 @@ export default {
         })
       }else{
         this.queryType=1
+         const res={
+            current:this.currentPage,
+            size:this.pageSize,
+            minDate:this.minDate,
+            maxDate:this.maxDate,
+            queryCondition:this.addContent,
+            comparisonPeriod:this.searchForm.comparisonPeriod,
+            queryType:this.queryType
+          }
+          this.getPoster(res)
       }
     },
     
@@ -1770,7 +2172,8 @@ export default {
         minDate:this.minDate,
         maxDate:this.maxDate,
         queryCondition:this.addContent,
-        queryType:this.queryType
+        queryType:this.queryType,
+        comparisonPeriod:this.searchForm.comparisonPeriod
       }
       this.getPoster(res)
     },
@@ -1783,7 +2186,8 @@ export default {
         minDate:this.minDate,
         maxDate:this.maxDate,
         queryCondition:this.addContent,
-        queryType:this.queryType
+        queryType:this.queryType,
+        comparisonPeriod:this.searchForm.comparisonPeriod
       }
       this.getPoster(res)
     },
@@ -1795,7 +2199,8 @@ export default {
         size:this.pageSize1,
         minDate:this.minDate1,
         maxDate:this.maxDate1,
-        queryType:this.queryType
+        queryType:this.queryType,
+        comparisonPeriod:this.searchForm.comparisonPeriod
       }
       this.getPoster(res)
     },
@@ -1806,7 +2211,8 @@ export default {
         size:this.pageSize1,
         minDate:this.minDate1,
         maxDate:this.maxDate1,
-        queryType:this.queryType
+        queryType:this.queryType,
+        comparisonPeriod:this.searchForm.comparisonPeriod
       }
       this.getPoster(res)
     },
@@ -1818,7 +2224,8 @@ export default {
         size:this.pageSize2,
         minDate:this.minDate2,
         maxDate:this.maxDate2,
-        queryType:this.queryType
+        queryType:this.queryType,
+        comparisonPeriod:this.searchForm.comparisonPeriod
       }
       this.getPoster(res)
     },
@@ -1829,7 +2236,8 @@ export default {
         size:this.pageSize2,
         minDate:this.minDate2,
         maxDate:this.maxDate2,
-        queryType:this.queryType
+        queryType:this.queryType,
+        comparisonPeriod:this.searchForm.comparisonPeriod
       }
       this.getPoster(res)
     },
@@ -1841,7 +2249,8 @@ export default {
         size:this.pageSize3,
         minDate:this.minDate3,
         maxDate:this.maxDate3,
-        queryType:this.queryType
+        queryType:this.queryType,
+        comparisonPeriod:this.searchForm.comparisonPeriod
       }
       this.getPoster(res)
     },
@@ -1852,7 +2261,8 @@ export default {
         size:this.pageSize3,
         minDate:this.minDate3,
         maxDate:this.maxDate3,
-        queryType:this.queryType
+        queryType:this.queryType,
+        comparisonPeriod:this.searchForm.comparisonPeriod
       }
       this.getPoster(res)
     },
@@ -1880,7 +2290,6 @@ export default {
       this.type3='bar'
       this.firstMap(this.data1,this.data2,this.data3,this.date)
     },
-    screen(){},//筛选
     //刷新
     reload(){
       location.reload()
@@ -1961,7 +2370,6 @@ export default {
     deleteData(index){
       this.addContent.splice(index, 1)
     },
-    
     getNumber(param){//自定义合计
         const { columns, data } = param;
         const sums = [];
@@ -2004,10 +2412,10 @@ export default {
               case 9:
                 sums[index]=sums[index].toFixed(2)
               break;
-              case 11:
+              case 10:
                 sums[index]=sums[index].toFixed(2)
               break;
-              case 12:
+              case 11:
                 sums[index]=sums[index].toFixed(2)
               break;
             }
@@ -2102,7 +2510,6 @@ export default {
             }
           } 
         });
-
         return sums;
     },
     //asin合计
@@ -2133,10 +2540,16 @@ export default {
               }
             }, 0);
             switch(index){
+              case 4:
+                sums[index]=sums[index].toFixed(2)
+              break;
               case 6:
                 sums[index]=sums[index].toFixed(2)
               break;
               case 7:
+                sums[index]=sums[index].toFixed(2)
+              break;
+              case 8:
                 sums[index]=sums[index].toFixed(2)
               break;
             }
@@ -2151,8 +2564,6 @@ export default {
       const myChart = echarts.init(chartDom);
       const option = {
         title: {
-          // text: 'Referer of a Website',
-          // subtext: 'Fake Data',
           left: 'center'
         },
         color:['#008a00','#e27304'],
@@ -2191,16 +2602,15 @@ export default {
       option && myChart.setOption(option,true);
     },
     //站点
-    pieChart2(){
+    pieChart2(data){
       const chartDom = document.getElementById('pieChart2');
       const myChart = echarts.init(chartDom);
       const option = {
         title: {
-          // text: 'Referer of a Website',
-          // subtext: 'Fake Data',
-          left: 'center'
+          left: 'center',
+          text:this.siteName,
         },
-        color:['#008a00','#e27304','#409EFF','#e74a3b','#4e73df','#f6c23e','#005a95'],
+        color:['#008a00','#e27304','#409EFF','#e74a3b','#4e73df','#f6c23e','#005a95','#e138cb'],
         grid: {
           left: '3%',
           right: '4%',
@@ -2218,10 +2628,7 @@ export default {
           {
             type: 'pie',
             radius: '50%',
-            data: [
-              { value: 1048, name: this.siteName },
-              { value: 7355, name: this.allSiteName }
-            ],
+            data:data,
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
@@ -2297,13 +2704,16 @@ export default {
           {
               type: 'slider',
               xAxisIndex: 0,
-              filterMode: 'none'
+              filterMode: 'none',
+              start: 20,//数据窗口范围的起始百分比0-100
+              end:80,//数据窗口范围的结束百分比0-100
+              height:20,
             },
         ],
         grid: {
           left: '3%',
           right: '5%',
-          bottom: '12%',
+          bottom: '13%',
           containLabel: true
         },
         color:['#005a95','#e27304','#008a00'],
@@ -2343,10 +2753,14 @@ export default {
       };
       option && myChart.setOption(option,true);
     },
-    timeMap(data1,data2,data3,date){
+    timeMap(data1,data2,date){
+      console.log(data1,data2,date)
       const chartDom = document.getElementById('timeMap');
       const myChart = echarts.init(chartDom);
       const option = {
+        title:{
+          text:'成交量 | 成交额'
+        },
         xAxis: {
           type: 'category',
           boundaryGap: true,
@@ -2355,14 +2769,22 @@ export default {
         tooltip: {
           trigger: 'axis'
         },
-        legend: {
-          data: [this.targetName1,this.targetName2,this.targetName3]
-        },
+        dataZoom:[
+          {
+            type: 'slider',
+            xAxisIndex: 0,
+            filterMode: 'none',
+            start: 20,//数据窗口范围的起始百分比0-100
+            end:80,//数据窗口范围的结束百分比0-100
+            height:20,
+            bottom:10
+          },
+        ],
         color:['#005a95','#e27304'],
         grid: {
           left: '3%',
           right: '3%',
-          bottom: '3%',
+          bottom: '10%',
           containLabel: true
         },
        
@@ -2383,56 +2805,22 @@ export default {
         },
         series: [
           {
-            name: this.targetName1,
+            name: '成交量',
             data: data1,
             type: 'bar',
             barWidth: 20,
           },
           {
-            name: this.targetName2,
+            name: '成交额',
             data:data2,
             type: 'bar',
             barWidth: 20,
           },
-          {
-            name: this.targetName3,
-            data:data3,
-            type: 'bar',
-            barWidth: 20,
-          }
         ]
       };
       option && myChart.setOption(option,true);
     },
-    handleClick(event){
-      if(event.name==2){
-        this.$nextTick(()=>{
-          this.timeMap(this.data1,this.data2,this.data3,this.date)
-        })
-      }
-    },
-    count(event){
-      if(event.name==2){
-        this.market.forEach((item,i)=>{
-          this.$refs.countdown[i].start()
-        })
-      }else{
-        this.card.forEach((item,i)=>{
-          this.$refs.addCount[i].start()
-        })
-      }
-    },
     
-    //删除卡片
-    closeCard(id){
-      this.$confirm('是否关闭？',{
-          confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-        }).then(()=>{
-        }).catch(()=>{
-        })
-    }
   },
   mounted(){
     this.firstMap()

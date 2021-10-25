@@ -60,6 +60,16 @@ ul,li{
     }
 }
 
+.submit_btn{
+    background-color: $theme;
+    color: $white;
+    display: block;
+    width: 100%;
+    &:hover,&:focus{
+        background-color: $theme;
+        color: $white;
+    }
+}
 .relative{
     position: relative;
 }
@@ -327,6 +337,14 @@ ul,li{
     .shaky{
         color:$orange
     }
+    p{
+        display: inline-block;
+        font-size: 1.2rem;
+        border-right: 2px solid $font;
+        &:last-child{
+            border-right: none;
+        }
+    }
 }
 .card{
     padding: 15px;
@@ -334,6 +352,7 @@ ul,li{
     margin-bottom: 20px;
     position: relative;
     cursor: pointer;
+    height: 138px;
     i{
         font-size: 1.5rem;
         color: $red;
@@ -351,6 +370,9 @@ ul,li{
         padding: 10px 0 !important;
         color: $font;
         font-weight: 600;
+    }
+    .el-card__body{
+        padding: 20px 0;
     }
 }
 .num{
@@ -661,7 +683,16 @@ ul,li{
         opacity: .8;
     }
 }
-
+.timeForm{
+    .el-form-item{
+        margin:0;
+    }
+}
+.selectColumn{
+    .el-select__tags{
+        left: 20px;
+    }
+}
 /*
 *
 *
@@ -731,7 +762,7 @@ ul,li{
         margin: 5px;
     }
 }
-#tableForm{
+#tableForms{
     .el-form-item{
         width: 50%;
         display: inline-block;
