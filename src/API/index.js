@@ -8,6 +8,10 @@ class api{
         //请求。页面中.then执行成功时的操作。
         return await http.get(url, params)
     }
+    async put(url, params) {
+        //请求。页面中.then执行成功时的操作。
+        return await http.put(url, params)
+    }
 
 }
 export default new api()

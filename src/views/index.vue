@@ -78,7 +78,7 @@
           <el-form-item prop="minDate">
             <div class="flex">
               <el-button class="publicBtn name_title">起始时间:</el-button>
-              <el-date-picker v-model="searchForm.minDate"  placeholder="年/月/日" value-format="yyyy-MM-dd" :picker-options="renderPickerOptions" @blur="handlePickerBlur" class="select name"></el-date-picker>
+              <el-date-picker v-model="searchForm.minDate"  type="date" placeholder="年/月/日" value-format="yyyy-MM-dd" :picker-options="renderPickerOptions" @blur="handlePickerBlur" class="select name"></el-date-picker>
             </div>
           </el-form-item>
         </el-col>  
@@ -316,8 +316,8 @@
                         <el-option v-for="item in sku" :key="item.id" :label="item.name" :value="item.id"></el-option>
                       </el-select>
                     </el-form-item>
-                  <!-- </li>
-                  <li>
+                  </li>
+                   <!-- <li>
                     <el-form-item prop="payDate">
                       <el-button size="medium">月份</el-button>
                       <el-select v-model="dateForm.payDate" placeholder="请选择" style="width:80%">
@@ -366,7 +366,7 @@
                 <el-table :data="tableData" v-else border max-height="426" :header-cell-style="{background:'#858796',color:'#fff',fontWeight:'normal'}">
                   <el-table-column label="广告活动" prop="campaignName" width="200" :show-overflow-tooltip="true">
                     <template slot-scope="scope">
-                      <router-link :to="{path:'/campaign',query:{id:scope.row.campaignId}}" class="posterName">{{scope.row.campaignName}}</router-link>
+                      <router-link :to="{path:'/campaign',query:{id:scope.row.campaignId,name:scope.row.campaignName}}" class="posterName">{{scope.row.campaignName}}</router-link>
                     </template>
                   </el-table-column>
                   <el-table-column v-for="(item,index) in lists" :key="index" :label="item.name" :prop="item.prop"></el-table-column>
@@ -542,7 +542,7 @@
               </el-table-column> -->
               <el-table-column sortable label="广告活动" prop="campaignName" min-width="250">
                 <template slot-scope="scope">
-                  <router-link :to="{path:'/adGroup',query:{id:scope.row.id}}" class="posterName">{{scope.row.campaignName}}</router-link>
+                  <router-link :to="{path:'/adGroup',query:{campaignId:scope.row.campaignId,adGroupId:scope.row.adGroupId,adType:scope.row.adType,name:scope.row.campaignName}}" class="posterName">{{scope.row.campaignName}}</router-link>
                 </template>
               </el-table-column>
               <el-table-column sortable label="竞价策略" prop="price"></el-table-column>
@@ -602,32 +602,9 @@
               <ul class="addContent">
                 <li v-for="(item,index) in addContent" :key="index"><i class="el-icon-plus"></i>筛选条件:<span>{{item.metrics}}</span>{{item.symbol}}<span>{{item.value}}</span><el-button class="el-icon-close" @click="deleteData(index)"></el-button></li>
               </ul>
-              <ul class="formlist tableForm">
-                <li>
-                  <!-- <el-select v-model="eqDate" placeholder="请选择" class="selectPage">
-                    <el-option v-for="item in dateRang" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                  </el-select> -->
-                  <h5>日期范围:</h5>
-                  <el-button size="medium" style="margin-bottom:10px"> 起始日期</el-button>
-                  <el-date-picker v-model="minDate" value-format="yyyy-MM-dd" placeholder="请选择" style="margin-bottom:10px" class="epdate"></el-date-picker>
-                   <el-button size="medium"> 结束日期</el-button>
-                  <el-date-picker v-model="maxDate" value-format="yyyy-MM-dd" placeholder="请选择" class="epdate"></el-date-picker>
-                </li>
-                <!-- <li>
-                  <el-popover placement="bottom" width="400" trigger="click">
-                      <el-checkbox-group v-model="checkdate">
-                        <el-checkbox label="曝光量"></el-checkbox>
-                        <el-checkbox label="点击量"></el-checkbox>
-                        <el-checkbox label="点击率"></el-checkbox>
-                        <el-checkbox label="CAP"></el-checkbox>
-                      </el-checkbox-group>
-                      <el-button slot="reference" class="el-icon-edit editNorm">&nbsp;&nbsp;修改常用对比指标</el-button>
-                  </el-popover>
-                </li> -->
-                <li>
-                  <el-button class="el-icon-s-open preparation" @click="submitCampaign">&nbsp;&nbsp;筛选 | 广告活动</el-button>
-                </li>
-              </ul>
+              <el-date-picker v-model="minDate" type="date" value-format="yyyy-MM-dd" style="width:100%" placeholder="起始日期"></el-date-picker>
+              <el-date-picker v-model="maxDate" type="date" value-format="yyyy-MM-dd" style="margin-top:20px;width:100%" placeholder="结束日期"></el-date-picker>
+              <el-button size="medium" type="primary" style="margin-top:20px;width:100%" class="el-icon-search preparation" @click="submitCampaign">&nbsp;查找</el-button>
             </div>
           </el-col>
         </el-row>
@@ -685,29 +662,9 @@
                 <el-radio-button label="5">订单量</el-radio-button>
               </el-radio-group>
               <div id="pieChart"></div>
-              <ul class="formlist tableForm">
-                <li>
-                  <h5>日期范围:</h5>
-                  <el-button size="medium" style="margin-bottom:10px"> 起始日期</el-button>
-                  <el-date-picker v-model="minDate1" value-format="yyyy-MM-dd" placeholder="请选择" style="margin-bottom:10px" class="epdate"></el-date-picker>
-                   <el-button size="medium"> 结束日期</el-button>
-                  <el-date-picker v-model="maxDate1" value-format="yyyy-MM-dd" placeholder="请选择" class="epdate"></el-date-picker>
-                </li>
-                <!-- <li>
-                  <el-popover placement="bottom" width="400" trigger="click">
-                      <el-checkbox-group v-model="checkdate2">
-                        <el-checkbox label="曝光量"></el-checkbox>
-                        <el-checkbox label="点击量"></el-checkbox>
-                        <el-checkbox label="点击率"></el-checkbox>
-                        <el-checkbox label="CAP"></el-checkbox>
-                      </el-checkbox-group>
-                      <el-button slot="reference" class="el-icon-edit editNorm">&nbsp;&nbsp;修改常用对比指标</el-button>
-                  </el-popover>
-                </li> -->
-                <li>
-                  <el-button class="el-icon-s-open preparation" @click="submitPosterType">&nbsp;&nbsp;筛选 | 广告活动</el-button>
-                </li>
-              </ul>
+              <el-date-picker v-model="minDate1" type="date" value-format="yyyy-MM-dd" style="width:100%" placeholder="起始日期"></el-date-picker>
+              <el-date-picker v-model="maxDate1" type="date" value-format="yyyy-MM-dd" style="margin-top:20px;width:100%" placeholder="结束日期"></el-date-picker>
+              <el-button size="medium" type="primary" style="margin-top:20px;width:100%" class="el-icon-search preparation" @click="submitPosterType">&nbsp;查找</el-button>
             </div>
           </el-col>
         </el-row>
@@ -720,13 +677,6 @@
             </div>
             <el-table :data="webSite" border show-summary :summary-method="getSite" :header-cell-style="{background:'#858796',color:'#fff'}" id="tableId3">
               <el-table-column label="站点" prop="countryCode">
-                 <!-- <template slot="header">
-                   <el-select v-model="country" placeholder="请选择" class="country">
-                     <el-option label="US" value="1"></el-option>
-                     <el-option label="China" value="2"></el-option>
-                     <el-option label="UK" value="3"></el-option>
-                   </el-select>
-                 </template> -->
               </el-table-column>
               <el-table-column label="买家访问数" prop="impressions"></el-table-column>
               <el-table-column sortable label="曝光量" prop="impressions"></el-table-column>
@@ -762,29 +712,9 @@
                 <el-radio-button label="2">广告销售</el-radio-button>
               </el-radio-group>
               <div id="pieChart2"></div>
-              <ul class="formlist tableForm">
-                <li>
-                  <h5>日期范围:</h5>
-                  <el-button size="medium" style="margin-bottom:10px"> 起始日期</el-button>
-                  <el-date-picker v-model="minDate2" value-format="yyyy-MM-dd" placeholder="请选择" style="margin-bottom:10px" class="epdate"></el-date-picker>
-                   <el-button size="medium"> 结束日期</el-button>
-                  <el-date-picker v-model="maxDate2" value-format="yyyy-MM-dd" placeholder="请选择" class="epdate"></el-date-picker>
-                </li>
-                <!-- <li>
-                  <el-popover placement="bottom" width="400" trigger="click">
-                      <el-checkbox-group v-model="checkdate3">
-                        <el-checkbox label="曝光量"></el-checkbox>
-                        <el-checkbox label="点击量"></el-checkbox>
-                        <el-checkbox label="点击率"></el-checkbox>
-                        <el-checkbox label="CAP"></el-checkbox>
-                      </el-checkbox-group>
-                      <el-button slot="reference" class="el-icon-edit editNorm">&nbsp;&nbsp;修改常用对比指标</el-button>
-                  </el-popover>
-                </li> -->
-                <li>
-                  <el-button class="el-icon-s-open preparation"  @click="submitSite">&nbsp;&nbsp;筛选 | 广告活动</el-button>
-                </li>
-              </ul>
+              <el-date-picker v-model="minDate2" type="date" value-format="yyyy-MM-dd" style="width:100%" placeholder="起始日期"></el-date-picker>
+              <el-date-picker v-model="maxDate2" type="date" value-format="yyyy-MM-dd" style="margin-top:20px;width:100%" placeholder="结束日期"></el-date-picker>
+              <el-button size="medium" type="primary" style="margin-top:20px;width:100%" class="el-icon-search preparation" @click="submitSite">&nbsp;查找</el-button>
             </div>
           </el-col>
         </el-row>
@@ -831,29 +761,9 @@
                 <el-radio-button label="2">广告销售</el-radio-button>
               </el-radio-group>
               <div id="pieChart3"></div>
-              <ul class="formlist tableForm">
-                <li>
-                  <h5>日期范围:</h5>
-                  <el-button size="medium" style="margin-bottom:10px"> 起始日期</el-button>
-                  <el-date-picker v-model="minDate3" value-format="yyyy-MM-dd" placeholder="请选择" style="margin-bottom:10px" class="epdate"></el-date-picker>
-                   <el-button size="medium"> 结束日期</el-button>
-                  <el-date-picker v-model="maxDate3" value-format="yyyy-MM-dd" placeholder="请选择" class="epdate"></el-date-picker>
-                </li>
-                <!-- <li>
-                  <el-popover placement="bottom" width="400" trigger="click">
-                      <el-checkbox-group v-model="checkdate4">
-                        <el-checkbox label="曝光量"></el-checkbox>
-                        <el-checkbox label="点击量"></el-checkbox>
-                        <el-checkbox label="点击率"></el-checkbox>
-                        <el-checkbox label="CAP"></el-checkbox>
-                      </el-checkbox-group>
-                      <el-button slot="reference" class="el-icon-edit editNorm">&nbsp;&nbsp;修改常用对比指标</el-button>
-                  </el-popover>
-                </li> -->
-                <li>
-                  <el-button class="el-icon-s-open preparation" @click="submitAsin">&nbsp;&nbsp;筛选 | 广告活动</el-button>
-                </li>
-              </ul>
+              <el-date-picker v-model="minDate3" type="date" value-format="yyyy-MM-dd" style="width:100%" placeholder="起始日期"></el-date-picker>
+              <el-date-picker v-model="maxDate3" type="date" value-format="yyyy-MM-dd" style="margin-top:20px;width:100%" placeholder="结束日期"></el-date-picker>
+              <el-button size="medium" type="primary" style="margin-top:20px;width:100%" class="el-icon-search preparation" @click="submitAsin">&nbsp;查找</el-button>
             </div>
           </el-col>
         </el-row>
@@ -905,7 +815,8 @@ export default {
         sku:'',
         campaignName:'',
         minDate:'',
-        comparisonPeriod:'week'      
+        comparisonPeriod:'week',
+        queryType:0      
       },
       items:[],//店铺
       list:[],//站点
@@ -934,7 +845,6 @@ export default {
         countryCode:''
       },
       payTime:[],
-      content:'XX项目 | YY店铺 | ZZ站点 | ASIN | SKU | ...',
       activeName:'1',
       cardDialog:false,
       selectTarget:'',
@@ -1088,7 +998,7 @@ export default {
       allAsinName:'总广告花费',
       isData:true,
       lists:[],
-      queryType:1,
+      adsQueryType:1,
       name1:'',
       name2:'',
       name3:'',
@@ -1265,7 +1175,7 @@ export default {
       maxDate:this.maxDate,
       queryCondition:this.addContent,
       comparisonPeriod:this.searchForm.comparisonPeriod,
-      queryType:this.queryType
+      adsQueryType:this.adsQueryType
     }
     this.getData(this.campaignForm1)
     this.getPoster(res)
@@ -1307,25 +1217,15 @@ export default {
     },
     //全局筛选
     screen(){
-      this.campaignForm1.queryType=0
-      this.queryType=0
-      const res={
-        current:this.currentPage,
-        size:this.pageSize,
-        queryCondition:this.addContent,
-        queryType:this.queryType,
-      }
-      const newRes=Object.assign({queryType:0},this.searchForm)
-      this.getPoster(this.searchForm)
 
-      const timeData=Object.assign({queryType:0},this.searchForm)
-      this.getTimeData(timeData)
+      const dataPoster=Object.assign({adsQueryType:this.adsQueryType},this.searchForm)
+      this.getPoster(dataPoster)
+
+      this.getTimeData(this.searchForm)
       
-      // const data=Object.assign(this.campaignForm1,this.searchForm)
       this.getData(this.searchForm)
 
-      const newData=Object.assign(this.searchForm,{queryType:0})
-      this.getresult(newData)
+      this.getresult(this.searchForm)
 
       const charts={
         customSoughtQuota:{
@@ -1339,16 +1239,14 @@ export default {
       this.$delete(charts,'comparisonPeriod')
       const result=Object.assign(charts,this.searchForm)
       this.getCharts(result)
-
-      const card={adSaleType:this.adSaleType}
-      const newCard=Object.assign(card,this.searchForm)
-      this.getCrad(newCard)
+      const card=Object.assign({adSaleType:this.adSaleType},this.searchForm)
+      this.getCrad(card)
     },
     //获取asin下拉数据
     getAsinselect(){
       api.get('/adDataStateVB/getAllAsin').then(res=>{
-        console.log(res)
         this.asin=res.data
+        localStorage.setItem('ASIN',JSON.stringify(res.data))
       }).catch(err=>{
         console.log(err)
       }).finally(()=>{
@@ -1358,8 +1256,8 @@ export default {
     //广告系列名
     getCampaignName(){
       api.get('/adDataStateVB/getAllCampaignName').then(res=>{
-        console.log(res)
         this.campaigns=res.data
+        localStorage.setItem('CampaignName',JSON.stringify(res.data))
       }).catch(err=>{
         console.log(err)
       }).finally(()=>{
@@ -1369,7 +1267,7 @@ export default {
     //站点
     getSiteData(){
       api.get('/adDataStateVB/getAllCountryCode').then(res=>{
-        console.log(res)
+        localStorage.setItem('SITE',JSON.stringify(res.data))
         this.list=res.data
       }).catch(err=>{
         console.log(err)
@@ -1380,6 +1278,7 @@ export default {
     //sku
     getSkuData(){
       api.get('/adDataStateVB/getAllsku').then(res=>{
+        localStorage.setItem('SKU',JSON.stringify(res.data))
         this.sku=res.data
       }).catch(err=>{
         console.log(err)
@@ -1389,6 +1288,7 @@ export default {
     },
     getStoreData(){
       api.get('/adDataStateVB/getAllStoreName').then(res=>{
+        localStorage.setItem('Store',JSON.stringify(res.data))
         this.items=res.data
       }).catch(err=>{
         console.log(err)
@@ -1414,12 +1314,6 @@ export default {
     },
     //指标
     getCrad(data){
-      // const data={
-      //       storeName: "stayfineUS",
-      //       minDate:this.getNowFormatDate(),
-      //       comparisonPeriod:"week",
-      //       adSaleType:this.adSaleType
-      //     }
       api.post('/adDataStateVB/getIndicators',data).then(res=>{
         if(this.adSaleType==1){
           this.card=res.data
@@ -1600,7 +1494,8 @@ export default {
           minDate:'',
           maxDate:'',
           asin:'',
-          countryCode:''
+          countryCode:'',
+          comparisonPeriod:this.searchForm.comparisonPeriod,
         }
         this.getTimeData(data)
       }
@@ -1917,7 +1812,7 @@ export default {
           size:this.pageSize1,
           minDate:this.minDate1,
           maxDate:this.maxDate1,
-          queryType:this.queryType,
+          adsQueryType:this.adsQueryType,
           comparisonPeriod:this.searchForm.comparisonPeriod
         }
         this.getPoster(res)
@@ -1929,7 +1824,7 @@ export default {
           size:this.pageSize2,
           minDate:this.minDate2,
           maxDate:this.maxDate2,
-          queryType:this.queryType,
+          adsQueryType:this.adsQueryType,
           comparisonPeriod:this.searchForm.comparisonPeriod
         }
         this.getPoster(res)
@@ -1941,7 +1836,7 @@ export default {
           size:this.pageSize3,
           minDate:this.minDate3,
           maxDate:this.maxDate3,
-          queryType:this.queryType,
+          adsQueryType:this.adsQueryType,
           comparisonPeriod:this.searchForm.comparisonPeriod
         }
         this.getPoster(res)
@@ -2046,7 +1941,7 @@ export default {
         minDate:this.minDate,
         maxDate:this.maxDate,
         queryCondition:this.addContent,
-        queryType:this.queryType,
+        adsQueryType:this.adsQueryType,
         comparisonPeriod:this.searchForm.comparisonPeriod
       }
       if(this.minDate || this.addContent){
@@ -2061,7 +1956,7 @@ export default {
         this.$message.error('请选择规则！！！')
       }else{
         this.addContent.push({value:this.conditionForm.value,symbol:this.conditionForm.symbol,metrics:this.conditionForm.metrics})
-        this.addContent.map(item=>{
+        this.addContent.forEach(item=>{
           switch(item.metrics){
             case 'click':
               item.metrics='Clicks'
@@ -2107,13 +2002,13 @@ export default {
     },
     selectTab(event){
       if(event.name==2){
-        this.queryType=2
+        this.adsQueryType=2
         const res={
           current:this.currentPage1,
           size:this.pageSize1,
           minDate:this.minDate1,
           maxDate:this.maxDate1,
-          queryType:this.queryType,
+          adsQueryType:this.adsQueryType,
           comparisonPeriod:this.searchForm.comparisonPeriod
         }
         this.getPoster(res)
@@ -2121,13 +2016,13 @@ export default {
           this.pieChart()
         })
       }else if(event.name==3){
-        this.queryType=3
+        this.adsQueryType=3
         const res={
           current:this.currentPage2,
           size:this.pageSize2,
           minDate:this.minDate2,
           maxDate:this.maxDate3,
-          queryType:this.queryType,
+          adsQueryType:this.adsQueryType,
           comparisonPeriod:this.searchForm.comparisonPeriod
         }
         this.getPoster(res)
@@ -2135,13 +2030,13 @@ export default {
           this.pieChart2(this.siteArr)
         })
       }else if(event.name==4){
-        this.queryType=4
+        this.adsQueryType=4
         const res={
           current:this.currentPage3,
           size:this.pageSize3,
           minDate:this.minDate3,
           maxDate:this.maxDate3,
-          queryType:this.queryType,
+          adsQueryType:this.adsQueryType,
           comparisonPeriod:this.searchForm.comparisonPeriod
         }
         this.getPoster(res)
@@ -2149,7 +2044,7 @@ export default {
           this.pieChart3(this.array)
         })
       }else{
-        this.queryType=1
+        this.adsQueryType=1
          const res={
             current:this.currentPage,
             size:this.pageSize,
@@ -2157,7 +2052,7 @@ export default {
             maxDate:this.maxDate,
             queryCondition:this.addContent,
             comparisonPeriod:this.searchForm.comparisonPeriod,
-            queryType:this.queryType
+            adsQueryType:this.adsQueryType
           }
           this.getPoster(res)
       }
@@ -2626,6 +2521,7 @@ export default {
         },
         series: [
           {
+            name:this.siteName,
             type: 'pie',
             radius: '50%',
             data:data,
@@ -2754,7 +2650,6 @@ export default {
       option && myChart.setOption(option,true);
     },
     timeMap(data1,data2,date){
-      console.log(data1,data2,date)
       const chartDom = document.getElementById('timeMap');
       const myChart = echarts.init(chartDom);
       const option = {
@@ -2820,10 +2715,8 @@ export default {
       };
       option && myChart.setOption(option,true);
     },
-    
   },
   mounted(){
-    this.firstMap()
   }
 }
 </script>

@@ -116,6 +116,10 @@ ul,li{
         display: block;
     }
 }
+.page{
+    text-align: right;
+    margin-top: 20px;
+}
 
 .el-header{
     display: block;
@@ -475,13 +479,26 @@ ul,li{
         }
     }
 }
+
 .tableForm{
     .el-button{
         width: 25% !important;
     }
     .campaign{
         width: 50%;
-    }    
+    }   
+    .preparation{
+        width: 100% !important;
+        background-color: $theme;
+        color: $white;
+        border-color: $theme;
+        display: block;
+        &:hover,&:focus{
+            background-color: $theme;
+            color: $white;
+            border-color: $theme;
+        }
+    } 
     .selectRadio{
         width: 25%;
         .el-radio-button{
@@ -512,12 +529,7 @@ ul,li{
         color: $orange;
         font-size: 1.2rem;
     }
-    .preparation{
-        width: 100% !important;
-        background-color: $theme;
-        color: $white;
-        border-color: $theme;
-    }
+    
     .selectPage{
         width: 75%;
         .el-radio-button{
@@ -538,6 +550,18 @@ ul,li{
     }
     .selectType{
         width: 37.5%;
+    }
+}
+.preparation{
+    width: 100% !important;
+    background-color: $theme;
+    color: $white;
+    border-color: $theme;
+    display: block;
+    &:hover,&:focus{
+        background-color: $theme;
+        color: $white;
+        border-color: $theme;
     }
 }
 
@@ -616,6 +640,8 @@ ul,li{
 }
 .addContent{
     margin:15px 0;
+    max-height: 300px;
+    overflow: auto;
     li{
         padding: 8px 0;
         font-size: 1rem;
@@ -644,11 +670,16 @@ ul,li{
             top: 6px;
             display: none;
         }
-        &:hover .el-button{
-            display: block;
-            background-color: transparent;
+        &:hover {
+            .el-button{
+                display: block;
+                background-color: transparent;
+            }
         }
     }
+}
+.selectDate{
+    margin-top: 20px;
 }
 .pie{
     margin-bottom: 15px;

@@ -30,8 +30,5 @@ export default {
 </script>
 
 <style lang="scss"  scoped>
-.page{
-    text-align: right;
-    margin-top: 20px;
-}
+
 </style>

@@ -129,7 +129,50 @@ export default {
       ]
     }
   },
+  created(){
+     this.WebSocketTest()
+  },
   methods: {
+    //websocket
+    WebSocketTest() {
+      let that = this;
+    //   let id = that.$route.query.id;
+    //   let type = that.$route.query.type;
+      if ("WebSocket" in window) {
+        console.log("您的浏览器支持 WebSocket!");
+        // 打开一个 web socket
+        var ws = new WebSocket("ws://10.17.10.222:8080/alertCenterWebSocket");//66.42.54.253  192.168.0.105
+        ws.onopen = function() {
+        //   var json = JSON.stringify({
+        //     token: window.localStorage.getItem("token"),
+        //     id: id,
+        //     type: 1,
+        //     type_id: type
+        //   });
+        //   console.log(11)
+          // Web Socket 已连接上，使用 send() 方法发送数据
+          ws.send('1111');
+        //   var t1 = window.setInterval(function() {
+        //     ws.send(JSON.stringify({ type: 2 }));
+        //   }, 30000);
+          console.log("数据发送中...");
+        };
+        //接收数据
+        ws.onmessage = function(evt) {
+            console.logevt
+        //   const data = JSON.parse(evt.data);
+        //   console.log(data);
+        //   that.items = that.items.concat(data.res);
+        };
+        ws.onclose = function() {
+          // 关闭 websocket
+          console.log("连接已关闭...");
+        };
+      } else {
+        // 浏览器不支持 WebSocket
+        console.log("您的浏览器不支持 WebSocket!");
+      }
+    },
     isCollapse(){
       this.collapse=!this.collapse
     },

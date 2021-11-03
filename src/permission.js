@@ -19,7 +19,7 @@ router.beforeEach((to, from, next) => {
       // 4.将生成好的路由addRoutes
       router.addRoutes(fixedRouter.concat(getRoutes))
       // 5.push之后，会重新进入到beforeEach的钩子里,直接进入第一个if判断
-      router.push({ path: to.path })
+      // router.push({ path: to.path })
     }
   } else {
     // 用户没登录，跳转到登录页面
