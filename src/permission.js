@@ -1,5 +1,6 @@
 // 取到需要权限判断的路由表
-import { permissionRouter, fixedRouter } from '@/router'
+//
+import { permissionRouter,fixedRouter } from '@/router'
 import router from '@/router'
 var addRouFlag = false
 

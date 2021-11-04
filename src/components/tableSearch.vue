@@ -60,7 +60,6 @@ export default {
   },
   methods:{
     submit(){
-        console.log(this.min,this.max)
         this.$emit('submit')
     },
       //删除

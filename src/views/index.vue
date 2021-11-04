@@ -1045,7 +1045,7 @@ export default {
               dayRang=7
             }else if(that.searchForm.comparisonPeriod==='month'){
               dayRang=30
-            }else if(that.searchForm.comparisonPeriod==='season'){
+            }else if(that.searchForm.comparisonPeriod==='quarter'){
               dayRang=90
             }else{
               dayRang=365
@@ -2601,8 +2601,8 @@ export default {
               type: 'slider',
               xAxisIndex: 0,
               filterMode: 'none',
-              start: 20,//数据窗口范围的起始百分比0-100
-              end:80,//数据窗口范围的结束百分比0-100
+              start: 40,//数据窗口范围的起始百分比0-100
+              end:60,//数据窗口范围的结束百分比0-100
               height:20,
             },
         ],
@@ -2669,8 +2669,8 @@ export default {
             type: 'slider',
             xAxisIndex: 0,
             filterMode: 'none',
-            start: 20,//数据窗口范围的起始百分比0-100
-            end:80,//数据窗口范围的结束百分比0-100
+            start: 40,//数据窗口范围的起始百分比0-100
+            end:60,//数据窗口范围的结束百分比0-100
             height:20,
             bottom:10
           },

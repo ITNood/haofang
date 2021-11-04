@@ -455,6 +455,7 @@ export default {
     }
   },
 created() {
+    this.tables=this.todos
     //预警触发表
     const res={current:this.currentPage,size:this.pagesize}
     this.getWarnTrigger(res)
@@ -463,19 +464,20 @@ created() {
     this.getwarnRules(data)
 
     this.getWarnTable()
-    this.tables=this.todos
-   
-},
-mounted() {
-    this.charts()
-    this.ruleCharts()
-    const result={
-         ruleName:this.content,
-         condition:this.selectedName,
+    
+   const result={
+         ruleName:this.ruleName,
+         monitorStartDate:this.strDate,
+        monitorEndDate:this.endDate,
+         condition:this.formArray,
          current:this.currentPage1,
          size:this.pagesize1
     }
     this.getAddRules(result)
+},
+mounted() {
+    this.charts()
+    this.ruleCharts()
 },
 methods:{
     
@@ -496,6 +498,18 @@ methods:{
         api.post('adAlterCenter/findAllAlertCenterTrigger',res).then(res=>{
             if(res.data.records.length>0){
                 this.warnTable=res.data.records
+                const row=res.data.records[0]
+                const data={
+                    alertColumn:row.forewarnQuota,
+                    campaignOrKeyWord:row.alertCampaign,
+                    centerDay:row.continueDay,
+                    forewarnCondition:row.forewarnCondition,
+                    dataType:row.dataType,
+                    monitorEndDate:row.monitorEndDate,
+                    monitorStartDate:row.monitorStartDate,
+                    threshold:row.threshold
+                }
+                this.getEcharts(data)
             }else{
                 this.warnTable=''
             }
@@ -509,10 +523,35 @@ methods:{
 
         })
     },
+    getEcharts(data){
+        api.post('/adAlterCenter/alertCenterStatistics',data).then(res=>{
+            if(res.code==200){
+                const date=res.data.requestDate,
+                newData=res.data.alertColumn;
+                this.charts(date,newData)
+            }
+        }).catch(err=>{
+            console.log(err)
+        }).finally(()=>{
+
+        })
+    },
      look(row){
+         console.log(row)
         this.order=row.sumOrder
         this.sales=row.sumSales
         this.cost=row.sumCost
+        const data={
+            alertColumn:row.forewarnQuota,
+            campaignOrKeyWord:row.alertCampaign,
+            centerDay:row.continueDay,
+            forewarnCondition:row.forewarnCondition,
+            dataType:row.dataType,
+            monitorEndDate:row.monitorEndDate,
+            monitorStartDate:row.monitorStartDate,
+            threshold:row.threshold
+        }
+        this.getEcharts(data)
     },
     restForm(formName){
         this.$refs[formName].resetFields()
@@ -534,8 +573,10 @@ methods:{
                         this.$message.success('成功！！！')
                         this.outerVisible=false
                         const result={
-                            ruleName:this.content,
-                            condition:this.selectedName,
+                            ruleName:this.ruleName,
+                            condition:this.formArray,
+                            monitorStartDate:this.strDate,
+                             monitorEndDate:this.endDate,
                             current:this.currentPage1,
                             size:this.pagesize1
                         }
@@ -657,14 +698,24 @@ methods:{
     },
     //查看新增规则
     lookup(){
-
+        const result={
+            ruleName:this.ruleName,
+            condition:this.formArray,
+            monitorStartDate:this.strDate,
+                monitorEndDate:this.endDate,
+            current:this.currentPage1,
+            size:this.pagesize1
+        }
+        this.getAddRules(result)
     },
      //每页显示数据条数
     sizeChange1(val){
       this.pagesize1=val
       const result={
-        ruleName:this.content,
-        condition:this.selectedName,
+        ruleName:this.ruleName,
+        condition:this.formArray,
+        monitorStartDate:this.strDate,
+        monitorEndDate:this.endDate,
         current:this.currentPage1,
         size:this.pagesize1
       }
@@ -674,8 +725,10 @@ methods:{
     currentChange1(val){
       this.currentPage1=val
       const result={
-        ruleName:this.content,
-        condition:this.selectedName,
+        ruleName:this.ruleName,
+        condition:this.formArray,
+        monitorStartDate:this.strDate,
+        monitorEndDate:this.endDate,
         current:this.currentPage1,
         size:this.pagesize1
       }
@@ -843,9 +896,11 @@ methods:{
                     this.$message.success('删除成功！！！')
                     //预警规则
                     const result={
-                        ruleName:this.content,
-                        condition:this.selectedName,
+                        ruleName:this.ruleName,
+                        condition:this.formArray,
                         current:this.currentPage1,
+                        monitorStartDate:this.strDate,
+                        monitorEndDate:this.endDate,
                         size:this.pagesize1
                     }
                     this.getAddRules(result)
@@ -878,7 +933,7 @@ methods:{
       return wbout
     },
     //echarts
-    charts(){
+    charts(date,newData){
         const chartDom = document.getElementById('dataCharts');
         const myChart = echarts.init(chartDom);
         const option = {
@@ -895,14 +950,14 @@ methods:{
             },
             xAxis: {
                 type: 'category',
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                data: date
             },
             yAxis: {
                 type: 'value'
             },
             series: [
                 {
-                data: [120, 200, 150, 80, 70, 110, 130],
+                data: newData,
                 type: 'bar',
                 barWidth: 20,
                 }
