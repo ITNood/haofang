@@ -1328,6 +1328,7 @@ export default {
             this.$set(this.selects[index], 'disabled', false)
           }
         })
+       
       }).catch(err=>{
         console.log(err)
       }).finally(()=>{
@@ -1345,23 +1346,23 @@ export default {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
-        }).then(()=>{
-           api.post('/adDataStateVB/updateTableColumnsById',data).then(res=>{
-              this.$message.success(res.message)
-              const cardData={
-                    storeName: "stayfineUS",
-                    minDate:this.getNowFormatDate(),
-                    comparisonPeriod:this.searchForm.comparisonPeriod,
-                    adSaleType:this.adSaleType
-                  }
-              this.getCrad(cardData)
-          }).catch(err=>{
-              console.log(err)
-          }).finally(()=>{
+      }).then(()=>{
+          api.post('/adDataStateVB/updateTableColumnsById',data).then(res=>{
+            this.$message.success(res.message)
+            const cardData={
+                  storeName: "stayfineUS",
+                  minDate:this.getNowFormatDate(),
+                  comparisonPeriod:this.searchForm.comparisonPeriod,
+                  adSaleType:this.adSaleType
+                }
+            this.getCrad(cardData)
+        }).catch(err=>{
+            console.log(err)
+        }).finally(()=>{
 
-          })
-        }).catch(()=>{
         })
+      }).catch(()=>{
+      })
     },
     //新增卡片
     submitCard(){
@@ -1428,7 +1429,6 @@ export default {
         forCenterStartSpaceSize:1,
         minDate:this.getNowFormatDate(),
       }
-      
       this.getCharts(data)
     },
     submitCvrAndCtr(){
@@ -1583,7 +1583,6 @@ export default {
       }else{
          this.campaignForm.queryType=0
       }
-      if(this)
       switch(this.campaignForm.orderName){
         case 1:
           this.campaignForm.orderName='acos'
@@ -1820,26 +1819,26 @@ export default {
     //提交站点
     submitSite(){
       const res={
-          current:this.currentPage2,
-          size:this.pageSize2,
-          minDate:this.minDate2,
-          maxDate:this.maxDate2,
-          adsQueryType:this.adsQueryType,
-          comparisonPeriod:this.searchForm.comparisonPeriod
-        }
-        this.getPoster(res)
+        current:this.currentPage2,
+        size:this.pageSize2,
+        minDate:this.minDate2,
+        maxDate:this.maxDate2,
+        adsQueryType:this.adsQueryType,
+        comparisonPeriod:this.searchForm.comparisonPeriod
+      }
+      this.getPoster(res)
     },
     //提交ASIN
     submitAsin(){
-       const res={
-          current:this.currentPage3,
-          size:this.pageSize3,
-          minDate:this.minDate3,
-          maxDate:this.maxDate3,
-          adsQueryType:this.adsQueryType,
-          comparisonPeriod:this.searchForm.comparisonPeriod
-        }
-        this.getPoster(res)
+      const res={
+        current:this.currentPage3,
+        size:this.pageSize3,
+        minDate:this.minDate3,
+        maxDate:this.maxDate3,
+        adsQueryType:this.adsQueryType,
+        comparisonPeriod:this.searchForm.comparisonPeriod
+      }
+      this.getPoster(res)
     },
     //切换ASIN饼图
     selectAsin(val){
@@ -1898,6 +1897,7 @@ export default {
                 }
               })
         this.pieChart2(obj)
+        break;
       }
     },
     //切换广告类型饼图
@@ -2045,16 +2045,16 @@ export default {
         })
       }else{
         this.adsQueryType=1
-         const res={
-            current:this.currentPage,
-            size:this.pageSize,
-            minDate:this.minDate,
-            maxDate:this.maxDate,
-            queryCondition:this.addContent,
-            comparisonPeriod:this.searchForm.comparisonPeriod,
-            adsQueryType:this.adsQueryType
-          }
-          this.getPoster(res)
+        const res={
+          current:this.currentPage,
+          size:this.pageSize,
+          minDate:this.minDate,
+          maxDate:this.maxDate,
+          queryCondition:this.addContent,
+          comparisonPeriod:this.searchForm.comparisonPeriod,
+          adsQueryType:this.adsQueryType
+        }
+        this.getPoster(res)
       }
     },
     

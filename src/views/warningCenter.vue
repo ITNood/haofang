@@ -323,164 +323,164 @@ export default {
   components:{Title,Pagination,Pagination1,Pagination2,countTo},
   data() { 
     return {
-        fonticon:'icon-warning',
-        msg:'预警中心',
-        warnRules:'',
-        suspend:'',
-        Campaign:'',
-        Keyword:'',
-        campaignWarn:'',
-        keywordWarn:'',
-        processedCampaign:'',
-        processedKeyword:'',
-        loading:false,
-        loading1:false,
-        loading2:false,
-        warnTable:[],
-        currentPage:1,
-        pagesize:10,
-        totalPage:0,
-        currentPage1:1,
-        pagesize1:10,
-        totalPage1:0,
-        currentPage2:1,
-        pagesize2:10,
-        totalPage2:0,
-        items:[],
-        selectColumn:[],
-        todos:[
-            {id:3,prop:'reachDay',label:'关联天数'},
-            {id:4,prop:'triggerNumber',label:'预警触发数'},
-            {id:5,prop:'monitorStartDate',label:'起始时间'},
-            {id:6,prop:'monitorEndDate',label:'结束时间'},
-            {id:7,prop:'forewarnDay',label:'持续天数'},
-            {id:8,prop:'forewarnQuota',label:'预警指示'},
-            {id:9,prop:'forewarnCondition',label:'判断条件'},
-            {id:10,prop:'threshold',label:'阈值'},
-            {id:11,prop:'remindWay',label:'提醒方式'},
-            {id:12,prop:'createDateTime',label:'创建日期'},
-            {id:13,prop:'updateUser',label:'操作人'},
-            {id:14,prop:'state',label:'状态'},
-        ],
-        formtable:{
-            value:0,
-            metrics: '',
-            symbol:'',
-       },
-       conditionName:[
-        {id:'click',name:'Clicks'},
-        {id:'CPC',name:'CPC '},
-        {id:'CTR',name:'CTR'},
-        {id:'impr',name:'Impressions'},
-        {id:'orders',name:'Orders'},
-        {id:'sales',name:'Sales'},
-        {id:'ACOS',name:'ACoS'},
-        {id:'ROAS',name:'RoAs'},
-        {id:'conversions',name:'Conversions'},
-        {id:'CVR',name:'CVR'}
+      fonticon:'icon-warning',
+      msg:'预警中心',
+      warnRules:'',
+      suspend:'',
+      Campaign:'',
+      Keyword:'',
+      campaignWarn:'',
+      keywordWarn:'',
+      processedCampaign:'',
+      processedKeyword:'',
+      loading:false,
+      loading1:false,
+      loading2:false,
+      warnTable:[],
+      currentPage:1,
+      pagesize:10,
+      totalPage:0,
+      currentPage1:1,
+      pagesize1:10,
+      totalPage1:0,
+      currentPage2:1,
+      pagesize2:10,
+      totalPage2:0,
+      items:[],
+      selectColumn:[],
+      todos:[
+          {id:3,prop:'reachDay',label:'关联天数'},
+          {id:4,prop:'triggerNumber',label:'预警触发数'},
+          {id:5,prop:'monitorStartDate',label:'起始时间'},
+          {id:6,prop:'monitorEndDate',label:'结束时间'},
+          {id:7,prop:'forewarnDay',label:'持续天数'},
+          {id:8,prop:'forewarnQuota',label:'预警指示'},
+          {id:9,prop:'forewarnCondition',label:'判断条件'},
+          {id:10,prop:'threshold',label:'阈值'},
+          {id:11,prop:'remindWay',label:'提醒方式'},
+          {id:12,prop:'createDateTime',label:'创建日期'},
+          {id:13,prop:'updateUser',label:'操作人'},
+          {id:14,prop:'state',label:'状态'},
       ],
-      symbol:[
-        {name:'大于',id:1},
-        {name:'小于',id:2},
-        {name:'等于',id:3},
-        {name:'大于等于',id:4},
-        {name:'小于等于',id:5}
+      formtable:{
+          value:0,
+          metrics: '',
+          symbol:'',
+      },
+      conditionName:[
+      {id:'click',name:'Clicks'},
+      {id:'CPC',name:'CPC '},
+      {id:'CTR',name:'CTR'},
+      {id:'impr',name:'Impressions'},
+      {id:'orders',name:'Orders'},
+      {id:'sales',name:'Sales'},
+      {id:'ACOS',name:'ACoS'},
+      {id:'ROAS',name:'RoAs'},
+      {id:'conversions',name:'Conversions'},
+      {id:'CVR',name:'CVR'}
+    ],
+    symbol:[
+      {name:'大于',id:1},
+      {name:'小于',id:2},
+      {name:'等于',id:3},
+      {name:'大于等于',id:4},
+      {name:'小于等于',id:5}
+    ],
+      formArray:[],
+      date:'',
+      datas:[],
+      outerVisible:false,
+      tableTitle:'',
+      ruleNames:[
+          {id:'spend',name:'Spend'},
+          {id:'orders',name:'Orders'},
+          {id:'conversions',name:'Conversions'},
+          {id:'sales',name:'Sales'},
+          {id:'roas',name:'ROAS'},
+          {id:'acos',name:'ACoS'},
+          {id:'impressions',name:'Impressions'},
+          {id:'clicks',name:'Clicks'},
+          {id:'cpc',name:'CPC'},
+          {id:'ctr',name:'CTR'},
+          {id:'cvr',name:'CVR'},
       ],
-       formArray:[],
-        date:'',
-        datas:[],
-        outerVisible:false,
-        tableTitle:'',
-        ruleNames:[
-            {id:'spend',name:'Spend'},
-            {id:'orders',name:'Orders'},
-            {id:'conversions',name:'Conversions'},
-            {id:'sales',name:'Sales'},
-            {id:'roas',name:'ROAS'},
-            {id:'acos',name:'ACoS'},
-            {id:'impressions',name:'Impressions'},
-            {id:'clicks',name:'Clicks'},
-            {id:'cpc',name:'CPC'},
-            {id:'ctr',name:'CTR'},
-            {id:'cvr',name:'CVR'},
-        ],
-        conditions:[
-            {id:'<',name:'小于'},
-            {id:'>',name:'大于'},
-            {id:'=',name:'等于'},
-            {id:'>=',name:'大于等于'},
-            {id:'<=',name:'小于等于'},
-        ],
-        tableForm:{
-            ruleName:'',
-            threshold:'0.01', 
-            forewarnDay:1,
-            state:'1',
-            remindWay:['1'],
-            forewarnQuota:'',
-            forewarnCondition:'',
-            monitorStartDate:'',
-            monitorEndDate:'',
-            updateUser:'',
-            remindInterval:'',
-            id:''
-        },
-        formRules:{
-            ruleName:[{required:true,message:"请输入规则名称",trigger:'blur'}],
+      conditions:[
+          {id:'<',name:'小于'},
+          {id:'>',name:'大于'},
+          {id:'=',name:'等于'},
+          {id:'>=',name:'大于等于'},
+          {id:'<=',name:'小于等于'},
+      ],
+      tableForm:{
+          ruleName:'',
+          threshold:'0.01', 
+          forewarnDay:1,
+          state:'1',
+          remindWay:['1'],
+          forewarnQuota:'',
+          forewarnCondition:'',
+          monitorStartDate:'',
+          monitorEndDate:'',
+          updateUser:'',
+          remindInterval:'',
+          id:''
+      },
+      formRules:{
+          ruleName:[{required:true,message:"请输入规则名称",trigger:'blur'}],
 
-            forewarnQuota:[{required:true,message:"请选择预警指标",trigger:'change'}],
+          forewarnQuota:[{required:true,message:"请选择预警指标",trigger:'change'}],
 
-            forewarnCondition:[{required:true,message:"请选择判断条件",trigger:'change'}],
+          forewarnCondition:[{required:true,message:"请选择判断条件",trigger:'change'}],
 
-            monitorStartDate:[{required:true,message:"请选择起始日期",trigger:'blur'}],
+          monitorStartDate:[{required:true,message:"请选择起始日期",trigger:'blur'}],
 
-            threshold:[{required:true,message:"请设置阈值",trigger:'blur'}],
+          threshold:[{required:true,message:"请设置阈值",trigger:'blur'}],
 
-            forewarnDay:[{required:true,message:"请设置持续天数",trigger:'blur'}]
-        },
-        ruleData:[],
-        order:'',
-        sales:'',
-        cost:'',
-        ruleOrder:'',
-        ruleSales:'',
-        ruleCost:'',
-        rulesTable:[],
-        tables:[],
-        ruleName:'',
-        condition:'',
-        startDate:'',
-        endDate:'',
-        url:'insertAlertCenter'
+          forewarnDay:[{required:true,message:"请设置持续天数",trigger:'blur'}]
+      },
+      ruleData:[],
+      order:'',
+      sales:'',
+      cost:'',
+      ruleOrder:'',
+      ruleSales:'',
+      ruleCost:'',
+      rulesTable:[],
+      tables:[],
+      ruleName:'',
+      condition:'',
+      startDate:'',
+      endDate:'',
+      url:'insertAlertCenter',
+      newArray:[]
     }
   },
 created() {
-    this.tables=this.todos
-    //预警触发表
-    const res={current:this.currentPage,size:this.pagesize}
-    this.getWarnTrigger(res)
-    //预警规则
-    const data={current:this.currentPage2,size:this.pagesize2}
-    this.getwarnRules(data)
+  this.tables=this.todos
+  //预警触发表
+  const res={current:this.currentPage,size:this.pagesize}
+  this.getWarnTrigger(res)
+  //预警规则
+  const data={current:this.currentPage2,size:this.pagesize2}
+  this.getwarnRules(data)
 
-    this.getWarnTable()
-    
-   const result={
-         ruleName:this.ruleName,
-         monitorStartDate:this.strDate,
-        monitorEndDate:this.endDate,
-         condition:this.formArray,
-         current:this.currentPage1,
-         size:this.pagesize1
-    }
-    this.getAddRules(result)
+  this.getWarnTable()
+  
+  const result={
+        ruleName:this.ruleName,
+        monitorStartDate:this.strDate,
+      monitorEndDate:this.endDate,
+        condition:this.formArray,
+        current:this.currentPage1,
+        size:this.pagesize1
+  }
+  this.getAddRules(result)
 },
 mounted() {
-    this.charts()
-    this.ruleCharts()
+  this.charts()
+  this.ruleCharts()
 },
 methods:{
-    
     //每页显示数据条数
     sizeChange(val){
       this.pagesize=val
@@ -489,160 +489,158 @@ methods:{
     },
     //当前页数
     currentChange(val){
-       this.currentPage=val
-       const res={current:this.currentPage,size:this.pagesize}
-        this.getWarnTrigger(res)
+      this.currentPage=val
+      const res={current:this.currentPage,size:this.pagesize}
+      this.getWarnTrigger(res)
     },
        //预警触发表
     getWarnTrigger(res){
-        api.post('adAlterCenter/findAllAlertCenterTrigger',res).then(res=>{
-            if(res.data.records.length>0){
-                this.warnTable=res.data.records
-                const row=res.data.records[0]
-                const data={
-                    alertColumn:row.forewarnQuota,
-                    campaignOrKeyWord:row.alertCampaign,
-                    centerDay:row.continueDay,
-                    forewarnCondition:row.forewarnCondition,
-                    dataType:row.dataType,
-                    monitorEndDate:row.monitorEndDate,
-                    monitorStartDate:row.monitorStartDate,
-                    threshold:row.threshold
-                }
-                this.getEcharts(data)
-            }else{
-                this.warnTable=''
-            }
-            this.totalPage=res.data.total
-            this.order=res.data.records[0].sumOrder
-            this.sales=res.data.records[0].sumSales
-            this.cost=res.data.records[0].sumCost
-        }).catch(err=>{
-            console.log(err)
-        }).finally(()=>{
+      api.post('adAlterCenter/findAllAlertCenterTrigger',res).then(res=>{
+          if(res.data.records.length>0){
+              this.warnTable=res.data.records
+              const row=res.data.records[0]
+              const data={
+                  alertColumn:row.forewarnQuota,
+                  campaignOrKeyWord:row.alertCampaign,
+                  centerDay:row.continueDay,
+                  forewarnCondition:row.forewarnCondition,
+                  dataType:row.dataType,
+                  monitorEndDate:row.monitorEndDate,
+                  monitorStartDate:row.monitorStartDate,
+                  threshold:row.threshold
+              }
+              this.getEcharts(data)
+          }else{
+              this.warnTable=''
+          }
+          this.totalPage=res.data.total
+          this.order=res.data.records[0].sumOrder
+          this.sales=res.data.records[0].sumSales
+          this.cost=res.data.records[0].sumCost
+      }).catch(err=>{
+          console.log(err)
+      }).finally(()=>{
 
-        })
+      })
     },
     getEcharts(data){
-        api.post('/adAlterCenter/alertCenterStatistics',data).then(res=>{
-            if(res.code==200){
-                const date=res.data.requestDate,
-                newData=res.data.alertColumn;
-                this.charts(date,newData)
-            }
-        }).catch(err=>{
-            console.log(err)
-        }).finally(()=>{
+      api.post('/adAlterCenter/alertCenterStatistics',data).then(res=>{
+          if(res.code==200){
+              const date=res.data.requestDate,
+              newData=res.data.alertColumn;
+              this.charts(date,newData)
+          }
+      }).catch(err=>{
+          console.log(err)
+      }).finally(()=>{
 
-        })
+      })
     },
-     look(row){
-         console.log(row)
-        this.order=row.sumOrder
-        this.sales=row.sumSales
-        this.cost=row.sumCost
-        const data={
-            alertColumn:row.forewarnQuota,
-            campaignOrKeyWord:row.alertCampaign,
-            centerDay:row.continueDay,
-            forewarnCondition:row.forewarnCondition,
-            dataType:row.dataType,
-            monitorEndDate:row.monitorEndDate,
-            monitorStartDate:row.monitorStartDate,
-            threshold:row.threshold
-        }
-        this.getEcharts(data)
+    look(row){
+      this.order=row.sumOrder
+      this.sales=row.sumSales
+      this.cost=row.sumCost
+      const data={
+          alertColumn:row.forewarnQuota,
+          campaignOrKeyWord:row.alertCampaign,
+          centerDay:row.continueDay,
+          forewarnCondition:row.forewarnCondition,
+          dataType:row.dataType,
+          monitorEndDate:row.monitorEndDate,
+          monitorStartDate:row.monitorStartDate,
+          threshold:row.threshold
+      }
+      this.getEcharts(data)
     },
     restForm(formName){
-        this.$refs[formName].resetFields()
+      this.$refs[formName].resetFields()
     },
       //新增修改预警规则
     submitForm(formName){
-        console.log(this.tableForm.id)
-        if(this.tableForm.id){
-            this.url='updateAlertCenter'
-        }else{
-            this.url='insertAlertCenter'
-        }
-        this.$refs[formName].validate(valid=>{
-            if(valid){
-                const data=this.tableForm.remindWay.join()
-                this.tableForm.remindWay=data
-                api.post('/adAlterCenter/'+this.url,this.tableForm).then(res=>{
-                    if(res.code==200){
-                        this.$message.success('成功！！！')
-                        this.outerVisible=false
-                        const result={
-                            ruleName:this.ruleName,
-                            condition:this.formArray,
-                            monitorStartDate:this.strDate,
-                             monitorEndDate:this.endDate,
-                            current:this.currentPage1,
-                            size:this.pagesize1
-                        }
-                        this.getAddRules(result)
-                        this.$refs[formName].resetFields()
-                    }else{
-                        this.$message.error('失败！！！')
-                    }
-                }).catch(err=>{
-                    console.log(err)
-                }).finally(()=>{
-                    
-                })
-            }else{
-                return false
-            }
-        })
+      if(this.tableForm.id){
+          this.url='updateAlertCenter'
+      }else{
+          this.url='insertAlertCenter'
+      }
+      this.$refs[formName].validate(valid=>{
+          if(valid){
+              const data=this.tableForm.remindWay.join()
+              this.tableForm.remindWay=data
+              api.post('/adAlterCenter/'+this.url,this.tableForm).then(res=>{
+                  if(res.code==200){
+                      this.$message.success('成功！！！')
+                      this.outerVisible=false
+                      const result={
+                          ruleName:this.ruleName,
+                          condition:this.formArray,
+                          monitorStartDate:this.strDate,
+                            monitorEndDate:this.endDate,
+                          current:this.currentPage1,
+                          size:this.pagesize1
+                      }
+                      this.getAddRules(result)
+                      this.$refs[formName].resetFields()
+                  }else{
+                      this.$message.error('失败！！！')
+                  }
+              }).catch(err=>{
+                  console.log(err)
+              }).finally(()=>{
+                  
+              })
+          }else{
+              return false
+          }
+      })
     },
     arrayList() {
   	  return Array.prototype.slice.call(arguments);
     },
     //新增预警规则table数据
     getAddRules(data){
-        api.post('adAlterCenter/findAllAlertCondition',data).then(res=>{
-            this.totalPage1=res.data.total
-            if(res.data.records.length>0){
-                const arr=res.data.records
-                arr.map(item=>{
-                    if(item.state==1){
-                        item.state='启用'
-                    }else{
-                        item.state='禁用'
-                    } 
-                    //修改提醒方式的值
-                    const array=[{id:1,name:'系统内'},{id:2,name:'邮箱'},{id:3,name:'企业微信'}]
-                    const aa=item.remindWay.split(',')
-                    let add = array.filter(item => aa.some(ele=>ele==item.id));
-                    const newData=add.map(item=>{
-                        return item.name
-                    })
-                    item.remindWay=newData.join('/')
-                })
-                this.$nextTick(()=>{
-                    this.rulesTable=arr
-                })
+      api.post('adAlterCenter/findAllAlertCondition',data).then(res=>{
+        this.totalPage1=res.data.total
+        if(res.data.records.length>0){
+          const arr=res.data.records
+          arr.map(item=>{
+            if(item.state==1){
+                item.state='启用'
             }else{
-                this.rulesTable=''
-            }
-        }).catch(err=>{
-            console.log(err)
-        }).finally(()=>{
+                item.state='禁用'
+            } 
+            //修改提醒方式的值
+            const array=[{id:1,name:'系统内'},{id:2,name:'邮箱'},{id:3,name:'企业微信'}]
+            const aa=item.remindWay.split(',')
+            let add = array.filter(item => aa.some(ele=>ele==item.id));
+            const newData=add.map(item=>{
+                return item.name
+            })
+            item.remindWay=newData.join('/')
+          })
+          this.$nextTick(()=>{
+              this.rulesTable=arr
+          })
+        }else{
+            this.rulesTable=''
+        }
+      }).catch(err=>{
+          console.log(err)
+      }).finally(()=>{
 
-        })
+      })
     },
     openRule(){
-        this.outerVisible=!this.outerVisible
-        this.tableForm.ruleName=''
-        this.tableForm.forewarnCondition=''
-        this.tableForm.monitorEndDate=''
-        this.tableForm.monitorStartDate=''
-        this.tableForm.threshold='0.01'
-        this.tableForm.id=''
-        this.tableForm.remindWay=['1']
-        this.tableForm.forewarnDay=1
-        this.tableForm.updateUser=''
-        this.tableForm.forewarnQuota=''
+      this.outerVisible=!this.outerVisible
+      this.tableForm.ruleName=''
+      this.tableForm.forewarnCondition=''
+      this.tableForm.monitorEndDate=''
+      this.tableForm.monitorStartDate=''
+      this.tableForm.threshold='0.01'
+      this.tableForm.id=''
+      this.tableForm.remindWay=['1']
+      this.tableForm.forewarnDay=1
+      this.tableForm.updateUser=''
+      this.tableForm.forewarnQuota=''
     },
     addFormRules(){
       if(this.formtable.value==0 || !this.formtable.symbol || !this.formtable.metrics){
@@ -691,22 +689,43 @@ methods:{
             break;
           }
         })
+        this.newArray.push({value:this.formtable.value,symbol:this.formtable.symbol,metrics:this.formtable.metrics})
+        this.newArray.forEach(item=>{
+          switch(item.symbol){
+            case 1:
+              item.symbol='>'
+            break;
+            case 2:
+              item.symbol='<'
+            break;
+            case 3:
+              item.symbol='='
+            break;
+            case 4:
+              item.symbol='>='
+            break;
+            case 5:
+              item.symbol='<='
+            break;
+          }
+        })
       }
     },
     delformArray(index){
       this.formArray.splice(index,1)
+      this.newArray.splice(index,1)
     },
     //查看新增规则
     lookup(){
-        const result={
-            ruleName:this.ruleName,
-            condition:this.formArray,
-            monitorStartDate:this.strDate,
-                monitorEndDate:this.endDate,
-            current:this.currentPage1,
-            size:this.pagesize1
-        }
-        this.getAddRules(result)
+      const result={
+        ruleName:this.ruleName,
+        condition:this.newArray,
+        monitorStartDate:this.startDate,
+        monitorEndDate:this.endDate,
+        current:this.currentPage1,
+        size:this.pagesize1
+      }
+      this.getAddRules(result)
     },
      //每页显示数据条数
     sizeChange1(val){
@@ -736,20 +755,19 @@ methods:{
     },
       //自定义列
     handleColumn(val){
-        const data=[]
-        this.todos.forEach((item,index)=>{
-            if(this.selectColumn.includes(item.id)){
-               data.push(item)
-            }
-        })
-        this.$nextTick(()=>{
-            this.tables=data
-        })
+      const data=[]
+      this.todos.forEach((item,index)=>{
+        if(this.selectColumn.includes(item.id)){
+            data.push(item)
+        }
+      })
+      this.$nextTick(()=>{
+        this.tables=data
+      })
     },
     cancel(formName){
-        this.$refs[formName].resetFields()
-        this.outerVisible=false
-        console.log(this.$refs[formName])
+      this.$refs[formName].resetFields()
+      this.outerVisible=false
     },
     clearDialog(formName){
         // this.restForm(formName)
@@ -757,64 +775,64 @@ methods:{
     },
       //预警统计表
     getWarnTable(){
-        api.get('adAlterCenter/warningStatistics').then(res=>{
-            this.suspend=res.data.alertCenterStopCount
-            this.warnRules=res.data.alertCenterMoveCount
-            this.Campaign=res.data.sumCampaignNumber
-            this.Keyword=res.data.sumKeyWordNumber
-            this.campaignWarn=res.data.campaignCenterUntreated
-            this.keywordWarn=res.data.KeyWordCenterUntreated
-            this.processedCampaign=res.data.campaignCenterProcessed
-            this.processedKeyword=res.data.KeyWordCenterProcessed
-        }).catch(err=>{
-            console.log(err)
-        }).finally(()=>{
+      api.get('adAlterCenter/warningStatistics').then(res=>{
+        this.suspend=res.data.alertCenterStopCount
+        this.warnRules=res.data.alertCenterMoveCount
+        this.Campaign=res.data.sumCampaignNumber
+        this.Keyword=res.data.sumKeyWordNumber
+        this.campaignWarn=res.data.campaignCenterUntreated
+        this.keywordWarn=res.data.KeyWordCenterUntreated
+        this.processedCampaign=res.data.campaignCenterProcessed
+        this.processedKeyword=res.data.KeyWordCenterProcessed
+      }).catch(err=>{
+          console.log(err)
+      }).finally(()=>{
 
-        })
+      })
     },
       
     getNowFormatDate() {
-        var date = new Date();
-        var seperator1 = "-";
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var strDate = date.getDate();
-        if (month >= 1 && month <= 9) {
-            month = "0" + month;
-        }
-        if (strDate >= 0 && strDate <= 9) {
-            strDate = "0" + strDate;
-        }
-        var currentdate = year + seperator1 + month + seperator1 + strDate;
-        return currentdate;
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+      if (month >= 1 && month <= 9) {
+          month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+          strDate = "0" + strDate;
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate;
+      return currentdate;
     },
       //预警规则
     getwarnRules(data){
-        api.post('adAlterCenter/findAllAlertCenter',data).then(res=>{
-            if(res.data.list.length>0){
-                this.ruleData=res.data.list
-                this.totalPage2=res.data.total
-                const now=this.getNowFormatDate()
-                this.ruleData.map((item,index)=>{
-                    const start=item.alertMonitorStartDate,
-                        end=item.alertMonitorEndDate;
-                        if(now>start && now<end){
-                            item.isEffective=true
-                        }else{
-                            item.isEffective=false
-                        }
-                })
-                //默认取第一条数据渲染右侧
-                this.ruleOrder=res.data.list[0].sumOrder
-                this.ruleSales=res.data.list[0].sumSales
-                this.ruleCost=res.data.list[0].sumCost
-
+      api.post('adAlterCenter/findAllAlertCenter',data).then(res=>{
+        if(res.data.list.length>0){
+          this.ruleData=res.data.list
+          this.totalPage2=res.data.total
+          const now=this.getNowFormatDate()
+          this.ruleData.map((item,index)=>{
+            const start=item.alertMonitorStartDate,
+                end=item.alertMonitorEndDate;
+            if(now>start && now<end){
+                item.isEffective=true
+            }else{
+                item.isEffective=false
             }
-          }).catch(err=>{
-              console.log(err)
-          }).finally(()=>{
+          })
+          //默认取第一条数据渲染右侧
+          this.ruleOrder=res.data.list[0].sumOrder
+          this.ruleSales=res.data.list[0].sumSales
+          this.ruleCost=res.data.list[0].sumCost
 
-        })
+        }
+      }).catch(err=>{
+          console.log(err)
+      }).finally(()=>{
+
+      })
     },
         //每页显示数据条数
     sizeChange2(val){
@@ -837,85 +855,82 @@ methods:{
     },
       //删除预警规则
     deleRules(index,row){
-        console.log(index,row)
-        this.$confirm('是否删除？',{
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(()=>{
-            api.put('adAlterCenter/alertCondition',{id:row.conditionId}).then(res=>{
-                if(res.code==200){
-                    this.$message.success('删除成功！！！')
-                    const data={current:this.currentPage2,size:this.pagesize2}
-                    this.getwarnRules(data)   
-                }else if(res.code==400){
-                    this.$message.error('删除失败！！！')
-                }
-            }).catch(err=>{
-                console.log(err)
-            }).finally(()=>{
-
-            })
-            
+      this.$confirm('是否删除？',{
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(()=>{
+        api.put('adAlterCenter/alertCondition',{id:row.conditionId}).then(res=>{
+          if(res.code==200){
+              this.$message.success('删除成功！！！')
+              const data={current:this.currentPage2,size:this.pagesize2}
+              this.getwarnRules(data)   
+          }else if(res.code==400){
+              this.$message.error('删除失败！！！')
+          }
         }).catch(err=>{
+            console.log(err)
+        }).finally(()=>{
 
         })
-        
+      }).catch(err=>{
+
+      })
+      
     },
     editTable(row){
-        console.log(row)
-        this.outerVisible=!this.outerVisible
-        this.tableForm.ruleName=row.ruleName
-        this.tableForm.forewarnCondition=row.forewarnCondition
-        this.tableForm.monitorEndDate=row.monitorEndDate
-        this.tableForm.monitorStartDate=row.monitorStartDate
-        this.tableForm.threshold=row.threshold
-        this.tableForm.id=row.id
+      console.log(row)
+      this.outerVisible=!this.outerVisible
+      this.tableForm.ruleName=row.ruleName
+      this.tableForm.forewarnCondition=row.forewarnCondition
+      this.tableForm.monitorEndDate=row.monitorEndDate
+      this.tableForm.monitorStartDate=row.monitorStartDate
+      this.tableForm.threshold=row.threshold
+      this.tableForm.id=row.id
 
-        const array=[{id:'1',name:'系统内'},{id:'2',name:'邮箱'},{id:'3',name:'企业微信'}]
-        const aa=row.remindWay.split('/')
-        let add = array.filter(item => aa.some(ele=>ele==item.name));
-        const newData=add.map(item=>{
-            return item.id
-        })
-        this.tableForm.remindWay=newData
-        
-        this.tableForm.forewarnDay=row.forewarnDay
-        this.tableForm.updateUser=row.updateUser
-        this.tableForm.forewarnQuota=row.forewarnQuota
+      const array=[{id:'1',name:'系统内'},{id:'2',name:'邮箱'},{id:'3',name:'企业微信'}]
+      const aa=row.remindWay.split('/')
+      let add = array.filter(item => aa.some(ele=>ele==item.name));
+      const newData=add.map(item=>{
+          return item.id
+      })
+      this.tableForm.remindWay=newData
+      
+      this.tableForm.forewarnDay=row.forewarnDay
+      this.tableForm.updateUser=row.updateUser
+      this.tableForm.forewarnQuota=row.forewarnQuota
     },
     deleData(index,row){
-        console.log(index,row)
-        this.$confirm('是否删除？',{
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(()=>{
-            api.put('adAlterCenter/deleteAlertCenter',{id:row.id}).then(res=>{
-                if(res.code==200){
-                    this.$message.success('删除成功！！！')
-                    //预警规则
-                    const result={
-                        ruleName:this.ruleName,
-                        condition:this.formArray,
-                        current:this.currentPage1,
-                        monitorStartDate:this.strDate,
-                        monitorEndDate:this.endDate,
-                        size:this.pagesize1
-                    }
-                    this.getAddRules(result)
-                }else if(res.code==400){
-                    this.$message.error('删除失败！！！')
-                }
-            }).catch(err=>{
-                console.log(err)
-            }).finally(()=>{
-
-            })
-            
+      this.$confirm('是否删除？',{
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(()=>{
+        api.put('adAlterCenter/deleteAlertCenter',{id:row.id}).then(res=>{
+          if(res.code==200){
+            this.$message.success('删除成功！！！')
+            //预警规则
+            const result={
+                ruleName:this.ruleName,
+                condition:this.formArray,
+                current:this.currentPage1,
+                monitorStartDate:this.strDate,
+                monitorEndDate:this.endDate,
+                size:this.pagesize1
+            }
+            this.getAddRules(result)
+          }else if(res.code==400){
+            this.$message.error('删除失败！！！')
+          }
         }).catch(err=>{
+          console.log(err)
+        }).finally(()=>{
 
         })
+          
+      }).catch(err=>{
+
+      })
     },
     //导出xsl
     exportTable(){
@@ -934,68 +949,68 @@ methods:{
     },
     //echarts
     charts(date,newData){
-        const chartDom = document.getElementById('dataCharts');
-        const myChart = echarts.init(chartDom);
-        const option = {
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '12%',
-                top:'5%',
-                containLabel: true
-            },
-            color:['#409EFF'],
-            tooltip: {
-                trigger: 'item'
-            },
-            xAxis: {
-                type: 'category',
-                data: date
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [
-                {
-                data: newData,
-                type: 'bar',
-                barWidth: 20,
-                }
-            ]
-        };
-        option && myChart.setOption(option,true);
+      const chartDom = document.getElementById('dataCharts');
+      const myChart = echarts.init(chartDom);
+      const option = {
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '12%',
+          top:'5%',
+          containLabel: true
+        },
+        color:['#409EFF'],
+        tooltip: {
+          trigger: 'item'
+        },
+        xAxis: {
+          type: 'category',
+          data: date
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [
+          {
+            data: newData,
+            type: 'bar',
+            barWidth: 20,
+          }
+        ]
+      };
+      option && myChart.setOption(option,true);
     },
     ruleCharts(){
-        const chartDom = document.getElementById('ruleCharts');
-        const myChart = echarts.init(chartDom);
-        const option = {
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '12%',
-                top:'5%',
-                containLabel: true
-            },
-            color:['#409EFF'],
-            tooltip: {
-                trigger: 'item'
-            },
-            xAxis: {
-                type: 'category',
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [
-                {
-                data: [120, 200, 150, 80, 70, 110, 130],
-                type: 'bar',
-                barWidth: 20,
-                }
-            ]
-        };
-        option && myChart.setOption(option,true);
+      const chartDom = document.getElementById('ruleCharts');
+      const myChart = echarts.init(chartDom);
+      const option = {
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '12%',
+          top:'5%',
+          containLabel: true
+        },
+        color:['#409EFF'],
+        tooltip: {
+          trigger: 'item'
+        },
+        xAxis: {
+          type: 'category',
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [
+          {
+            data: [120, 200, 150, 80, 70, 110, 130],
+            type: 'bar',
+            barWidth: 20,
+          }
+        ]
+      };
+      option && myChart.setOption(option,true);
     }
 
   },

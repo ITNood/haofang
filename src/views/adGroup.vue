@@ -1614,8 +1614,8 @@ export default {
               xAxisIndex: 0,
               filterMode: 'none',
               height:20,
-              start:40,
-              end:60
+              start:20,
+              end:80
             },
         ],
         grid: {
@@ -1681,8 +1681,8 @@ export default {
             type: 'slider',
             xAxisIndex: 0,
             filterMode: 'none',
-            start: 40,//数据窗口范围的起始百分比0-100
-            end:60,//数据窗口范围的结束百分比0-100
+            start: 20,//数据窗口范围的起始百分比0-100
+            end:80,//数据窗口范围的结束百分比0-100
             height:20,
             bottom:10
           },
