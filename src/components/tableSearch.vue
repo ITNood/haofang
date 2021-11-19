@@ -40,7 +40,7 @@
           >{{ item.symbol }}<span>{{ item.value }}</span>
           <el-button
             class="el-icon-close"
-            @click="deleteData(index)"
+            @click="deleteData(addContent.splice(index, 1))"
           ></el-button>
         </li>
       </ul>
@@ -119,9 +119,9 @@ export default {
       this.$emit("submit");
     },
     //删除
-    deleteData(index) {
-      this.addContent.splice(index, 1);
-    },
+    // deleteData(index) {
+    //   this.addContent.splice(index, 1);
+    // },
     addRules() {
       this.$emit("addRules");
     },
