@@ -217,21 +217,165 @@
 </template>
 
 <script>
+import api from "../API/index";
+let _minDate = 0;
+let millisecondOfDay = 1 * 24 * 60 * 60 * 1000;
 export default {
-  name: "searchForm",
-  props: { searchForm: Array },
-  data() {
-    return {};
+  name: "Home",
+  props: {
+    searchForm: Object,
   },
-  created() {},
+  data() {
+    return {
+      items: [],
+      list: [],
+      asin: [],
+      sku: [],
+      campaigns: [],
+    };
+  },
+  computed: {
+    //控制日期选择范围
+    renderPickerOptions() {
+      const that = this;
+      return {
+        disabledDate(time) {
+          if (_minDate > 0) {
+            return (
+              time.getTime() >
+                Math.min(Date.now(), _minDate + 6 * millisecondOfDay) ||
+              time.getTime() <
+                Math.max(
+                  _minDate - 6 * millisecondOfDay,
+                  Date.now() - dayRange * millisecondOfDay
+                )
+            );
+          } else {
+            let dayRang = 7;
+            if (that.searchForm.comparisonPeriod === "day") {
+              dayRang = 1;
+            } else if (that.searchForm.comparisonPeriod === "week") {
+              dayRang = 7;
+            } else if (that.searchForm.comparisonPeriod === "month") {
+              dayRang = 30;
+            } else if (that.searchForm.comparisonPeriod === "quarter") {
+              dayRang = 90;
+            } else {
+              dayRang = 365;
+            }
+            return (
+              time.getTime() > Date.now() ||
+              time.getTime() < Date.now() - dayRang * millisecondOfDay
+            );
+          }
+        },
+        onPick({ maxDate, minDate }) {
+          _minDate = minDate && new Date(minDate).getTime();
+        },
+      };
+    },
+  },
+  created() {
+    this.getAsinselect();
+    this.getCampaignName();
+    this.getSiteData();
+    this.getSkuData();
+    this.getStoreData();
+  },
   mounted() {},
   methods: {
+    //获取asin下拉数据
+    getAsinselect() {
+      let that = this;
+      api
+        .get("/adDataStateVB/getAllAsin")
+        .then((res) => {
+          that.asin = res.data;
+          localStorage.setItem("ASIN", JSON.stringify(res.data));
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {});
+    },
+    //广告系列名
+    getCampaignName() {
+      let that = this;
+      api
+        .get("/adDataStateVB/getAllCampaignName")
+        .then((res) => {
+          that.campaigns = res.data;
+          localStorage.setItem("CampaignName", JSON.stringify(res.data));
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {});
+    },
+    //站点
+    getSiteData() {
+      let that = this;
+      api
+        .get("/adDataStateVB/getAllCountryCode")
+        .then((res) => {
+          localStorage.setItem("SITE", JSON.stringify(res.data));
+          that.list = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {});
+    },
+    //sku
+    getSkuData() {
+      let that = this;
+      api
+        .get("/adDataStateVB/getAllsku")
+        .then((res) => {
+          localStorage.setItem("SKU", JSON.stringify(res.data));
+          that.sku = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {});
+    },
+    getStoreData() {
+      let that = this;
+      api
+        .get("/adDataStateVB/getAllStoreName")
+        .then((res) => {
+          localStorage.setItem("Store", JSON.stringify(res.data));
+          that.items = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {});
+    },
+    handlePickerBlur(date) {
+      _minDate = 0;
+    },
     screen() {
       this.$emit("screen");
+    },
+    //刷新
+    reload() {
+      this.$emit("reload");
+    },
+    //清空
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     },
   },
 };
 </script>
 
 <style  scoped>
+.name_title {
+  width: 120px !important;
+}
+.name {
+  width: calc(100% - 120px);
+}
 </style>

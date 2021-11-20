@@ -1,8 +1,220 @@
 <template>
   <div>
     <Title :icon="fonticon" :text="msg" />
+    <el-row :gutter="20" class="form">
+      <el-form :model="searchForm" ref="searchForm">
+        <el-col :md="8" :lg="8" :xl="4">
+          <el-form-item prop="projectName">
+            <el-input placeholder="请输入内容" v-model="searchForm.projectName">
+              <template slot="prepend">项目：</template>
+            </el-input>
+          </el-form-item>
+        </el-col>
 
-    <searchForm :searchForm="searchForm" @screen="screen" />
+        <el-col :md="8" :lg="8" :xl="4">
+          <el-form-item prop="semName">
+            <el-input placeholder="请输入内容" v-model="searchForm.semName">
+              <template slot="prepend">SEM:</template>
+            </el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :md="8" :lg="8" :xl="4">
+          <el-form-item prop="storeName">
+            <div class="flex">
+              <el-button class="publicBtn">店铺:</el-button>
+              <el-select
+                placeholder="请选择"
+                clearable
+                v-model="searchForm.storeName"
+                class="select"
+              >
+                <el-option
+                  v-for="item in items"
+                  :key="item"
+                  :label="item"
+                  :value="item"
+                ></el-option>
+              </el-select>
+            </div>
+          </el-form-item>
+        </el-col>
+
+        <el-col :md="8" :lg="8" :xl="4">
+          <el-form-item prop="countryCode">
+            <div class="flex">
+              <el-button class="publicBtn">站点:</el-button>
+              <el-select
+                placeholder="请选择"
+                clearable
+                v-model="searchForm.countryCode"
+                class="select"
+              >
+                <el-option
+                  v-for="item in list"
+                  :key="item"
+                  :label="item"
+                  :value="item"
+                ></el-option>
+              </el-select>
+            </div>
+          </el-form-item>
+        </el-col>
+
+        <el-col :md="8" :lg="8" :xl="4">
+          <el-form-item prop="asin">
+            <div class="flex">
+              <el-button class="publicBtn">ASIN:</el-button>
+              <el-select
+                placeholder="请选择"
+                clearable
+                v-model="searchForm.asin"
+                class="select"
+              >
+                <el-option
+                  v-for="item in asin"
+                  :key="item"
+                  :label="item"
+                  :value="item"
+                ></el-option>
+              </el-select>
+            </div>
+          </el-form-item>
+        </el-col>
+
+        <el-col :md="8" :lg="8" :xl="4">
+          <el-form-item prop="sku">
+            <div class="flex">
+              <el-button class="publicBtn">SKU:</el-button>
+              <el-select
+                placeholder="请选择"
+                clearable
+                v-model="searchForm.sku"
+                class="select"
+              >
+                <el-option
+                  v-for="item in sku"
+                  :key="item"
+                  :label="item"
+                  :value="item"
+                ></el-option>
+              </el-select>
+            </div>
+          </el-form-item>
+        </el-col>
+
+        <el-col :md="8" :lg="8" :xl="4">
+          <el-form-item prop="campaignName">
+            <div class="flex">
+              <el-button class="publicBtn name_title">广告系列名:</el-button>
+              <el-select
+                placeholder="请选择"
+                clearable
+                v-model="searchForm.campaignName"
+                class="select name"
+              >
+                <el-option
+                  v-for="item in campaigns"
+                  :key="item"
+                  :label="item"
+                  :value="item"
+                ></el-option>
+              </el-select>
+            </div>
+          </el-form-item>
+        </el-col>
+
+        <el-col :md="8" :lg="8" :xl="4">
+          <el-form-item prop="minDate">
+            <div class="flex">
+              <el-button class="publicBtn name_title">起始时间:</el-button>
+              <el-date-picker
+                v-model="searchForm.minDate"
+                type="date"
+                placeholder="年/月/日"
+                value-format="yyyy-MM-dd"
+                :picker-options="renderPickerOptions"
+                @blur="handlePickerBlur"
+                class="select name"
+              ></el-date-picker>
+            </div>
+          </el-form-item>
+        </el-col>
+
+        <!-- <el-col :md="8" :lg="8" :xl="4">
+          <el-form-item prop="maxDate">
+            <div class="flex">
+              <el-button class="publicBtn name_title">结束时间:</el-button>
+              <el-date-picker v-model="searchForm.maxDate" placeholder="年/月/日" value-format="yyyy-MM-dd" class="select name"></el-date-picker>
+            </div>
+          </el-form-item>
+        </el-col>   -->
+
+        <el-col :md="8" :lg="8" :xl="4">
+          <el-form-item prop="comparisonPeriod">
+            <div class="flex">
+              <el-button class="publicBtn name_title">对比周期:</el-button>
+              <el-radio-group
+                v-model="searchForm.comparisonPeriod"
+                class="selecttime"
+              >
+                <el-radio-button label="day">日</el-radio-button>
+                <el-radio-button label="week">周</el-radio-button>
+                <el-radio-button label="month">月</el-radio-button>
+                <el-radio-button label="quarter">季</el-radio-button>
+                <el-radio-button label="year">年</el-radio-button>
+              </el-radio-group>
+            </div>
+          </el-form-item>
+        </el-col>
+
+        <el-col :md="8" :lg="8" :xl="4">
+          <el-row :gutter="15">
+            <el-col :span="8">
+              <el-button
+                class="el-icon-s-open screen"
+                size="medium"
+                @click="screen"
+                >&nbsp;&nbsp;筛选</el-button
+              >
+            </el-col>
+            <el-col :span="8">
+              <el-button
+                class="el-icon-refresh-right road"
+                size="medium"
+                @click="reload"
+                >&nbsp;&nbsp;刷新</el-button
+              >
+            </el-col>
+            <el-col :span="8">
+              <el-button
+                class="el-icon-delete-solid delete"
+                size="medium"
+                @click="resetForm('searchForm')"
+                style="line-height: 18px"
+                >&nbsp;&nbsp;清空</el-button
+              >
+            </el-col>
+          </el-row>
+        </el-col>
+        -->
+
+        <el-col :md="8" :lg="8" :xl="4">
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <el-button class="el-icon-bottom screen" size="medium"
+                >&nbsp;&nbsp;报告下载</el-button
+              >
+            </el-col>
+            <el-col :span="12">
+              <el-button class="el-icon-message screen" size="medium"
+                >&nbsp;&nbsp;发送报告</el-button
+              >
+            </el-col>
+          </el-row>
+        </el-col>
+      </el-form>
+    </el-row>
 
     <div class="formData">
       <span class="pagetitle">数据看板</span> -
@@ -811,8 +1023,8 @@
                 label="点击量"
                 prop="clicks"
               ></el-table-column>
-              <el-table-column sortable label="点击率" prop="CTR">
-                <template slot-scope="scope"> {{ scope.row.CTR }}% </template>
+              <el-table-column sortable label="点击率" prop="ctr">
+                <template slot-scope="scope"> {{ scope.row.ctr }}% </template>
               </el-table-column>
               <el-table-column
                 sortable
@@ -822,7 +1034,7 @@
               <el-table-column
                 sortable
                 label="CPC"
-                prop="CPC"
+                prop="cpc"
               ></el-table-column>
               <el-table-column
                 sortable
@@ -834,11 +1046,11 @@
                 label="销售额"
                 prop="sales"
               ></el-table-column>
-              <el-table-column sortable label="ACOS" prop="ACOS">
-                <template slot-scope="scope"> {{ scope.row.ACOS }}% </template>
+              <el-table-column sortable label="ACOS" prop="acos">
+                <template slot-scope="scope"> {{ scope.row.acos }}% </template>
               </el-table-column>
-              <el-table-column sortable label="ROAS" prop="ROAS">
-                <template slot-scope="scope"> {{ scope.row.ROAS }}% </template>
+              <el-table-column sortable label="ROAS" prop="roas">
+                <template slot-scope="scope"> {{ scope.row.roas }}% </template>
               </el-table-column>
               <el-table-column label="操作">
                 <template slot-scope="scope">
@@ -932,24 +1144,24 @@
                 label="销售额"
                 prop="sales"
               ></el-table-column>
-              <el-table-column sortable label="CTR" prop="CTR">
-                <template slot-scope="scope"> {{ scope.row.CTR }}% </template>
+              <el-table-column sortable label="CTR" prop="ctr">
+                <template slot-scope="scope"> {{ scope.row.ctr }}% </template>
               </el-table-column>
               <el-table-column
                 sortable
                 label="CVR"
-                prop="CVR"
+                prop="cvr"
               ></el-table-column>
               <el-table-column
                 sortable
                 label="CPC"
-                prop="CPC"
+                prop="cpc"
               ></el-table-column>
-              <el-table-column sortable label="ACoS" prop="ACOS">
-                <template slot-scope="scope"> {{ scope.row.ACOS }}% </template>
+              <el-table-column sortable label="ACoS" prop="acos">
+                <template slot-scope="scope"> {{ scope.row.acos }}% </template>
               </el-table-column>
-              <el-table-column sortable label="RoAS" prop="ROAS">
-                <template slot-scope="scope"> {{ scope.row.ROAS }}% </template>
+              <el-table-column sortable label="RoAS" prop="roas">
+                <template slot-scope="scope"> {{ scope.row.roas }}% </template>
               </el-table-column>
               <el-table-column label="操作">
                 <template slot-scope="scope">
@@ -1059,11 +1271,11 @@
                 label="广告销售额"
                 prop="sales"
               ></el-table-column>
-              <el-table-column sortable label="ACoS" prop="ACOS">
-                <template slot-scope="scope"> {{ scope.row.ACOS }}% </template>
+              <el-table-column sortable label="ACoS" prop="acos">
+                <template slot-scope="scope"> {{ scope.row.acos }}% </template>
               </el-table-column>
-              <el-table-column sortable label="RoAS" prop="ROAS">
-                <template slot-scope="scope"> {{ scope.row.ROAS }}% </template>
+              <el-table-column sortable label="RoAS" prop="roas">
+                <template slot-scope="scope"> {{ scope.row.roas }}% </template>
               </el-table-column>
               <el-table-column
                 sortable
@@ -1179,11 +1391,11 @@
                 label="商品销售额"
                 prop=""
               ></el-table-column>
-              <el-table-column sortable label="ACoS" prop="ACOS">
-                <template slot-scope="scope"> {{ scope.row.ACOS }}% </template>
+              <el-table-column sortable label="ACoS" prop="acos">
+                <template slot-scope="scope"> {{ scope.row.acos }}% </template>
               </el-table-column>
-              <el-table-column sortable label="RoAS" prop="ROAS">
-                <template slot-scope="scope"> {{ scope.row.ROAS }}% </template>
+              <el-table-column sortable label="RoAS" prop="roas">
+                <template slot-scope="scope"> {{ scope.row.roas }}% </template>
               </el-table-column>
               <el-table-column
                 sortable
@@ -1265,8 +1477,7 @@ import Pagination3 from "../components/pagination.vue";
 import tableSearch from "../components/tableSearch.vue";
 import Card from "../components/card.vue";
 import SalesCard from "../components/salesCard.vue";
-import searchForm from "../components/home.vue";
-
+import Home from "../components/home.vue";
 let _minDate = 0;
 let millisecondOfDay = 1 * 24 * 60 * 60 * 1000;
 export default {
@@ -1279,10 +1490,16 @@ export default {
     tableSearch,
     Card,
     SalesCard,
-    searchForm,
+    Home,
   },
   data() {
     return {
+      items: [],
+      list: [],
+      asin: [],
+      sku: [],
+      campaigns: [],
+
       currentPage: 1,
       totalPage: 0,
       pageSize: 10,
@@ -1312,11 +1529,6 @@ export default {
         comparisonPeriod: "week",
         queryType: 0,
       },
-      items: [], //店铺
-      list: [], //站点
-      asin: [], //asin
-      sku: [], //sku
-      campaigns: [],
       form: {
         target1: "impressions",
         target2: "clicks",
@@ -1557,6 +1769,7 @@ export default {
       };
     },
   },
+
   updated() {
     this.campaignForm.indicator = [
       this.name1,
@@ -1707,6 +1920,7 @@ export default {
       adSaleType: this.adSaleType,
     };
     this.getCrad(cardData);
+
     this.getAsinselect();
     this.getCampaignName();
     this.getSiteData();
@@ -1715,9 +1929,86 @@ export default {
   },
 
   methods: {
+    //获取asin下拉数据
+    getAsinselect() {
+      let that = this;
+      api
+        .get("/adDataStateVB/getAllAsin")
+        .then((res) => {
+          that.asin = res.data;
+          localStorage.setItem("ASIN", JSON.stringify(res.data));
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {});
+    },
+    //广告系列名
+    getCampaignName() {
+      let that = this;
+      api
+        .get("/adDataStateVB/getAllCampaignName")
+        .then((res) => {
+          that.campaigns = res.data;
+          localStorage.setItem("CampaignName", JSON.stringify(res.data));
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {});
+    },
+    //站点
+    getSiteData() {
+      let that = this;
+      api
+        .get("/adDataStateVB/getAllCountryCode")
+        .then((res) => {
+          localStorage.setItem("SITE", JSON.stringify(res.data));
+          that.list = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {});
+    },
+    //sku
+    getSkuData() {
+      let that = this;
+      api
+        .get("/adDataStateVB/getAllsku")
+        .then((res) => {
+          localStorage.setItem("SKU", JSON.stringify(res.data));
+          that.sku = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {});
+    },
+    getStoreData() {
+      let that = this;
+      api
+        .get("/adDataStateVB/getAllStoreName")
+        .then((res) => {
+          localStorage.setItem("Store", JSON.stringify(res.data));
+          that.items = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {});
+    },
     handlePickerBlur(date) {
       _minDate = 0;
     },
+    // 清空
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+    reload() {
+      location.reload();
+    },
+
     //全局筛选
     screen() {
       const dataPoster = Object.assign(
@@ -1750,70 +2041,7 @@ export default {
       );
       this.getCrad(card);
     },
-    //获取asin下拉数据
-    getAsinselect() {
-      api
-        .get("/adDataStateVB/getAllAsin")
-        .then((res) => {
-          this.asin = res.data;
-          localStorage.setItem("ASIN", JSON.stringify(res.data));
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
-    },
-    //广告系列名
-    getCampaignName() {
-      api
-        .get("/adDataStateVB/getAllCampaignName")
-        .then((res) => {
-          this.campaigns = res.data;
-          localStorage.setItem("CampaignName", JSON.stringify(res.data));
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
-    },
-    //站点
-    getSiteData() {
-      api
-        .get("/adDataStateVB/getAllCountryCode")
-        .then((res) => {
-          localStorage.setItem("SITE", JSON.stringify(res.data));
-          this.list = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
-    },
-    //sku
-    getSkuData() {
-      api
-        .get("/adDataStateVB/getAllsku")
-        .then((res) => {
-          localStorage.setItem("SKU", JSON.stringify(res.data));
-          this.sku = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
-    },
-    getStoreData() {
-      api
-        .get("/adDataStateVB/getAllStoreName")
-        .then((res) => {
-          localStorage.setItem("Store", JSON.stringify(res.data));
-          this.items = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
-    },
+
     //获取当前年月日
     getNowFormatDate() {
       var date = new Date();
@@ -2755,14 +2983,7 @@ export default {
       this.type3 = "bar";
       this.firstMap(this.data1, this.data2, this.data3, this.date);
     },
-    //刷新
-    reload() {
-      location.reload();
-    },
-    //清空
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
+
     copy(data) {
       var oInput = document.createElement("input"); //创建一个隐藏input（重要！）
       oInput.value = data; //赋值
