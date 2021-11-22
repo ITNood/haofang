@@ -1353,7 +1353,7 @@ export default {
       return currentdate;
     },
 
-    //指标
+    //广告活动指标
     getCrad(data) {
       api
         .post("/adDataStateVB/getIndicators", data)

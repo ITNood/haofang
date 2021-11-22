@@ -27,7 +27,6 @@
           <el-input-number
             v-model="conditionForm.value"
             :min="0"
-            :max="100"
             :step="0.01"
             controls-position="right"
           ></el-input-number>
@@ -84,8 +83,6 @@ export default {
   },
   data() {
     return {
-      minDate1: "",
-      maxDate1: "",
       symbol: [
         { name: "大于", id: 1 },
         { name: "小于", id: 2 },

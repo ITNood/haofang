@@ -197,7 +197,6 @@
             </el-col>
           </el-row>
         </el-col>
-        -->
 
         <el-col :md="8" :lg="8" :xl="4">
           <el-row :gutter="20">
@@ -1306,7 +1305,6 @@
             />
           </el-col>
           <el-col :md="8" :lg="8" :xl="5">
-            <!-- <div class="addCondition"><i class="el-icon-plus"></i>添加筛选条件</div> -->
             <div class="condition">
               <el-radio-group
                 v-model="siteValue"
@@ -1477,7 +1475,6 @@ import Pagination3 from "../components/pagination.vue";
 import tableSearch from "../components/tableSearch.vue";
 import Card from "../components/card.vue";
 import SalesCard from "../components/salesCard.vue";
-import Home from "../components/home.vue";
 let _minDate = 0;
 let millisecondOfDay = 1 * 24 * 60 * 60 * 1000;
 export default {
@@ -1490,7 +1487,6 @@ export default {
     tableSearch,
     Card,
     SalesCard,
-    Home,
   },
   data() {
     return {
@@ -2997,29 +2993,31 @@ export default {
     //广告活动复制
     copyPoster(row) {
       const data =
-        row.id +
+        row.campaignName +
         " " +
-        row.clicks +
+        row.id +
         " " +
         row.impressions +
         " " +
-        row.CVR +
+        row.clicks +
         " " +
-        row.CTR +
+        row.cvr +
+        " " +
+        row.ctr +
         "%" +
         " " +
         row.cost +
         " " +
-        row.CPC +
+        row.cpc +
         " " +
         row.orders +
         " " +
         row.sales +
         " " +
-        row.ACOS +
+        row.acos +
         "%" +
         " " +
-        row.ROAS +
+        row.roas +
         "%"; //每一行的某个值，如选中的当前行的url
       this.copy(data);
     },
@@ -3038,17 +3036,17 @@ export default {
         " " +
         row.sales +
         " " +
-        row.CTR +
+        row.ctr +
         "%" +
         " " +
-        row.CVR +
+        row.cvr +
         " " +
-        row.CPC +
+        row.cpc +
         " " +
-        row.ACOS +
+        row.acos +
         "%" +
         " " +
-        row.ROAS +
+        row.roas +
         "%";
       this.copy(data);
     },
@@ -3069,10 +3067,10 @@ export default {
         " " +
         row.sales +
         " " +
-        row.ACOS +
+        row.acos +
         "%" +
         " " +
-        row.ROAS +
+        row.roas +
         "%";
       this.copy(data);
     },
@@ -3090,10 +3088,10 @@ export default {
         " " +
         row.sales +
         " " +
-        row.ACOS +
+        row.acos +
         "%" +
         " " +
-        row.ROAS +
+        row.roas +
         "%";
       this.copy(data);
     },

@@ -1146,7 +1146,6 @@ export default {
         .catch((err) => {});
     },
     editTable(row) {
-      console.log(row);
       this.outerVisible = !this.outerVisible;
       this.tableForm.ruleName = row.ruleName;
       this.tableForm.forewarnCondition = row.forewarnCondition;

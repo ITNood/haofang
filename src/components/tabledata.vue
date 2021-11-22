@@ -7,7 +7,6 @@
             <span>订单量 | Order</span>
           </div>
           <div class="num relative">
-            <!-- <countTo :startVal='0' :endVal="1561" :duration='2000' style="font-size:2.5rem;" ></countTo> -->
             {{ order }}
             <div class="absolute percentage">
               <p>{{ 1512 }}</p>
