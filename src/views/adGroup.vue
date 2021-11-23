@@ -1343,24 +1343,24 @@ export default {
         .finally(() => {});
     },
     typeLine1() {
-      (this.type1 = "line"),
-        this.firstMap(this.data1, this.data2, this.data3, this.chartsDate);
+      this.type1 = "line";
+      this.firstMap(this.data1, this.data2, this.data3, this.chartsDate);
     },
     typeBar1() {
       this.type1 = "bar";
       this.firstMap(this.data1, this.data2, this.data3, this.chartsDate);
     },
     typeLine2() {
-      (this.type2 = "line"),
-        this.firstMap(this.data1, this.data2, this.data3, this.chartsDate);
+      this.type2 = "line";
+      this.firstMap(this.data1, this.data2, this.data3, this.chartsDate);
     },
     typeBar2() {
       this.type2 = "bar";
       this.firstMap(this.data1, this.data2, this.data3, this.chartsDate);
     },
     typeLine3() {
-      (this.type3 = "line"),
-        this.firstMap(this.data1, this.data2, this.data3, this.chartsDate);
+      this.type3 = "line";
+      this.firstMap(this.data1, this.data2, this.data3, this.chartsDate);
     },
     typeBar3() {
       this.type3 = "bar";
