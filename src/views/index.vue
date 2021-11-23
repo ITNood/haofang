@@ -1088,6 +1088,7 @@
               "
               @submit="submitCampaign"
               @addRules="addRules"
+              @deleteData="deleteData"
             />
           </el-col>
         </el-row>
@@ -2736,6 +2737,9 @@ export default {
         this.$message.warning("起始时间和筛选条件不能为空！！！");
       }
     },
+    deleteData(index) {
+      this.addContent.splice(index, 1);
+    },
     //添加规则
     addRules() {
       if (
@@ -3358,6 +3362,9 @@ export default {
         ],
       };
       option && myChart.setOption(option, true);
+      window.onresize = function () {
+        myChart.resize();
+      };
     },
     //站点
     pieChart2(data) {
@@ -3408,6 +3415,9 @@ export default {
         ],
       };
       option && myChart.setOption(option, true);
+      window.onresize = function () {
+        myChart.resize();
+      };
     },
     pieChart3(data) {
       const chartDom = document.getElementById("pieChart3");
@@ -3442,6 +3452,9 @@ export default {
         ],
       };
       option && myChart.setOption(option, true);
+      window.onresize = function () {
+        myChart.resize();
+      };
     },
     firstMap(data1, data2, data3, date) {
       const chartDom = document.getElementById("firstMap");
@@ -3520,6 +3533,9 @@ export default {
         ],
       };
       option && myChart.setOption(option, true);
+      window.onresize = function () {
+        myChart.resize();
+      };
     },
     timeMap(data1, data2, date) {
       const chartDom = document.getElementById("timeMap");
@@ -3586,6 +3602,9 @@ export default {
         ],
       };
       option && myChart.setOption(option, true);
+      window.onresize = function () {
+        myChart.resize();
+      };
     },
   },
   mounted() {},

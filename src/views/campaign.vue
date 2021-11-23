@@ -388,6 +388,7 @@
             "
             @submit="submit"
             @addRules="addRules"
+            @deleteData="deleteData"
           />
         </el-col>
       </el-row>
@@ -798,6 +799,9 @@ export default {
       };
       this.getdata(data);
     },
+    deleteData(index) {
+      this.addContent.splice(index, 1);
+    },
     //添加规则
     addRules() {
       if (
@@ -1202,6 +1206,9 @@ export default {
         ],
       };
       option && myChart.setOption(option, true);
+        window.onresize = function () {
+          myChart.resize();
+        };
     },
     timeMap(data1, data2, date) {
       const chartDom = document.getElementById("timeMap");
@@ -1268,6 +1275,9 @@ export default {
         ],
       };
       option && myChart.setOption(option, true);
+        window.onresize = function () {
+          myChart.resize();
+        };
     },
   },
 };

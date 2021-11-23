@@ -4,150 +4,10 @@
     <section>
       <el-row :gutter="20">
         <el-col :md="24" :lg="6" :xl="5">
-          <div class="publicTitle">预警统计表</div>
-          <ul class="warnTable">
-            <li>
-              有效预警规则<span>{{ warnRules }}</span>
-            </li>
-            <li>
-              暂停中预警规则<span>{{ suspend }}</span>
-            </li>
-            <li>
-              监控中Campaign数量<span>{{ Campaign }}</span>
-            </li>
-            <li>
-              监控中Keyword数量<span>{{ Keyword }}</span>
-            </li>
-            <li>
-              Campaign预警触发未处理数量<span>{{ campaignWarn }}</span>
-            </li>
-            <li>
-              Keyword预警触发未处理数量<span>{{ keywordWarn }}</span>
-            </li>
-            <li>
-              已处理Campaign预警触发数量<span>{{ processedCampaign }}</span>
-            </li>
-            <li>
-              已处理Keyword预警触发数量<span>{{ processedKeyword }}</span>
-            </li>
-          </ul>
+          <warn-table />
         </el-col>
         <el-col :md="24" :lg="18" :xl="19">
-          <div class="publicTitle">预警触发表</div>
-          <el-row :gutter="20">
-            <el-col :span="12">
-              <el-table
-                :data="warnTable"
-                v-loading="loading"
-                border
-                max-height="500"
-                :header-cell-style="{ background: '#858796', color: '#fff' }"
-              >
-                <el-table-column
-                  label="Campaign/Keyword"
-                  prop="alertCampaign"
-                  width="200"
-                >
-                  <template slot-scope="scope">
-                    <router-link
-                      :to="{
-                        path: '/campaign',
-                        query: {
-                          id: scope.row.id,
-                          name: scope.row.alertCampaign,
-                        },
-                      }"
-                      class="posterName"
-                      >{{ scope.row.alertCampaign }}</router-link
-                    >
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  label="预警指标"
-                  prop="forewarnQuota"
-                ></el-table-column>
-                <el-table-column
-                  label="判断条件"
-                  prop="forewarnCondition"
-                ></el-table-column>
-                <el-table-column
-                  label="阈值"
-                  prop="threshold"
-                ></el-table-column>
-                <el-table-column
-                  label="持续天数"
-                  prop="continueDay"
-                ></el-table-column>
-                <el-table-column label="操作">
-                  <template slot-scope="scope">
-                    <el-button
-                      size="mini"
-                      type="primary"
-                      @click="look(scope.row)"
-                      >查看</el-button
-                    >
-                  </template>
-                </el-table-column>
-              </el-table>
-              <Pagination
-                :currentPage="currentPage"
-                :total="totalPage"
-                @handleSizeChange="sizeChange"
-                @handleCurrentChange="currentChange"
-              />
-            </el-col>
-            <el-col :span="12">
-              <el-row :gutter="20">
-                <el-col :span="12">
-                  <el-card class="card">
-                    <div slot="header" class="clearfix">
-                      <span>订单量 | Order</span>
-                    </div>
-                    <div class="num relative">
-                      <!-- <countTo :startVal='0' :endVal="1561" :duration='2000' style="font-size:2.5rem;" ></countTo> -->
-                      {{ order }}
-                      <div class="absolute percentage">
-                        <p>{{ 1512 }}</p>
-                        <p style="color: #008a00">154%</p>
-                        <!-- <p v-else style="color:#e74a3b">{{item.percent}}%</p> -->
-                      </div>
-                    </div>
-                  </el-card>
-                </el-col>
-                <el-col :span="12">
-                  <el-card class="card">
-                    <div slot="header" class="clearfix">
-                      <span>销售额 | Sales</span>
-                    </div>
-                    <div class="num relative">
-                      {{ sales }}
-                      <div class="absolute percentage">
-                        <p>1512</p>
-                        <p style="color: #008a00">154%</p>
-                        <!-- <p v-else style="color:#e74a3b">{{item.percent}}%</p> -->
-                      </div>
-                    </div>
-                  </el-card>
-                </el-col>
-                <el-col :span="12">
-                  <el-card class="card">
-                    <div slot="header" class="clearfix">
-                      <span>总花费 | Cost</span>
-                    </div>
-                    <div class="num relative">
-                      {{ cost }}
-                      <div class="absolute percentage">
-                        <p>1512</p>
-                        <p style="color: #008a00">154%</p>
-                        <!-- <p v-else style="color:#e74a3b">{{item.percent}}%</p> -->
-                      </div>
-                    </div>
-                  </el-card>
-                </el-col>
-              </el-row>
-              <div id="dataCharts"></div>
-            </el-col>
-          </el-row>
+          <warn-trigger-table />
         </el-col>
       </el-row>
     </section>
@@ -198,7 +58,6 @@
           </div>
           <el-table
             :data="rulesTable"
-            v-loading="loading1"
             ref="rulesTable"
             id="rulesTable"
             max-height="560px"
@@ -263,6 +122,7 @@
             "
             @submit="lookup"
             @addRules="addFormRules"
+            @deleteData="deleteData"
           />
         </el-col>
       </el-row>
@@ -383,196 +243,35 @@
 
     <section>
       <div class="publicTitle">预警规则</div>
-      <el-row :gutter="20">
-        <el-col :md="24" :lg="16" :xl="15">
-          <el-table
-            :data="ruleData"
-            v-loading="loading2"
-            border
-            :header-cell-style="{ background: '#858796', color: '#fff' }"
-            max-height="560"
-          >
-            <el-table-column label="是否有效" prop="isEffective">
-              <template slot-scope="scope">
-                <el-switch v-model="scope.row.isEffective" disabled></el-switch>
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="Campaign/Keyword"
-              prop="alertCampaign"
-              width="200"
-            >
-              <template slot-scope="scope">
-                <router-link
-                  :to="{
-                    path: '/campaign',
-                    query: { id: scope.row.conditionId },
-                  }"
-                  class="posterName"
-                  >{{ scope.row.alertCampaign }}</router-link
-                >
-              </template>
-            </el-table-column>
-            <el-table-column label="状态" prop="state">
-              <template slot-scope="scope">
-                <p v-if="scope.row.state === 1" style="color: #008a00">启用</p>
-                <p v-else style="color: #e74a3b">禁用</p>
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="起始时间"
-              prop="alertMonitorStartDate"
-            ></el-table-column>
-            <el-table-column
-              label="结束时间"
-              prop="alertMonitorEndDate"
-            ></el-table-column>
-            <!-- <el-table-column label="是否触发" prop="isTrigger">
-                          <template slot-scope="scope">
-                               <p v-if="scope.row.isTrigger===1" style="color:#008a00">是</p>
-                              <p v-else>否</p>
-                          </template>
-                      </el-table-column> -->
-            <el-table-column
-              label="历史触发数"
-              prop="triggerNumber"
-            ></el-table-column>
-            <el-table-column
-              label="已达标天数"
-              prop="reachDay"
-            ></el-table-column>
-            <el-table-column
-              label="创建日期"
-              prop="createDateTime"
-            ></el-table-column>
-            <el-table-column
-              label="创建人"
-              prop="alertCreateUser"
-            ></el-table-column>
-            <el-table-column label="操作">
-              <template slot-scope="scope">
-                <div class="tableBtn">
-                  <el-button
-                    @click="deleRules(scope.$index, scope.row)"
-                    type="danger"
-                    size="mini"
-                    >删除</el-button
-                  >
-                  <el-button
-                    @click="ruleLook(scope.row)"
-                    type="primary"
-                    size="mini"
-                    >查看</el-button
-                  >
-                </div>
-              </template>
-            </el-table-column>
-          </el-table>
-          <Pagination2
-            :currentPage="currentPage2"
-            :total="totalPage2"
-            @handleSizeChange="sizeChange2"
-            @handleCurrentChange="currentChange2"
-          />
-        </el-col>
-        <el-col :md="24" :lg="8" :xl="9">
-          <el-row :gutter="20">
-            <el-col :span="12">
-              <el-card class="card">
-                <div slot="header" class="clearfix">
-                  <span>订单量 | Order</span>
-                </div>
-                <div class="num relative">
-                  <!-- <countTo :startVal='0' :endVal="1561" :duration='2000' style="font-size:2.5rem;" ></countTo> -->
-                  {{ ruleOrder }}
-                  <div class="absolute percentage">
-                    <p>{{ 1512 }}</p>
-                    <p style="color: #008a00">154%</p>
-                    <!-- <p v-else style="color:#e74a3b">{{item.percent}}%</p> -->
-                  </div>
-                </div>
-              </el-card>
-            </el-col>
-            <el-col :span="12">
-              <el-card class="card">
-                <div slot="header" class="clearfix">
-                  <span>销售额 | Sales</span>
-                </div>
-                <div class="num relative">
-                  {{ ruleSales }}
-                  <div class="absolute percentage">
-                    <p>1512</p>
-                    <p style="color: #008a00">154%</p>
-                    <!-- <p v-else style="color:#e74a3b">{{item.percent}}%</p> -->
-                  </div>
-                </div>
-              </el-card>
-            </el-col>
-            <el-col :span="12">
-              <el-card class="card">
-                <div slot="header" class="clearfix">
-                  <span>总花费 | Cost</span>
-                </div>
-                <div class="num relative">
-                  {{ ruleCost }}
-                  <div class="absolute percentage">
-                    <p>1512</p>
-                    <p style="color: #008a00">154%</p>
-                    <!-- <p v-else style="color:#e74a3b">{{item.percent}}%</p> -->
-                  </div>
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
-          <div id="ruleCharts"></div>
-        </el-col>
-      </el-row>
+      <warn-rule />
     </section>
   </div>
 </template>
 
 <script>
-import * as echarts from "echarts";
-
 import Title from "../components/title.vue";
-import Pagination from "../components/pagination.vue";
 import Pagination1 from "../components/pagination.vue";
-import Pagination2 from "../components/pagination.vue";
 import api from "../API/index";
 import tableSearch from "../components/tableSearch.vue";
+import WarnTable from "../components/warnTable.vue";
+import WarnTriggerTable from "../components/warnTriggerTable.vue";
+import WarnRule from "../components/warnRule.vue";
 export default {
   components: {
     Title,
-    Pagination,
     Pagination1,
-    Pagination2,
     tableSearch,
+    WarnTable,
+    WarnTriggerTable,
+    WarnRule,
   },
   data() {
     return {
       fonticon: "icon-warning",
       msg: "预警中心",
-      warnRules: "",
-      suspend: "",
-      Campaign: "",
-      Keyword: "",
-      campaignWarn: "",
-      keywordWarn: "",
-      processedCampaign: "",
-      processedKeyword: "",
-      loading: false,
-      loading1: false,
-      loading2: false,
-      warnTable: [],
-      currentPage: 1,
-      pagesize: 10,
-      totalPage: 0,
       currentPage1: 1,
       pagesize1: 10,
       totalPage1: 0,
-      currentPage2: 1,
-      pagesize2: 10,
-      totalPage2: 0,
       items: [],
       selectColumn: [],
       todos: [
@@ -668,13 +367,7 @@ export default {
           { required: true, message: "请设置持续天数", trigger: "blur" },
         ],
       },
-      ruleData: [],
-      order: "0",
-      sales: "0",
-      cost: "0",
-      ruleOrder: "0",
-      ruleSales: "0",
-      ruleCost: "0",
+
       rulesTable: [],
       tables: [],
       ruleName: "",
@@ -687,15 +380,6 @@ export default {
   },
   created() {
     this.tables = this.todos;
-    //预警触发表
-    const res = { current: this.currentPage, size: this.pagesize };
-    this.getWarnTrigger(res);
-    //预警规则
-    const data = { current: this.currentPage2, size: this.pagesize2 };
-    this.getwarnRules(data);
-
-    this.getWarnTable();
-
     const result = {
       ruleName: this.ruleName,
       monitorStartDate: this.strDate,
@@ -706,90 +390,13 @@ export default {
     };
     this.getAddRules(result);
   },
-  mounted() {
-    this.charts();
-    this.ruleCharts();
-  },
+  mounted() {},
   methods: {
     //导出
     exportTable() {
       this.common.exportTable("rulesTable", "预警规则");
     },
-    //每页显示数据条数
-    sizeChange(val) {
-      this.pagesize = val;
-      const res = { current: this.currentPage, size: this.pagesize };
-      this.getWarnTrigger(res);
-    },
-    //当前页数
-    currentChange(val) {
-      this.currentPage = val;
-      const res = { current: this.currentPage, size: this.pagesize };
-      this.getWarnTrigger(res);
-    },
-    //预警触发表
-    getWarnTrigger(res) {
-      api
-        .post("adAlterCenter/findAllAlertCenterTrigger", res)
-        .then((res) => {
-          if (res.data.records.length > 0) {
-            this.warnTable = res.data.records;
-            const row = res.data.records[0];
-            const data = {
-              alertColumn: row.forewarnQuota,
-              campaignOrKeyWord: row.alertCampaign,
-              centerDay: row.continueDay,
-              forewarnCondition: row.forewarnCondition,
-              dataType: row.dataType,
-              monitorEndDate: row.monitorEndDate,
-              monitorStartDate: row.monitorStartDate,
-              threshold: row.threshold,
-            };
-            this.getEcharts(data);
-          } else {
-            this.warnTable = "";
-          }
-          this.totalPage = res.data.total;
-          this.order = res.data.records[0].sumOrder;
-          this.sales = res.data.records[0].sumSales;
-          this.cost = res.data.records[0].sumCost;
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
-    },
-    getEcharts(data) {
-      api
-        .post("/adAlterCenter/alertCenterStatistics", data)
-        .then((res) => {
-          if (res.code == 200) {
-            const date = res.data.requestDate,
-              newData = res.data.alertColumn;
-            this.charts(date, newData);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
-    },
-    look(row) {
-      this.order = row.sumOrder;
-      this.sales = row.sumSales;
-      this.cost = row.sumCost;
-      const data = {
-        alertColumn: row.forewarnQuota,
-        campaignOrKeyWord: row.alertCampaign,
-        centerDay: row.continueDay,
-        forewarnCondition: row.forewarnCondition,
-        dataType: row.dataType,
-        monitorEndDate: row.monitorEndDate,
-        monitorStartDate: row.monitorStartDate,
-        threshold: row.threshold,
-      };
-      this.getEcharts(data);
-    },
+
     restForm(formName) {
       this.$refs[formName].resetFields();
     },
@@ -971,7 +578,7 @@ export default {
         });
       }
     },
-    delformArray(index) {
+    deleteData(index) {
       this.formArray.splice(index, 1);
       this.newArray.splice(index, 1);
     },
@@ -1033,118 +640,7 @@ export default {
       // this.restForm(formName)
       // console.log('sasda')
     },
-    //预警统计表
-    getWarnTable() {
-      api
-        .get("adAlterCenter/warningStatistics")
-        .then((res) => {
-          this.suspend = res.data.alertCenterStopCount;
-          this.warnRules = res.data.alertCenterMoveCount;
-          this.Campaign = res.data.sumCampaignNumber;
-          this.Keyword = res.data.sumKeyWordNumber;
-          this.campaignWarn = res.data.campaignCenterUntreated;
-          this.keywordWarn = res.data.KeyWordCenterUntreated;
-          this.processedCampaign = res.data.campaignCenterProcessed;
-          this.processedKeyword = res.data.KeyWordCenterProcessed;
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
-    },
 
-    getNowFormatDate() {
-      var date = new Date();
-      var seperator1 = "-";
-      var year = date.getFullYear();
-      var month = date.getMonth() + 1;
-      var strDate = date.getDate();
-      if (month >= 1 && month <= 9) {
-        month = "0" + month;
-      }
-      if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-      }
-      var currentdate = year + seperator1 + month + seperator1 + strDate;
-      return currentdate;
-    },
-    //预警规则
-    getwarnRules(data) {
-      api
-        .post("adAlterCenter/findAllAlertCenter", data)
-        .then((res) => {
-          if (res.data.list.length > 0) {
-            this.ruleData = res.data.list;
-            this.totalPage2 = res.data.total;
-            const now = this.getNowFormatDate();
-            this.ruleData.map((item, index) => {
-              const start = item.alertMonitorStartDate,
-                end = item.alertMonitorEndDate;
-              if (now > start && now < end) {
-                item.isEffective = true;
-              } else {
-                item.isEffective = false;
-              }
-            });
-            //默认取第一条数据渲染右侧
-            this.ruleOrder = res.data.list[0].sumOrder;
-            this.ruleSales = res.data.list[0].sumSales;
-            this.ruleCost = res.data.list[0].sumCost;
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
-    },
-    //每页显示数据条数
-    sizeChange2(val) {
-      this.pagesize2 = val;
-      const data = { current: this.currentPage2, size: this.pagesize2 };
-      this.getwarnRules(data);
-    },
-    //当前页数
-    currentChange2(val) {
-      this.currentPage2 = val;
-      const data = { current: this.currentPage2, size: this.pagesize2 };
-      this.getwarnRules(data);
-    },
-    //预警规则查看
-    ruleLook(row) {
-      console.log(row);
-      this.ruleOrder = row.sumOrder;
-      this.ruleSales = row.sumSales;
-      this.ruleCost = row.sumCost;
-    },
-    //删除预警规则
-    deleRules(index, row) {
-      this.$confirm("是否删除？", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          api
-            .put("adAlterCenter/alertCondition", { id: row.conditionId })
-            .then((res) => {
-              if (res.code == 200) {
-                this.$message.success("删除成功！！！");
-                const data = {
-                  current: this.currentPage2,
-                  size: this.pagesize2,
-                };
-                this.getwarnRules(data);
-              } else if (res.code == 400) {
-                this.$message.error("删除失败！！！");
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            })
-            .finally(() => {});
-        })
-        .catch((err) => {});
-    },
     editTable(row) {
       this.outerVisible = !this.outerVisible;
       this.tableForm.ruleName = row.ruleName;
@@ -1202,72 +698,6 @@ export default {
             .finally(() => {});
         })
         .catch((err) => {});
-    },
-
-    //echarts
-    charts(date, newData) {
-      const chartDom = document.getElementById("dataCharts");
-      const myChart = echarts.init(chartDom);
-      const option = {
-        grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "12%",
-          top: "5%",
-          containLabel: true,
-        },
-        color: ["#409EFF"],
-        tooltip: {
-          trigger: "item",
-        },
-        xAxis: {
-          type: "category",
-          data: date,
-        },
-        yAxis: {
-          type: "value",
-        },
-        series: [
-          {
-            data: newData,
-            type: "bar",
-            barWidth: 20,
-          },
-        ],
-      };
-      option && myChart.setOption(option, true);
-    },
-    ruleCharts() {
-      const chartDom = document.getElementById("ruleCharts");
-      const myChart = echarts.init(chartDom);
-      const option = {
-        grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "12%",
-          top: "5%",
-          containLabel: true,
-        },
-        color: ["#409EFF"],
-        tooltip: {
-          trigger: "item",
-        },
-        xAxis: {
-          type: "category",
-          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-        },
-        yAxis: {
-          type: "value",
-        },
-        series: [
-          {
-            data: [120, 200, 150, 80, 70, 110, 130],
-            type: "bar",
-            barWidth: 20,
-          },
-        ],
-      };
-      option && myChart.setOption(option, true);
     },
   },
 };

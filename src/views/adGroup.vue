@@ -284,86 +284,224 @@
       </el-tabs>
     </section>
 
+    <ad-group-product-table
+      :adGroupId="adGroupId"
+      :campaignId="campaignId"
+      :adType="adType"
+    />
+
     <section>
       <el-row :gutter="20">
-        <el-col :md="16" :lg="16" :xl="19">
+        <el-col :md="18" :lg="18" :xl="19">
           <div class="operation">
             <el-input
-              placeholder="查找产品"
+              placeholder="查找类目或产品"
               v-model="content"
-              @keydown.enter.native="submit"
               style="margin: 0"
             >
               <template slot="prepend"><i class="el-icon-search"></i></template>
             </el-input>
-            <!--right-->
             <div class="operationRight">
-              <el-select
-                placeholder="列/自定义"
-                v-model="column1"
-                @change="handlChange"
-                multiple
-                collapse-tags
-                class="selectColumn"
-              >
+              <el-select placeholder="列/自定义" v-model="column">
                 <el-option
                   v-for="(item, index) in todos"
                   :key="index"
                   :label="item.name"
-                  :value="item.id"
                 ></el-option>
               </el-select>
               <el-button
                 type="primary"
                 size="medium"
                 style="margin-left: 20px"
-                @click="exportProduct"
+                @click="exportTable"
                 >导出</el-button
               >
             </div>
           </div>
           <el-table
-            :data="rulesTable"
+            :data="rulesTable2"
             ref="rulesTable"
             id="rulesTable"
             border
             :header-cell-style="{ background: '#858796', color: '#fff' }"
             max-height="600"
           >
-            <el-table-column label="是否有效" prop="isUsing">
+            <el-table-column label="是否有效" prop="isEffective">
               <template slot-scope="scope">
-                <el-switch
-                  :value="scope.row.isUsing"
-                  active-value="1"
-                  inactive-value="0"
-                  @click.native="setProduct(scope.$index, scope.row)"
-                ></el-switch>
+                <el-switch v-model="scope.row.isEffective" disabled></el-switch>
               </template>
             </el-table-column>
-            <el-table-column label="Product" min-width="200" prop="adGroupName">
-              <template slot-scope="scope">
-                <div class="product">
-                  <!-- <img :src="scope.row.img"> -->
-                  <p>{{ scope.row.adGroupName }}</p>
-                </div>
-              </template>
-            </el-table-column>
-
             <el-table-column
-              v-for="(item, index) in listColumn"
-              :key="index"
-              :prop="item.prop"
-              :label="item.name"
-              :width="item.width"
-            >
-              <template slot-scope="scope">{{ scope.row[item.prop] }}</template>
+              label="Categories&products"
+              prop="name"
+              width="200"
+            ></el-table-column>
+            <el-table-column
+              label="Match Type"
+              prop="matchType"
+            ></el-table-column>
+            <el-table-column label="状态" prop="status">
+              <template slot-scope="scope">
+                {{ scope.row.status === 0 ? "启用" : "禁用" }}
+              </template>
             </el-table-column>
+            <el-table-column label="bid" prop="bid">
+              <template slot-scope="scope">${{ scope.row.bid }}</template>
+            </el-table-column>
+            <el-table-column label="曝光量" prop="exposure"></el-table-column>
+            <el-table-column
+              label="点击次数"
+              prop="clickNumber"
+            ></el-table-column>
+            <el-table-column label="点击率（CTR）" prop="ctr">
+              <template slot-scope="scope">{{ scope.row.ctr }}%</template>
+            </el-table-column>
+            <el-table-column label="花费" prop="spend">
+              <template slot-scope="scope">${{ scope.row.spend }}</template>
+            </el-table-column>
+            <el-table-column label="CPC" prop="cpc">
+              <template slot-scope="scope">${{ scope.row.cpc }}</template>
+            </el-table-column>
+            <el-table-column label="订单" prop="order"></el-table-column>
+            <el-table-column
+              label="销售额"
+              prop="salesVolume"
+            ></el-table-column>
+            <el-table-column label="ACoS" prop="acos">
+              <template slot-scope="scope">{{ scope.row.acos }}%</template>
+            </el-table-column>
+            <el-table-column label="RoAS" prop="roas"></el-table-column>
           </el-table>
-          <Pagination
-            :currentPage="currentPage"
-            :total="totalPage"
-            @handleSizeChange="sizeChange"
-            @handleCurrentChange="currentChange"
+          <Pagination2
+            :currentPage="currentPage2"
+            :total="totalPage2"
+            @handleSizeChange="sizeChange2"
+            @handleCurrentChange="currentChange2"
+          />
+        </el-col>
+        <el-col :md="6" :lg="6" :xl="5">
+          <tableSearch
+            :addContent="addContent"
+            :conditionName="conditionName"
+            :minDate="minDate"
+            :maxDate="maxDate"
+            :conditionForm="conditionForm"
+            @updateMinDate="
+              (val) => {
+                minDate = val;
+              }
+            "
+            @updateMaxDate="
+              (val) => {
+                maxDate = val;
+              }
+            "
+            @submit="submit"
+            @addRules="addRules"
+            @deleteData="deleteData"
+          />
+        </el-col>
+      </el-row>
+    </section>
+
+    <ad-group-keyword-table
+      :adGroupId="adGroupId"
+      :campaignId="campaignId"
+      :adType="adType"
+    />
+
+    <section>
+      <el-row :gutter="20">
+        <el-col :md="16" :lg="16" :xl="19">
+          <div class="operation">
+            <el-input
+              placeholder="请输入内容"
+              v-model="content"
+              style="margin: 0"
+            >
+              <template slot="prepend"><i class="el-icon-search"></i></template>
+            </el-input>
+            <div class="operationRight">
+              <el-select placeholder="列/自定义" v-model="column">
+                <el-option
+                  v-for="(item, index) in todos"
+                  :key="index"
+                  :label="item.name"
+                ></el-option>
+              </el-select>
+              <el-button
+                type="primary"
+                size="medium"
+                style="margin-left: 20px"
+                @click="exportTable"
+                >导出</el-button
+              >
+            </div>
+          </div>
+          <el-table
+            :data="rulesTable4"
+            ref="rulesTable"
+            id="rulesTable"
+            border
+            :header-cell-style="{ background: '#858796', color: '#fff' }"
+            max-height="600"
+          >
+            <el-table-column label="是否有效" prop="isEffective">
+              <template slot-scope="scope">
+                <el-switch v-model="scope.row.isEffective" disabled></el-switch>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="Automatic targeting groups"
+              prop="name"
+              width="200"
+            ></el-table-column>
+            <el-table-column
+              label="Match Type"
+              prop="matchType"
+            ></el-table-column>
+            <el-table-column label="状态" prop="status">
+              <template slot-scope="scope">
+                {{ scope.row.status === 0 ? "启用" : "禁用" }}
+              </template>
+            </el-table-column>
+            <el-table-column label="Suggested Bid" prop="suggestedBid">
+              <template slot-scope="scope"
+                >$ {{ scope.row.suggestedBid }} Apply</template
+              >
+            </el-table-column>
+            <el-table-column label="bid" prop="bid">
+              <template slot-scope="scope">${{ scope.row.bid }}</template>
+            </el-table-column>
+            <el-table-column label="曝光量" prop="exposure"></el-table-column>
+            <el-table-column
+              label="点击次数"
+              prop="clickNumber"
+            ></el-table-column>
+            <el-table-column label="点击率（CTR）" prop="ctr">
+              <template slot-scope="scope">{{ scope.row.ctr }}%</template>
+            </el-table-column>
+            <el-table-column label="花费" prop="spend">
+              <template slot-scope="scope">${{ scope.row.spend }}</template>
+            </el-table-column>
+            <el-table-column label="CPC" prop="cpc">
+              <template slot-scope="scope">${{ scope.row.cpc }}</template>
+            </el-table-column>
+            <el-table-column label="订单" prop="order"></el-table-column>
+            <el-table-column
+              label="销售额"
+              prop="salesVolume"
+            ></el-table-column>
+            <el-table-column label="ACoS" prop="acos">
+              <template slot-scope="scope">{{ scope.row.acos }}%</template>
+            </el-table-column>
+            <el-table-column label="RoAS" prop="roas"></el-table-column>
+          </el-table>
+          <Pagination4
+            :currentPage="currentPage4"
+            :total="totalPage4"
+            @handleSizeChange="sizeChange4"
+            @handleCurrentChange="currentChange4"
           />
         </el-col>
         <el-col :md="8" :lg="8" :xl="5">
@@ -385,251 +523,39 @@
             "
             @submit="submit"
             @addRules="addRules"
+            @deleteData="deleteData"
           />
         </el-col>
       </el-row>
     </section>
-
-    <!-- <section>
-        <div class="operation">
-            <el-input placeholder="查找类目或产品" v-model="content" style="margin:0">
-              <template slot="prepend"><i class="el-icon-search"></i></template>
-            </el-input>
-            <el-select placeholder="筛选条件" v-model="selectedName">
-                <el-option v-for="item in items" :key="item.id" :label="item.name" :value="item.id"></el-option>
-            </el-select>
-            <div class="operationRight">
-                <el-select placeholder="列/自定义" v-model="column">
-                    <el-option v-for="(item,index) in todos" :key="index" :label="item.name"></el-option>
-                </el-select>
-                <el-select placeholder="日期范围" v-model="date">
-                    <el-option v-for="(item,index) in dates" :key="index" :label="item.name" :value="item.id"></el-option>
-                </el-select>
-                <el-button type="primary" size="medium" style="margin-left:20px" @click="exportTable">导出</el-button>
-            </div>
-        </div>
-        <el-table :data="rulesTable2"  ref="rulesTable" id="rulesTable" border :header-cell-style="{background:'#858796',color:'#fff'}" max-height="600">
-            <el-table-column label="是否有效" prop="isEffective">
-                <template slot-scope="scope">
-                    <el-switch v-model="scope.row.isEffective" disabled></el-switch>
-                </template>
-            </el-table-column>
-            <el-table-column label="Categories&products" prop="name" width="200"></el-table-column>
-            <el-table-column label="Match Type" prop="matchType"></el-table-column>
-            <el-table-column label="状态" prop="status">
-                <template slot-scope="scope">
-                    {{scope.row.status===0 ?'启用':'禁用'}}
-                </template>
-            </el-table-column>
-            <el-table-column label="bid" prop="bid">
-              <template slot-scope="scope">${{scope.row.bid}}</template>
-            </el-table-column>
-            <el-table-column label="曝光量" prop="exposure"></el-table-column>
-            <el-table-column label="点击次数" prop="clickNumber"></el-table-column>
-            <el-table-column label="点击率（CTR）" prop="ctr">
-              <template slot-scope="scope">{{scope.row.ctr}}%</template>
-            </el-table-column>
-            <el-table-column label="花费" prop="spend">
-              <template slot-scope="scope">${{scope.row.spend}}</template>
-            </el-table-column>
-            <el-table-column label="CPC" prop="cpc">
-              <template slot-scope="scope">${{scope.row.cpc}}</template>
-            </el-table-column>
-            <el-table-column label="订单" prop="order"></el-table-column>
-            <el-table-column label="销售额" prop="salesVolume"></el-table-column>
-            <el-table-column label="ACoS" prop="acos">
-              <template slot-scope="scope">{{scope.row.acos}}%</template>
-            </el-table-column>
-            <el-table-column label="RoAS" prop="roas"></el-table-column>
-        </el-table>
-        <Pagination2 :currentPage="currentPage2" :total="totalPage2" @handleSizeChange="sizeChange2" @handleCurrentChange="currentChange2"/>
-      </section>-->
-
-    <section>
-      <el-row :gutter="20">
-        <el-col :md="16" :lg="16" :xl="19">
-          <div class="operation">
-            <el-input
-              placeholder="查找关键词"
-              v-model="keywordName"
-              @keydown.enter.native="submitKeyword"
-              clearable
-              style="margin: 0"
-            >
-              <template slot="prepend"><i class="el-icon-search"></i></template>
-            </el-input>
-            <div class="operationRight">
-              <el-select
-                placeholder="列/自定义"
-                v-model="formcolumn"
-                @change="changeForm"
-                multiple
-                collapse-tags
-                class="selectColumn"
-              >
-                <el-option
-                  v-for="(item, index) in lists"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.id"
-                ></el-option>
-              </el-select>
-              <el-button
-                type="primary"
-                size="medium"
-                style="margin-left: 20px"
-                @click="exportKeyword"
-                >导出</el-button
-              >
-            </div>
-          </div>
-          <el-table
-            :data="keywordData"
-            ref="keywordData"
-            id="keyword"
-            border
-            :header-cell-style="{ background: '#858796', color: '#fff' }"
-            max-height="600"
-          >
-            <el-table-column label="是否有效" prop="isUsing">
-              <template slot-scope="scope">
-                <el-switch
-                  :value="scope.row.isUsing"
-                  active-value="1"
-                  inactive-value="0"
-                  @click.native="setSwitch(scope.$index, scope.row)"
-                ></el-switch>
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="Keyword"
-              prop="keywordText"
-              min-width="200"
-            ></el-table-column>
-            <el-table-column
-              v-for="(item, index) in keyword"
-              :key="index"
-              :prop="item.prop"
-              :label="item.name"
-              :width="item.width"
-            >
-              <template slot-scope="scope">{{ scope.row[item.prop] }}</template>
-            </el-table-column>
-          </el-table>
-          <Pagination3
-            :currentPage="currentPage3"
-            :total="totalPage3"
-            @handleSizeChange="sizeChange3"
-            @handleCurrentChange="currentChange3"
-          />
-        </el-col>
-        <el-col :md="8" :lg="8" :xl="5">
-          <tableSearch1
-            :addContent="formArray"
-            :conditionName="conditionName"
-            :minDate="startDate"
-            :maxDate="endDate"
-            :conditionForm="formtable"
-            @updateMinDate="
-              (val) => {
-                startDate = val;
-              }
-            "
-            @updateMaxDate="
-              (val) => {
-                endDate = val;
-              }
-            "
-            @submit="submitKeyword"
-            @addRules="addFormRules"
-          />
-        </el-col>
-      </el-row>
-    </section>
-    <!--<section>
-        <div class="operation">
-            <el-input placeholder="请输入内容" v-model="content" style="margin:0">
-              <template slot="prepend"><i class="el-icon-search"></i></template>
-            </el-input>
-            <el-select placeholder="筛选条件" v-model="selectedName">
-                <el-option v-for="item in items" :key="item.id" :label="item.name" :value="item.id"></el-option>
-            </el-select>
-            <div class="operationRight">
-                <el-select placeholder="列/自定义" v-model="column">
-                    <el-option v-for="(item,index) in todos" :key="index" :label="item.name"></el-option>
-                </el-select>
-                <el-select placeholder="日期范围" v-model="date">
-                    <el-option v-for="(item,index) in dates" :key="index" :label="item.name" :value="item.id"></el-option>
-                </el-select>
-                <el-button type="primary" size="medium" style="margin-left:20px" @click="exportTable">导出</el-button>
-            </div>
-        </div>
-        <el-table :data="rulesTable4" ref="rulesTable" id="rulesTable" border :header-cell-style="{background:'#858796',color:'#fff'}" max-height="600">
-            <el-table-column label="是否有效" prop="isEffective">
-                <template slot-scope="scope">
-                    <el-switch v-model="scope.row.isEffective" disabled></el-switch>
-                </template>
-            </el-table-column>
-            <el-table-column label="Automatic targeting groups" prop="name" width="200"></el-table-column>
-            <el-table-column label="Match Type" prop="matchType"></el-table-column>
-            <el-table-column label="状态" prop="status">
-                <template slot-scope="scope">
-                    {{scope.row.status===0 ?'启用':'禁用'}}
-                </template>
-            </el-table-column>
-            <el-table-column label="Suggested Bid" prop="suggestedBid">
-              <template slot-scope="scope">$ {{scope.row.suggestedBid}} Apply</template>
-            </el-table-column>
-            <el-table-column label="bid" prop="bid">
-              <template slot-scope="scope">${{scope.row.bid}}</template>
-            </el-table-column>
-            <el-table-column label="曝光量" prop="exposure"></el-table-column>
-            <el-table-column label="点击次数" prop="clickNumber"></el-table-column>
-            <el-table-column label="点击率（CTR）" prop="ctr">
-              <template slot-scope="scope">{{scope.row.ctr}}%</template>
-            </el-table-column>
-            <el-table-column label="花费" prop="spend">
-              <template slot-scope="scope">${{scope.row.spend}}</template>
-            </el-table-column>
-            <el-table-column label="CPC" prop="cpc">
-              <template slot-scope="scope">${{scope.row.cpc}}</template>
-            </el-table-column>
-            <el-table-column label="订单" prop="order"></el-table-column>
-            <el-table-column label="销售额" prop="salesVolume"></el-table-column>
-            <el-table-column label="ACoS" prop="acos">
-              <template slot-scope="scope">{{scope.row.acos}}%</template>
-            </el-table-column>
-            <el-table-column label="RoAS" prop="roas"></el-table-column>
-        </el-table>
-        <Pagination4 :currentPage="currentPage4" :total="totalPage4" @handleSizeChange="sizeChange4" @handleCurrentChange="currentChange4"/>
-      </section> -->
   </div>
 </template>
 
 <script>
 import * as echarts from "echarts";
-import Pagination from "../components/pagination.vue";
-import Pagination2 from "../components/pagination.vue";
-import Pagination3 from "../components/pagination.vue";
-import Pagination4 from "../components/pagination.vue";
 import api from "../API/index";
-import tableSearch from "../components/tableSearch.vue";
-import tableSearch1 from "../components/tableSearch.vue";
 import Card from "../components/card.vue";
 import SalesCard from "../components/salesCard.vue";
+import AdGroupProductTable from "../components/adGroupProductTable.vue";
+import AdGroupKeywordTable from "../components/adGroupKeywordTable.vue";
+import Pagination2 from "../components/pagination.vue";
+import Pagination4 from "../components/pagination.vue";
+import tableSearch from "../components/tableSearch.vue";
 export default {
   components: {
-    Pagination,
-    Pagination2,
-    Pagination3,
-    Pagination4,
-    tableSearch,
-    tableSearch1,
     Card,
     SalesCard,
+    AdGroupProductTable,
+    AdGroupKeywordTable,
+    Pagination2,
+    Pagination4,
+    tableSearch,
   },
   data() {
     return {
+      adGroupId: this.$route.query.adGroupId,
+      campaignId: this.$route.query.campaignId,
+      adType: this.$route.query.adType,
       text: "",
       activeName: "1",
       activetabs: "1",
@@ -733,9 +659,11 @@ export default {
       cardDialog: false,
 
       //--------------------------table one----------------------
-      currentPage: 1,
-      pageSize: 10,
-      totalPage: 10,
+
+      //-----------------------------------table four
+      content: "",
+      column: "",
+      todos: [],
       conditionForm: {
         value: 0,
         metrics: "",
@@ -752,62 +680,11 @@ export default {
         { id: "ROAS", name: "RoAs" },
       ],
       addContent: [],
-      products: [],
-      listColumn: [],
-      todos: [
-        { id: 1, prop: "state", name: "状态" },
-        { id: 2, prop: "sku", name: "SKU/ASIN", width: "280" },
-        { id: 3, prop: "impressions", name: "曝光量" },
-        { id: 4, prop: "clicks", name: "点击次数" },
-        { id: 5, prop: "ctr", name: "点击率（%）" },
-        { id: 6, prop: "cost", name: "花费($)" },
-        { id: 7, prop: "cpc", name: "CPC" },
-        { id: 8, prop: "orders", name: "订单" },
-        { id: 9, prop: "sales", name: "销售额" },
-        { id: 10, prop: "acos", name: "ACoS(%)" },
-        { id: 11, prop: "roas", name: "RoAS(%)" },
-      ],
-      column1: [],
-      content: "",
-      column: "",
-      minDate: "",
       maxDate: "",
-
-      //-----------------------------------table three
-      startDate: "",
-      endDate: "",
-      currentPage3: 1,
-      pageSize3: 10,
-      totalPage3: 10,
-      keywordName: "",
-      lists: [
-        { id: 1, prop: "matchType", name: "Match Type", width: 150 },
-        { id: 2, prop: "state", name: "状态" },
-        { id: 3, prop: "suggestBid", name: "Suggest Bid", width: 150 },
-        { id: 4, prop: "bid", name: "Bid" },
-        { id: 5, prop: "impressions", name: "曝光量" },
-        { id: 6, prop: "clicks", name: "点击量" },
-        { id: 7, prop: "CTR", name: "点击率(%)" },
-        { id: 8, prop: "cost", name: "花费($)" },
-        { id: 9, prop: "CPC", name: "CPC" },
-        { id: 10, prop: "orders", name: "订单量" },
-        { id: 11, prop: "sales", name: "销售额" },
-        { id: 12, prop: "ACOS", name: "ACoS" },
-        { id: 13, prop: "ROAS", name: "RoAS" },
-      ],
-      formArray: [],
-      formtable: {
-        value: 0,
-        metrics: "",
-        symbol: "",
-      },
-      startDate: "",
-      endDate: "",
-      formcolumn: [],
-      keywordData: [],
+      minDate: "",
 
       dates: [],
-      rulesTable: [],
+
       rulesTable2: [
         {
           id: 1,
@@ -1273,8 +1150,6 @@ export default {
     }
   },
   created() {
-    this.listColumn = this.todos;
-    this.keyword = this.lists;
     this.sku = JSON.parse(localStorage.getItem("SKU"));
     this.asin = JSON.parse(localStorage.getItem("ASIN"));
     this.list = JSON.parse(localStorage.getItem("SITE"));
@@ -1304,35 +1179,6 @@ export default {
       adType: this.$route.query.adType,
     };
     this.getCharts(dataCharts);
-
-    const data = {
-      minDate: this.minDate,
-      maxDate: this.maxDate,
-      queryCondition: this.addContent,
-      campaignId: this.$route.query.campaignId,
-      adGroupId: this.$route.query.adGroupId,
-      adType: this.$route.query.adType,
-      adGroupName: this.content,
-      current: this.currentPage,
-      size: this.pageSize,
-      queryFlag: 1,
-    };
-    this.getdata(data);
-
-    const result = {
-      adGroupId: this.$route.query.adGroupId,
-      adType: this.$route.query.adType,
-      campaignId: this.$route.query.campaignId,
-      adGroupName: this.keywordName,
-      size: this.pageSize3,
-      queryFlag: 1,
-      current: this.currentPage3,
-      size: this.pageSize3,
-      minDate: this.startDate,
-      maxDate: this.endDate,
-      queryCondition: this.formArray,
-    };
-    this.getkeyword(result);
   },
   mounted() {},
   methods: {
@@ -1478,7 +1324,6 @@ export default {
         this.getCrad(cardData);
       }
     },
-
     //----------------------------------卡片end---------------------------
 
     //-------------------------------echarts------------------------------------
@@ -1649,445 +1494,13 @@ export default {
       this.getTimeData(data);
     },
     //-----------------------------------------------table one
-
-    getdata(data) {
-      api
-        .post("/AmazonProductAdsDay/findAdGroup", data)
-        .then((res) => {
-          this.totalPage = res.data.total;
-          if (res.data.records.length > 0) {
-            const arr = res.data.records;
-            arr.map((item) => {
-              if (item.isUsing == "1") {
-                item.state = "启用";
-              } else {
-                item.state = "禁用";
-              }
-              item.sku = item.sku + "/" + item.asin;
-            });
-            this.$nextTick(() => {
-              this.rulesTable = arr;
-            });
-          } else {
-            this.rulesTable = "";
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
+    exportTable() {},
+    deleteData(index) {
+      this.addContent.splice(index, 1);
     },
-    setProduct(index, row) {
-      let number = 1;
-      if (row.isUsing === "1") {
-        number = 0;
-      } else {
-        number = 1;
-      }
-      this.$confirm(`是否设置${row.isUsing === "1" ? "有效" : "无效"}？？？`, {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then((success) => {
-          const data = {
-            campaignId: row.campaignId,
-            adGroupId: row.adGroupId,
-            isUsing: number,
-          };
-          api
-            .post("/AmazonProductAdsDay/updateIsUsing", data)
-            .then((res) => {
-              if (res.code == 200) {
-                this.$message.success("设置成功");
-                if (row.isUsing == "0") {
-                  this.$set(this.rulesTable[index], "isUsing", "1");
-                } else {
-                  this.$set(this.rulesTable[index], "isUsing", "0");
-                }
-                const data = {
-                  minDate: this.minDate,
-                  maxDate: this.maxDate,
-                  queryCondition: this.addContent,
-                  campaignId: this.$route.query.campaignId,
-                  adGroupId: this.$route.query.adGroupId,
-                  adType: this.$route.query.adType,
-                  adGroupName: this.content,
-                  current: this.currentPage,
-                  size: this.pageSize,
-                  queryFlag: 1,
-                };
-                this.getdata(data);
-              } else {
-                this.$message.error("设置失败");
-                if (row.isUsing == "0") {
-                  this.$set(this.rulesTable[index], "isUsing", "0");
-                } else {
-                  this.$set(this.rulesTable[index], "isUsing", "1");
-                }
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            })
-            .finally(() => {});
-        })
-        .catch((error) => {
-          this.$message.error("设置失败");
-          if (row.isUsing == "1") {
-            this.$set(this.rulesTable[index], "isUsing", "1");
-          } else {
-            this.$set(this.rulesTable[index], "isUsing", "0");
-          }
-        });
-    },
-    //自定义列
-    handlChange() {
-      const data = [];
-      this.todos.forEach((item, index) => {
-        if (this.column1.includes(item.id)) {
-          data.push(item);
-        }
-      });
-      console.log(data);
-      this.$nextTick(() => {
-        this.listColumn = data;
-      });
-    },
-    exportProduct() {
-      this.common.exportTable("rulesTable", "Product");
-    },
-    submit() {
-      const data = {
-        minDate: this.minDate,
-        maxDate: this.maxDate,
-        queryCondition: this.addContent,
-        campaignId: this.$route.query.campaignId,
-        adGroupId: this.$route.query.adGroupId,
-        adType: this.$route.query.adType,
-        adGroupName: this.content,
-        current: this.currentPage,
-        size: this.pageSize,
-        queryFlag: 1,
-      };
-      this.getdata(data);
-    },
-    enterSubmit() {
-      const data = {
-        minDate: this.minDate,
-        maxDate: this.maxDate,
-        queryCondition: this.addContent,
-        campaignId: this.$route.query.campaignId,
-        adGroupId: this.$route.query.adGroupId,
-        adType: this.$route.query.adType,
-        adGroupName: this.content,
-        current: this.currentPage,
-        size: this.pageSize,
-      };
-      this.getdata(data);
-    },
-    //每页显示数据条数
-    sizeChange(val) {
-      this.pageSize = val;
-      const data = {
-        minDate: this.minDate,
-        maxDate: this.maxDate,
-        queryCondition: this.addContent,
-        campaignId: this.$route.query.campaignId,
-        adGroupId: this.$route.query.adGroupId,
-        adType: this.$route.query.adType,
-        adGroupName: this.content,
-        current: this.currentPage,
-        size: this.pageSize,
-        queryFlag: 1,
-      };
-      this.getdata(data);
-    },
-    //当前页数
-    currentChange(val) {
-      this.currentPage = val;
-      const data = {
-        minDate: this.minDate,
-        maxDate: this.maxDate,
-        queryCondition: this.addContent,
-        campaignId: this.$route.query.campaignId,
-        adGroupId: this.$route.query.adGroupId,
-        adType: this.$route.query.adType,
-        adGroupName: this.content,
-        current: this.currentPage,
-        size: this.pageSize,
-      };
-      this.getdata(data);
-    },
-    //添加规则
-    addRules() {
-      if (
-        this.conditionForm.value == 0 ||
-        !this.conditionForm.symbol ||
-        !this.conditionForm.metrics
-      ) {
-        this.$message.error("请选择规则！！！");
-      } else {
-        this.addContent.push({
-          value: this.conditionForm.value,
-          symbol: this.conditionForm.symbol,
-          metrics: this.conditionForm.metrics,
-        });
-        this.addContent.forEach((item) => {
-          switch (item.metrics) {
-            case "click":
-              item.metrics = "Clicks";
-              break;
-            case "spend":
-              item.metrics = "Cost";
-              break;
-            case "CPC":
-              item.metrics = "CPC";
-              break;
-            case "CTR":
-              item.metrics = "CTR";
-              break;
-            case "impr":
-              item.metrics = "Impressions";
-              break;
-            case "orders":
-              item.metrics = "Orders";
-              break;
-            case "sales":
-              item.metrics = "Sales";
-              break;
-          }
-          switch (item.symbol) {
-            case 3:
-              item.symbol = "等于";
-              break;
-            case 1:
-              item.symbol = "大于";
-              break;
-            case 2:
-              item.symbol = "小于";
-              break;
-            case 4:
-              item.symbol = "大于等于";
-              break;
-            case 5:
-              item.symbol = "小于等于";
-              break;
-          }
-        });
-      }
-    },
-
+    submit() {},
+    addRules() {},
     //----------------------------------------table three
-
-    getkeyword(data) {
-      api
-        .post("/AmazonProductAdsDay/findKeyWord", data)
-        .then((res) => {
-          console.log(res);
-          this.totalPage3 = res.data.total;
-          if (res.data.records.length > 0) {
-            const arr = res.data.records;
-            arr.map((item) => {
-              if (item.isUsing == "1") {
-                item.state = "启用";
-              } else {
-                item.state = "禁用";
-              }
-            });
-            this.keywordData = arr;
-          } else {
-            this.keywordData = "";
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
-    },
-    setSwitch(index, row) {
-      let number = 1;
-      if (row.isUsing === "1") {
-        number = 0;
-      } else {
-        number = 1;
-      }
-      console.log(row.isUsing, number);
-      const data = {
-        campaignId: row.campaignId,
-        adGroupId: row.adGroupId,
-        keywordId: row.keywordId,
-        adType: this.$route.query.adType,
-        isUsing: number,
-      };
-      this.$confirm(`是否设置${row.isUsing === "1" ? "有效" : "无效"}？？？`, {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then((success) => {
-          api.post("/AmazonProductAdsDay/updateIsUsing", data).then((res) => {
-            if (res.code == 200) {
-              this.$message.success("设置成功");
-              if (row.isUsing == "1") {
-                this.$set(this.keywordData[index], "isUsing", "0");
-              } else {
-                this.$set(this.keywordData[index], "isUsing", "1");
-              }
-              const result = {
-                adGroupId: this.$route.query.adGroupId,
-                adType: this.$route.query.adType,
-                campaignId: this.$route.query.campaignId,
-                adGroupName: this.keywordName,
-                size: this.pageSize3,
-                queryFlag: 1,
-                current: this.currentPage3,
-                size: this.pageSize3,
-                minDate: this.startDate,
-                maxDate: this.endDate,
-                queryCondition: this.formArray,
-              };
-              this.getkeyword(result);
-            } else {
-              this.$message.error("设置失败");
-              if (row.isUsing == "1") {
-                this.$set(this.keywordData[index], "isUsing", "1");
-              } else {
-                this.$set(this.keywordData[index], "isUsing", "0");
-              }
-            }
-          });
-        })
-        .catch((error) => {
-          this.$message.error("设置失败");
-          if (row.isUsing == "1") {
-            this.$set(this.keywordData[index], "isUsing", "1");
-          } else {
-            this.$set(this.keywordData[index], "isUsing", "0");
-          }
-        });
-    },
-    changeForm() {
-      const data = [];
-      this.lists.forEach((item, index) => {
-        if (this.formcolumn.includes(item.id)) {
-          data.push(item);
-        }
-      });
-      this.keyword = data;
-    },
-    exportKeyword() {
-      this.common.exportTable("keyword", "Keyword");
-    },
-    addFormRules() {
-      if (
-        this.formtable.value == 0 ||
-        !this.formtable.symbol ||
-        !this.formtable.metrics
-      ) {
-        this.$message.error("请选择规则！！！");
-      } else {
-        this.formArray.push({
-          value: this.formtable.value,
-          symbol: this.formtable.symbol,
-          metrics: this.formtable.metrics,
-        });
-        console.log(this.formArray);
-        this.formArray.forEach((item) => {
-          switch (item.metrics) {
-            case "click":
-              item.metrics = "Clicks";
-              break;
-            case "spend":
-              item.metrics = "Cost";
-              break;
-            case "CPC":
-              item.metrics = "CPC";
-              break;
-            case "CTR":
-              item.metrics = "CTR";
-              break;
-            case "impr":
-              item.metrics = "Impressions";
-              break;
-            case "orders":
-              item.metrics = "Orders";
-              break;
-            case "sales":
-              item.metrics = "Sales";
-              break;
-          }
-          switch (item.symbol) {
-            case 3:
-              item.symbol = "等于";
-              break;
-            case 1:
-              item.symbol = "大于";
-              break;
-            case 2:
-              item.symbol = "小于";
-              break;
-            case 4:
-              item.symbol = "大于等于";
-              break;
-            case 5:
-              item.symbol = "小于等于";
-              break;
-          }
-        });
-      }
-    },
-    sizeChange3(val) {
-      this.pageSize3 = val;
-      const result = {
-        adGroupId: this.$route.query.adGroupId,
-        campaignId: this.$route.query.campaignId,
-        adType: this.$route.query.adType,
-        adGroupName: this.keywordName,
-        size: this.pageSize1,
-        queryFlag: 1,
-        current: this.currentPage3,
-        size: this.pageSize3,
-        minDate: this.startDate,
-        maxDate: this.endDate,
-        queryCondition: this.formArray,
-      };
-      this.getkeyword(result);
-    },
-    //当前页数
-    currentChange3(val) {
-      this.currentPage3 = val;
-      const result = {
-        adGroupId: this.$route.query.adGroupId,
-        adType: this.$route.query.adType,
-        campaignId: this.$route.query.campaignId,
-        adGroupName: this.keywordName,
-        size: this.pageSize1,
-        queryFlag: 1,
-        current: this.currentPage3,
-        size: this.pageSize3,
-        minDate: this.startDate,
-        maxDate: this.endDate,
-        queryCondition: this.formArray,
-      };
-      this.getkeyword(result);
-    },
-    submitKeyword() {
-      const data = {
-        adGroupId: this.$route.query.adGroupId,
-        adType: this.$route.query.adType,
-        adGroupName: this.keywordName,
-        campaignId: this.$route.query.campaignId,
-        size: this.pageSize1,
-        queryFlag: 1,
-        current: this.currentPage3,
-        size: this.pageSize3,
-        minDate: this.startDate,
-        maxDate: this.endDate,
-        queryCondition: this.formArray,
-      };
-      this.getkeyword(data);
-    },
 
     sizeChange2(val) {
       console.log(val);
@@ -2182,6 +1595,9 @@ export default {
         ],
       };
       option && myChart.setOption(option, true);
+      window.onresize = function () {
+        myChart.resize();
+      };
     },
     timeMap(data1, data2, date) {
       const chartDom = document.getElementById("timeMap");
@@ -2248,6 +1664,9 @@ export default {
         ],
       };
       option && myChart.setOption(option, true);
+      window.onresize = function () {
+        myChart.resize();
+      };
     },
   },
 };
