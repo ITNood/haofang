@@ -213,6 +213,50 @@
         </el-col>
       </el-form>
     </el-row>
+
+    <div class="formData">
+      <span class="pagetitle">数据看板</span> -
+      <span class="shaky">广告活动:</span>
+      <p v-if="searchForm.projectName">
+        {{ searchForm.projectName ? " 项目:" : "" }}{{ searchForm.projectName }}
+      </p>
+      <p v-if="searchForm.semName">
+        {{ searchForm.semName ? " SEM:" : "" }}{{ searchForm.semName }}
+      </p>
+      <p v-if="searchForm.storeName">
+        {{ searchForm.storeName ? " 店铺:" : "" }}{{ searchForm.storeName }}
+      </p>
+      <p v-if="searchForm.countryCode">
+        {{ searchForm.countryCode ? " 站点:" : "" }}{{ searchForm.countryCode }}
+      </p>
+      <p v-if="searchForm.asin">
+        {{ searchForm.asin ? " ASIN:" : "" }}{{ searchForm.asin }}
+      </p>
+      <p v-if="searchForm.sku">
+        {{ searchForm.sku ? " SKU:" : "" }}{{ searchForm.sku }}
+      </p>
+      <p v-if="searchForm.campaignName">
+        {{ searchForm.campaignName ? " 广告系列名:" : ""
+        }}{{ searchForm.campaignName }}
+      </p>
+      <p v-if="searchForm.campaignName">
+        {{ searchForm.minDate ? " 起始时间:" : "" }}{{ searchForm.minDate }}
+      </p>
+      <p v-if="searchForm.comparisonPeriod">
+        {{ searchForm.comparisonPeriod ? " 对比周期:" : ""
+        }}{{
+          searchForm.comparisonPeriod === "week"
+            ? "周"
+            : searchForm.comparisonPeriod === "month"
+            ? "月"
+            : searchForm.comparisonPeriod === "quarter"
+            ? "季"
+            : searchForm.comparisonPeriod === "year"
+            ? "年"
+            : "日"
+        }}
+      </p>
+    </div>
   </div>
 </template>
 
