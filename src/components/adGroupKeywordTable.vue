@@ -71,11 +71,11 @@
               <template slot-scope="scope">{{ scope.row[item.prop] }}</template>
             </el-table-column>
           </el-table>
-          <Pagination3
-            :currentPage="currentPage3"
-            :total="totalPage3"
-            @handleSizeChange="sizeChange3"
-            @handleCurrentChange="currentChange3"
+          <Pagination
+            :currentPage="currentPage"
+            :total="totalPage"
+            @handleSizeChange="sizeChange"
+            @handleCurrentChange="currentChange"
           />
         </el-col>
         <el-col :md="8" :lg="8" :xl="5">
@@ -107,12 +107,12 @@
 
 <script>
 import api from "../API/index";
-import Pagination3 from "../components/pagination.vue";
+import Pagination from "../components/pagination.vue";
 import tableSearch1 from "../components/tableSearch.vue";
 export default {
   name: "adGroupKeywordTable",
   props: { adGroupId: String, campaignId: String, adType: String },
-  components: { Pagination3, tableSearch1 },
+  components: { Pagination, tableSearch1 },
   data() {
     return {
       conditionName: [
@@ -127,9 +127,9 @@ export default {
       ],
       startDate: "",
       endDate: "",
-      currentPage3: 1,
-      pageSize3: 10,
-      totalPage3: 10,
+      currentPage: 1,
+      pageSize: 10,
+      totalPage: 10,
       keywordName: "",
       lists: [
         { id: 1, prop: "matchType", name: "Match Type", width: 150 },
@@ -166,8 +166,8 @@ export default {
       campaignId: this.campaignId,
       adGroupName: this.keywordName,
       queryFlag: 1,
-      current: this.currentPage3,
-      size: this.pageSize3,
+      current: this.currentPage,
+      size: this.pageSize,
       minDate: this.startDate,
       maxDate: this.endDate,
       queryCondition: this.formArray,
@@ -181,7 +181,7 @@ export default {
         .post("/AmazonProductAdsDay/findKeyWord", data)
         .then((res) => {
           console.log(res);
-          this.totalPage3 = res.data.total;
+          this.totalPage = res.data.total;
           if (res.data.records.length > 0) {
             const arr = res.data.records;
             arr.map((item) => {
@@ -236,8 +236,8 @@ export default {
                 campaignId: this.campaignId,
                 adGroupName: this.keywordName,
                 queryFlag: 1,
-                current: this.currentPage3,
-                size: this.pageSize3,
+                current: this.currentPage,
+                size: this.pageSize,
                 minDate: this.startDate,
                 maxDate: this.endDate,
                 queryCondition: this.formArray,
@@ -343,7 +343,7 @@ export default {
         adGroupName: this.keywordName,
         queryFlag: 1,
         current: this.currentPage3,
-        size: this.pageSize3,
+        size: this.pageSize,
         minDate: this.startDate,
         maxDate: this.endDate,
         queryCondition: this.formArray,
@@ -359,8 +359,8 @@ export default {
         campaignId: this.campaignId,
         adGroupName: this.keywordName,
         queryFlag: 1,
-        current: this.currentPage3,
-        size: this.pageSize3,
+        current: this.currentPage,
+        size: this.pageSize,
         minDate: this.startDate,
         maxDate: this.endDate,
         queryCondition: this.formArray,
@@ -374,8 +374,8 @@ export default {
         adGroupName: this.keywordName,
         campaignId: this.campaignId,
         queryFlag: 1,
-        current: this.currentPage3,
-        size: this.pageSize3,
+        current: this.currentPage,
+        size: this.pageSize,
         minDate: this.startDate,
         maxDate: this.endDate,
         queryCondition: this.formArray,

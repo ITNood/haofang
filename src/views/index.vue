@@ -141,15 +141,6 @@
           </el-form-item>
         </el-col>
 
-        <!-- <el-col :md="8" :lg="8" :xl="4">
-          <el-form-item prop="maxDate">
-            <div class="flex">
-              <el-button class="publicBtn name_title">结束时间:</el-button>
-              <el-date-picker v-model="searchForm.maxDate" placeholder="年/月/日" value-format="yyyy-MM-dd" class="select name"></el-date-picker>
-            </div>
-          </el-form-item>
-        </el-col>   -->
-
         <el-col :md="8" :lg="8" :xl="4">
           <el-form-item prop="comparisonPeriod">
             <div class="flex">
@@ -217,27 +208,33 @@
 
     <div class="formData">
       <span class="pagetitle">数据看板</span> -
-      <span class="shaky">广告活动</span>：
-      <p>
+      <span class="shaky">广告活动:</span>
+      <p v-if="searchForm.projectName">
         {{ searchForm.projectName ? " 项目:" : "" }}{{ searchForm.projectName }}
       </p>
-      <p>{{ searchForm.semName ? " SEM:" : "" }}{{ searchForm.semName }}</p>
-      <p>
+      <p v-if="searchForm.semName">
+        {{ searchForm.semName ? " SEM:" : "" }}{{ searchForm.semName }}
+      </p>
+      <p v-if="searchForm.storeName">
         {{ searchForm.storeName ? " 店铺:" : "" }}{{ searchForm.storeName }}
       </p>
-      <p>
+      <p v-if="searchForm.countryCode">
         {{ searchForm.countryCode ? " 站点:" : "" }}{{ searchForm.countryCode }}
       </p>
-      <p>{{ searchForm.asin ? " ASIN:" : "" }}{{ searchForm.asin }}</p>
-      <p>{{ searchForm.sku ? " SKU:" : "" }}{{ searchForm.sku }}</p>
-      <p>
+      <p v-if="searchForm.asin">
+        {{ searchForm.asin ? " ASIN:" : "" }}{{ searchForm.asin }}
+      </p>
+      <p v-if="searchForm.sku">
+        {{ searchForm.sku ? " SKU:" : "" }}{{ searchForm.sku }}
+      </p>
+      <p v-if="searchForm.campaignName">
         {{ searchForm.campaignName ? " 广告系列名:" : ""
         }}{{ searchForm.campaignName }}
       </p>
-      <p>
+      <p v-if="searchForm.campaignName">
         {{ searchForm.minDate ? " 起始时间:" : "" }}{{ searchForm.minDate }}
       </p>
-      <p>
+      <p v-if="searchForm.comparisonPeriod">
         {{ searchForm.comparisonPeriod ? " 对比周期:" : ""
         }}{{
           searchForm.comparisonPeriod === "week"
@@ -960,10 +957,13 @@
         <el-row :gutter="20">
           <el-col :md="16" :lg="16" :xl="19">
             <div class="tableSearch">
-              搜索:<el-input
-                v-model="tableSearch1"
+              <el-input
+                v-model="searchOne"
+                clearable
+                prefix-icon="el-icon-search"
                 size="medium"
                 placeholder="请输入内容"
+                @keydown.enter.native="submitCampaign"
               ></el-input>
             </div>
             <el-table
@@ -974,12 +974,6 @@
               :header-cell-style="{ background: '#858796', color: '#fff' }"
               id="tableId"
             >
-              <!-- <el-table-column type="index" label="序号" width="60"></el-table-column> -->
-              <!-- <el-table-column label="Active" prop="status" sortable>
-                <template  slot-scope="scope">
-                  <el-switch v-model="scope.row.status" disabled></el-switch>
-                </template>
-              </el-table-column> -->
               <el-table-column
                 sortable
                 label="广告活动"
@@ -1097,12 +1091,11 @@
         <el-row :gutter="20">
           <el-col :md="16" :lg="16" :xl="19">
             <div class="tableSearch">
-              <!-- <el-select v-model="adsOverview" placeholder="选择类型">
-                <el-option value="SP">SP</el-option>
-                <el-option value="SD">SD</el-option>
-              </el-select> -->
-              搜索:<el-input
-                v-model="tableSearch1"
+              <el-input
+                v-model="searchTwo"
+                prefix-icon="el-icon-search"
+                clearable
+                @keydown.enter.native="submitPosterType"
                 size="medium"
                 placeholder="请输入内容"
               ></el-input>
@@ -1182,7 +1175,6 @@
             />
           </el-col>
           <el-col :md="8" :lg="8" :xl="5">
-            <!-- <div class="addCondition"><i class="el-icon-plus"></i>添加筛选条件</div> -->
             <div class="condition">
               <el-radio-group
                 v-model="pieCharts"
@@ -1226,8 +1218,11 @@
         <el-row :gutter="20">
           <el-col :md="16" :lg="16" :xl="19">
             <div class="tableSearch">
-              搜索:<el-input
-                v-model="tableSearch1"
+              <el-input
+                v-model="searchThree"
+                prefix-icon="el-icon-search"
+                clearable
+                @keydown.enter.native="submitSite"
                 size="medium"
                 placeholder="请输入内容"
               ></el-input>
@@ -1346,8 +1341,11 @@
         <el-row :gutter="20">
           <el-col :md="16" :lg="16" :xl="19">
             <div class="tableSearch">
-              搜索:<el-input
-                v-model="tableSearch1"
+              <el-input
+                v-model="searchFour"
+                prefix-icon="el-icon-search"
+                @keydown.enter.native="submitAsin"
+                clearable
                 size="medium"
                 placeholder="请输入内容"
               ></el-input>
@@ -1634,7 +1632,10 @@ export default {
       active: "1",
       posterData: [], //广告活动
       posterTyle: [], //广告类型
-      tableSearch1: "",
+      searchOne: "",
+      searchTwo: "",
+      searchThree: "",
+      searchFour: "",
       conditionForm: {
         value: 0,
         metrics: "",
@@ -2329,12 +2330,10 @@ export default {
                   break;
               }
             });
-            this.$nextTick(() => {
-              this.tableData = res.data;
-            });
-          } else {
-            this.tableData = res.data;
           }
+          this.$nextTick(() => {
+            this.tableData = res.data;
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -2465,13 +2464,12 @@ export default {
               }
             });
             this.columns = newObj;
-            this.$nextTick(() => {
-              this.tableData1 = res.data;
-            });
           } else {
-            this.tableData1 = res.data;
             this.hasData = true;
           }
+          this.$nextTick(() => {
+            this.tableData1 = res.data;
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -2519,8 +2517,8 @@ export default {
 
             case "2":
               this.totalPage1 = res.data.total;
+              this.posterTyle = res.data.records;
               if (res.data.records.length > 0) {
-                this.posterTyle = res.data.records;
                 //过滤SP SD类型
                 this.$nextTick(() => {
                   const spData = this.posterTyle.filter((item) => {
@@ -2548,8 +2546,8 @@ export default {
 
             case "3":
               this.totalPage2 = res.data.total;
+              this.webSite = res.data.records;
               if (res.data.records.length > 0) {
-                this.webSite = res.data.records;
                 this.$nextTick(() => {
                   const obj = this.webSite.map((item) => {
                     return {
@@ -2565,8 +2563,8 @@ export default {
 
             case "4":
               this.totalPage3 = res.data.total;
+              this.asinData = res.data.records;
               if (res.data.records.length > 0) {
-                this.asinData = res.data.records;
                 //广告花费排序
                 this.asinData.sort(this.compare("cost", false));
                 const newData = this.asinData.slice(0, 5);
@@ -2600,6 +2598,7 @@ export default {
     //提交广告类型
     submitPosterType() {
       const res = {
+        queryName: this.searchTwo,
         current: this.currentPage1,
         size: this.pageSize1,
         minDate: this.minDate1,
@@ -2612,6 +2611,7 @@ export default {
     //提交站点
     submitSite() {
       const res = {
+        queryName: this.searchThree,
         current: this.currentPage2,
         size: this.pageSize2,
         minDate: this.minDate2,
@@ -2624,6 +2624,7 @@ export default {
     //提交ASIN
     submitAsin() {
       const res = {
+        queryName: this.searchFour,
         current: this.currentPage3,
         size: this.pageSize3,
         minDate: this.minDate3,
@@ -2723,6 +2724,7 @@ export default {
     },
     submitCampaign() {
       const res = {
+        queryName: this.searchOne,
         current: this.currentPage,
         size: this.pageSize,
         minDate: this.minDate,
