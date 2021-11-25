@@ -239,7 +239,7 @@
         {{ searchForm.campaignName ? " 广告系列名:" : ""
         }}{{ searchForm.campaignName }}
       </p>
-      <p v-if="searchForm.campaignName">
+      <p v-if="searchForm.minDate">
         {{ searchForm.minDate ? " 起始时间:" : "" }}{{ searchForm.minDate }}
       </p>
       <p v-if="searchForm.comparisonPeriod">

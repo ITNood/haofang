@@ -1,7 +1,9 @@
 <template>
   <div>
     <Title :icon="fonticon" :text="msg" />
+
     <home :searchForm="searchForm" @screen="screen" @reload="reload" />
+
     <!--tabs-->
     <el-tabs v-model="activeName" class="tabs" @tab-click="count">
       <el-tab-pane label="广告活动指标" name="1">
@@ -297,6 +299,7 @@
       <el-tab-pane lazy label="指标排序表" name="1">
         <el-row :gutter="20">
           <!--左侧-->
+
           <el-col :sm="24" :md="24" :lg="24" :xl="12">
             <el-row :gutter="20">
               <el-col :sm="14" :md="14" :xl="16" :lg="16">
@@ -492,17 +495,7 @@
                         ></el-option>
                       </el-select>
                     </li>
-                    <!-- <li>
-                      <el-popover placement="bottom" width="400" trigger="click">
-                          <el-checkbox-group v-model="checkList">
-                            <el-checkbox label="曝光量"></el-checkbox>
-                            <el-checkbox label="点击量"></el-checkbox>
-                            <el-checkbox label="点击率"></el-checkbox>
-                            <el-checkbox label="CAP"></el-checkbox>
-                          </el-checkbox-group>
-                          <el-button slot="reference" class="el-icon-edit editNorm">&nbsp;&nbsp;修改对比指标</el-button>
-                      </el-popover>
-                    </li> -->
+
                     <li>
                       <el-button
                         class="el-icon-s-open preparation"
@@ -1243,12 +1236,9 @@ export default {
   },
   data() {
     return {
-      items: [],
       list: [],
-      asin: [],
       sku: [],
-      campaigns: [],
-
+      asin: [],
       currentPage: 1,
       totalPage: 0,
       pageSize: 10,
@@ -1407,10 +1397,6 @@ export default {
       addContent: [],
       day: "",
       dates: [],
-      checkdate: [],
-      checkdate2: [],
-      checkdate3: [],
-      checkdate4: [],
       pieCharts: "1",
       type1: "line",
       type2: "line",
@@ -1636,6 +1622,9 @@ export default {
     }
   },
   created() {
+    this.sku = JSON.parse(localStorage.getItem("SKU"));
+    this.asin = JSON.parse(localStorage.getItem("ASIN"));
+    this.list = JSON.parse(localStorage.getItem("SITE"));
     const res = {
       current: this.currentPage,
       size: this.pageSize,
@@ -1672,91 +1661,9 @@ export default {
       adSaleType: this.adSaleType,
     };
     this.getCrad(cardData);
-
-    this.getAsinselect();
-    this.getCampaignName();
-    this.getSiteData();
-    this.getSkuData();
-    this.getStoreData();
   },
 
   methods: {
-    //获取asin下拉数据
-    getAsinselect() {
-      let that = this;
-      api
-        .get("/adDataStateVB/getAllAsin")
-        .then((res) => {
-          that.asin = res.data;
-          localStorage.setItem("ASIN", JSON.stringify(res.data));
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
-    },
-    //广告系列名
-    getCampaignName() {
-      let that = this;
-      api
-        .get("/adDataStateVB/getAllCampaignName")
-        .then((res) => {
-          that.campaigns = res.data;
-          localStorage.setItem("CampaignName", JSON.stringify(res.data));
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
-    },
-    //站点
-    getSiteData() {
-      let that = this;
-      api
-        .get("/adDataStateVB/getAllCountryCode")
-        .then((res) => {
-          localStorage.setItem("SITE", JSON.stringify(res.data));
-          that.list = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
-    },
-    //sku
-    getSkuData() {
-      let that = this;
-      api
-        .get("/adDataStateVB/getAllsku")
-        .then((res) => {
-          localStorage.setItem("SKU", JSON.stringify(res.data));
-          that.sku = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
-    },
-    getStoreData() {
-      let that = this;
-      api
-        .get("/adDataStateVB/getAllStoreName")
-        .then((res) => {
-          localStorage.setItem("Store", JSON.stringify(res.data));
-          that.items = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
-    },
-    handlePickerBlur(date) {
-      _minDate = 0;
-    },
-    // 清空
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
     reload() {
       location.reload();
     },
