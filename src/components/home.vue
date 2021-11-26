@@ -167,7 +167,7 @@
           </el-form-item>
         </el-col>
 
-        <el-col :md="8" :lg="8" :xl="4">
+        <el-col :md="8" :lg="8" :xl="4" style="margin-bottom: 22px">
           <el-row :gutter="15">
             <el-col :span="8">
               <el-button
@@ -197,7 +197,7 @@
           </el-row>
         </el-col>
 
-        <el-col :md="8" :lg="8" :xl="4">
+        <el-col :md="8" :lg="8" :xl="4" style="margin-bottom: 22px">
           <el-row :gutter="20">
             <el-col :span="12">
               <el-button class="el-icon-bottom screen" size="medium"

@@ -676,7 +676,7 @@ export default {
           api
             .put("adAlterCenter/deleteAlertCenter", { id: row.id })
             .then((res) => {
-              if (res.code == 200) {
+              if (res.data == true) {
                 this.$message.success("删除成功！！！");
                 //预警规则
                 const result = {
@@ -688,7 +688,7 @@ export default {
                   size: this.pagesize1,
                 };
                 this.getAddRules(result);
-              } else if (res.code == 400) {
+              } else if (res.data == false) {
                 this.$message.error("删除失败！！！");
               }
             })

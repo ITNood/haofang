@@ -300,7 +300,13 @@
         <el-row :gutter="20">
           <!--左侧-->
 
-          <el-col :sm="24" :md="24" :lg="24" :xl="12">
+          <el-col
+            :sm="24"
+            :md="24"
+            :lg="24"
+            :xl="12"
+            style="margin-bottom: 20px"
+          >
             <el-row :gutter="20">
               <el-col :sm="14" :md="14" :xl="16" :lg="16">
                 <el-table
@@ -1371,8 +1377,6 @@ export default {
         { id: 2, name: "PHRASE" },
         { id: 3, name: "EXACT" },
       ],
-      checkList: [],
-      checkList2: [],
       active: "1",
       posterData: [], //广告活动
       posterTyle: [], //广告类型
@@ -2523,6 +2527,7 @@ export default {
     sizeChange(val) {
       this.pageSize = val;
       const res = {
+        adsQueryType: this.adsQueryType,
         current: this.currentPage,
         size: this.pageSize,
         minDate: this.minDate,
@@ -2537,6 +2542,7 @@ export default {
     currentChange(val) {
       this.currentPage = val;
       const res = {
+        adsQueryType: this.adsQueryType,
         current: this.currentPage,
         size: this.pageSize,
         minDate: this.minDate,
@@ -2551,6 +2557,7 @@ export default {
     sizeChange1(val) {
       this.pageSize1 = val;
       const res = {
+        adsQueryType: this.adsQueryType,
         current: this.currentPage1,
         size: this.pageSize1,
         minDate: this.minDate1,
@@ -2563,6 +2570,7 @@ export default {
     currentChange1(val) {
       this.currentPage1 = val;
       const res = {
+        adsQueryType: this.adsQueryType,
         current: this.currentPage1,
         size: this.pageSize1,
         minDate: this.minDate1,
@@ -2576,6 +2584,7 @@ export default {
     sizeChange2(val) {
       this.pageSize2 = val;
       const res = {
+        adsQueryType: this.adsQueryType,
         current: this.currentPage2,
         size: this.pageSize2,
         minDate: this.minDate2,
@@ -2588,6 +2597,7 @@ export default {
     currentChange2(val) {
       this.currentPage2 = val;
       const res = {
+        adsQueryType: this.adsQueryType,
         current: this.currentPage2,
         size: this.pageSize2,
         minDate: this.minDate2,
@@ -2601,6 +2611,7 @@ export default {
     sizeChange3(val) {
       this.pageSize3 = val;
       const res = {
+        adsQueryType: this.adsQueryType,
         current: this.currentPage3,
         size: this.pageSize3,
         minDate: this.minDate3,
@@ -2613,6 +2624,7 @@ export default {
     currentChange3(val) {
       this.currentPage3 = val;
       const res = {
+        adsQueryType: this.adsQueryType,
         current: this.currentPage3,
         size: this.pageSize3,
         minDate: this.minDate3,
