@@ -429,6 +429,8 @@ export default {
                 this.$refs[formName].resetFields();
               } else {
                 this.$message.error("失败！！！");
+                this.$refs[formName].resetFields();
+                this.outerVisible = false;
               }
             })
             .catch((err) => {

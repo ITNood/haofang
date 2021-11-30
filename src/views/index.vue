@@ -2092,7 +2092,15 @@ export default {
             const data = res.data[0];
             const arr = Object.keys(data);
             const newArr = arr.filter((item) => {
-              return item !== "attributedSales14d";
+              return (
+                item == "keywordText" ||
+                item == "acos" ||
+                item == "clicks" ||
+                item == "ctr" ||
+                item == "cost" ||
+                item == "impressions" ||
+                item == "orders"
+              );
             });
             let obj = {};
             // 将数组转化为对象
@@ -2124,10 +2132,12 @@ export default {
                 case "ctr":
                   item.name = "点击率(%)";
                   break;
-                default:
+                case "acos":
                   item.name = "ACoS(%)";
+                  break;
               }
             });
+
             this.columns = newObj;
           } else {
             this.hasData = true;

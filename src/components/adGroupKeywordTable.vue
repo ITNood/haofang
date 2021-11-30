@@ -334,15 +334,15 @@ export default {
         });
       }
     },
-    sizeChange3(val) {
-      this.pageSize3 = val;
+    sizeChange(val) {
+      this.pageSize = val;
       const result = {
         adGroupId: this.adGroupId,
         campaignId: this.campaignId,
         adType: this.adType,
         adGroupName: this.keywordName,
         queryFlag: 1,
-        current: this.currentPage3,
+        current: this.currentPage,
         size: this.pageSize,
         minDate: this.startDate,
         maxDate: this.endDate,
@@ -351,8 +351,8 @@ export default {
       this.getkeyword(result);
     },
     //当前页数
-    currentChange3(val) {
-      this.currentPage3 = val;
+    currentChange(val) {
+      this.currentPage = val;
       const result = {
         adGroupId: this.adGroupId,
         adType: this.adType,
