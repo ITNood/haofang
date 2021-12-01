@@ -42,6 +42,7 @@
             :data="rulesTable"
             ref="rulesTable"
             id="rulesTable"
+            v-loading="loading"
             border
             :header-cell-style="{ background: '#858796', color: '#fff' }"
             max-height="600"
@@ -59,7 +60,6 @@
             <el-table-column label="Product" min-width="200" prop="adGroupName">
               <template slot-scope="scope">
                 <div class="product">
-                  <!-- <img :src="scope.row.img"> -->
                   <p>{{ scope.row.adGroupName }}</p>
                 </div>
               </template>
@@ -123,6 +123,7 @@ export default {
   components: { Pagination, tableSearch },
   data() {
     return {
+      loading: true,
       rulesTable: [],
       currentPage: 1,
       pageSize: 10,
@@ -208,7 +209,9 @@ export default {
         .catch((err) => {
           console.log(err);
         })
-        .finally(() => {});
+        .finally(() => {
+          this.loading = false;
+        });
     },
     setProduct(index, row) {
       let number = 1;

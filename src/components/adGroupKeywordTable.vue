@@ -42,6 +42,7 @@
             :data="keywordData"
             ref="keywordData"
             id="keyword"
+            v-loading="loading"
             border
             :header-cell-style="{ background: '#858796', color: '#fff' }"
             max-height="600"
@@ -115,6 +116,7 @@ export default {
   components: { Pagination, tableSearch1 },
   data() {
     return {
+      loading: true,
       conditionName: [
         { id: "click", name: "Clicks" },
         { id: "CPC", name: "CPC " },
@@ -199,7 +201,9 @@ export default {
         .catch((err) => {
           console.log(err);
         })
-        .finally(() => {});
+        .finally(() => {
+          this.loading = false;
+        });
     },
     setSwitch(index, row) {
       let number = 1;

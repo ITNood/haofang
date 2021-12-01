@@ -312,6 +312,7 @@
                 <el-table
                   :data="tableData"
                   v-if="isData"
+                  v-loading="loading"
                   border
                   max-height="426"
                   :header-cell-style="{
@@ -1468,6 +1469,7 @@ export default {
         { id: 18, name: "SaleAdProportion" },
       ],
       siteArr: [],
+      loading: true,
     };
   },
   computed: {
@@ -2003,7 +2005,9 @@ export default {
         .catch((err) => {
           console.log(err);
         })
-        .finally(() => {});
+        .finally(() => {
+          this.loading=false
+        });
     },
     submitCampaignForm() {
       if (
