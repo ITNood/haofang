@@ -194,9 +194,6 @@
                   <li>
                     <el-form-item prop="time">
                       <el-button size="medium">付款时间</el-button>
-                      <!-- <el-select v-model="dateForm.payDate" placeholder="请选择" style="width:80%">
-                        <el-option v-for="item in payTime" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                      </el-select> -->
                       <el-date-picker
                         v-model="dateForm.time"
                         type="daterange"
@@ -1206,9 +1203,9 @@ export default {
         ],
       };
       option && myChart.setOption(option, true);
-        window.onresize = function () {
-          myChart.resize();
-        };
+      window.onresize = function () {
+        myChart.resize();
+      };
     },
     timeMap(data1, data2, date) {
       const chartDom = document.getElementById("timeMap");
@@ -1275,9 +1272,9 @@ export default {
         ],
       };
       option && myChart.setOption(option, true);
-        window.onresize = function () {
-          myChart.resize();
-        };
+      window.onresize = function () {
+        myChart.resize();
+      };
     },
   },
 };

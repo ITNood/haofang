@@ -2006,7 +2006,7 @@ export default {
           console.log(err);
         })
         .finally(() => {
-          this.loading=false
+          this.loading = false;
         });
     },
     submitCampaignForm() {
@@ -2234,6 +2234,7 @@ export default {
                       name: item.countryCode,
                     };
                   });
+
                   this.siteArr = obj;
                   this.pieChart2(obj);
                 });
@@ -2249,7 +2250,7 @@ export default {
                 const newData = this.asinData.slice(0, 5);
                 newData.sort(this.compare("cost", true));
                 const obj = [["amount", "product"]];
-                newData.map((item) => {
+                newData.forEach((item) => {
                   obj.push([item.cost, item.asin]);
                 });
                 this.array = obj;
@@ -2860,7 +2861,6 @@ export default {
           }
         }
       });
-
       return sums;
     },
     //广告类型
@@ -3300,7 +3300,7 @@ export default {
 };
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
 .name_title {
   width: 120px !important;
 }
