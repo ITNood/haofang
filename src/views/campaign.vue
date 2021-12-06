@@ -90,9 +90,9 @@
                     </el-select>
                     <dfn
                       class="icon iconfont icon-brokenLine"
-                      @click="typeLine1"
+                      @click="typeLine(1)"
                     ></dfn>
-                    <dfn class="el-icon-s-data" @click="typeBar1"></dfn>
+                    <dfn class="el-icon-s-data" @click="typeBar(1)"></dfn>
                   </li>
                   <li>
                     <el-button size="medium">对比指标2：</el-button>
@@ -106,9 +106,9 @@
                     </el-select>
                     <dfn
                       class="icon iconfont icon-brokenLine"
-                      @click="typeLine2"
+                      @click="typeLine(2)"
                     ></dfn>
-                    <dfn class="el-icon-s-data" @click="typeBar2"></dfn>
+                    <dfn class="el-icon-s-data" @click="typeBar(2)"></dfn>
                   </li>
                   <li>
                     <el-button size="medium">对比指标3：</el-button>
@@ -122,9 +122,9 @@
                     </el-select>
                     <dfn
                       class="icon iconfont icon-brokenLine"
-                      @click="typeLine3"
+                      @click="typeLine(3)"
                     ></dfn>
-                    <dfn class="el-icon-s-data" @click="typeBar3"></dfn>
+                    <dfn class="el-icon-s-data" @click="typeBar(3)"></dfn>
                   </li>
                   <li>
                     <el-button size="medium">时间</el-button>
@@ -1097,29 +1097,15 @@ export default {
       }
       this.getCharts(data);
     },
-    typeLine1() {
-      (this.type1 = "line"),
-        this.firstMap(this.data1, this.data2, this.data3, this.chartsDate);
+    typeLine(index) {
+      const type = "type" + index;
+      this.$set(this, type, "line");
+      this.firstMap(this.data1, this.data2, this.data3, this.date);
     },
-    typeBar1() {
-      this.type1 = "bar";
-      this.firstMap(this.data1, this.data2, this.data3, this.chartsDate);
-    },
-    typeLine2() {
-      (this.type2 = "line"),
-        this.firstMap(this.data1, this.data2, this.data3, this.chartsDate);
-    },
-    typeBar2() {
-      this.type2 = "bar";
-      this.firstMap(this.data1, this.data2, this.data3, this.chartsDate);
-    },
-    typeLine3() {
-      (this.type3 = "line"),
-        this.firstMap(this.data1, this.data2, this.data3, this.chartsDate);
-    },
-    typeBar3() {
-      this.type3 = "bar";
-      this.firstMap(this.data1, this.data2, this.data3, this.chartsDate);
+    typeBar(index) {
+      const type = "type" + index;
+      this.$set(this, type, "bar");
+      this.firstMap(this.data1, this.data2, this.data3, this.date);
     },
 
     exportTable() {
