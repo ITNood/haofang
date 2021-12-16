@@ -176,10 +176,6 @@ export default {
       total2: 3,
       total3: 3,
       search: "",
-      // show: false,
-      // show1: false,
-      // show2: false,
-      // collapse: false,
       items: [
         {
           id: 1,
@@ -286,30 +282,7 @@ export default {
         console.log("您的浏览器不支持 WebSocket!");
       }
     },
-    // isCollapse(){
-    //   this.collapse=!this.collapse
-    // },
-    // hide(){
-    //   console.log(2222)
-    //   this.show=false
-    //   this.show1=false
-    //   this.show2=false
-    // },
-    // remind(){
-    //   this.show=!this.show
-    //   this.show1=false
-    //   this.show2=false
-    // },
-    // newsCenter(){
-    //   this.show1=!this.show1
-    //   this.show=false
-    //   this.show2=false
-    // },
-    // warning(){
-    //   this.show2=!this.show2
-    //   this.show=false
-    //   this.show1=false
-    // },
+
     loadingMore() {},
     outSystem() {
       //退出系统

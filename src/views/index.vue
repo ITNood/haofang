@@ -365,6 +365,7 @@
                   :data="tableData"
                   v-else
                   border
+                  v-loading="isloading"
                   max-height="426"
                   :header-cell-style="{
                     background: '#858796',
@@ -1470,48 +1471,8 @@ export default {
       ],
       siteArr: [],
       loading: true,
+      isloading: true,
     };
-  },
-  computed: {
-    //控制日期选择范围
-    renderPickerOptions() {
-      const that = this;
-      return {
-        disabledDate(time) {
-          if (_minDate > 0) {
-            return (
-              time.getTime() >
-                Math.min(Date.now(), _minDate + 6 * millisecondOfDay) ||
-              time.getTime() <
-                Math.max(
-                  _minDate - 6 * millisecondOfDay,
-                  Date.now() - dayRange * millisecondOfDay
-                )
-            );
-          } else {
-            let dayRang = 7;
-            if (that.searchForm.comparisonPeriod === "day") {
-              dayRang = 1;
-            } else if (that.searchForm.comparisonPeriod === "week") {
-              dayRang = 7;
-            } else if (that.searchForm.comparisonPeriod === "month") {
-              dayRang = 30;
-            } else if (that.searchForm.comparisonPeriod === "quarter") {
-              dayRang = 90;
-            } else {
-              dayRang = 365;
-            }
-            return (
-              time.getTime() > Date.now() ||
-              time.getTime() < Date.now() - dayRang * millisecondOfDay
-            );
-          }
-        },
-        onPick({ maxDate, minDate }) {
-          _minDate = minDate && new Date(minDate).getTime();
-        },
-      };
-    },
   },
 
   updated() {
@@ -2153,7 +2114,9 @@ export default {
         .catch((err) => {
           console.log(err);
         })
-        .finally(() => {});
+        .finally(() => {
+          this.isloading = false;
+        });
     },
     //广告关键词条件筛选
     submitPoster() {
