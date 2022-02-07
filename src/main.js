@@ -9,7 +9,6 @@ import "./static/style.scss";
 import axios from "axios";
 import common from "./common/common";
 
-import "@/utils/global"; //全局
 // 控制路由表的js文件
 import "@/permission.js";
 Vue.prototype.common = common;
